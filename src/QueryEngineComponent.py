@@ -7,7 +7,7 @@ import subprocess
 import os
 
 class QueryExecutorStep(PipelineStep):
-    def __init__(self, engine_name = "avantgraph", query_format = "SPARQL", graph_path = None, verbose = False):
+    def __init__(self, engine_name = "avantgraph", query_format = "sparql", graph_path = None, verbose = False):
         """
         Initializes the QueryExecutorStep with a query engine.
         :param query_engine: The query engine to be used (default is "MilleniumDB").
@@ -65,12 +65,12 @@ class QueryExecutorStep(PipelineStep):
         :param timeout: Max time to wait.
         :param interval: Retry interval in seconds.
         """
+        # TODO: not functional atm, some issue. Sleeping for some time works as a replacement
         start_time = time.time()
         while True:
             try:
                 driver = driver_fn(uri)
-                with driver.session() as session:
-                    session.run("RETURN 1")
+                driver.verify_connectivity()    
                 return True
             except Exception:
                 driver.close()
@@ -85,13 +85,16 @@ class QueryExecutorStep(PipelineStep):
         :param query: The query to be executed.
         :return: Query results.
         """
+        # TODO: get working for python
         # match self.engine_name:
         #     case "MilleniumDB":
         #         pass
         #     case "avantgraph":
         driver = GraphDatabase.driver("bolt://localhost:7687") 
-        session = driver.session()
-        return driver.execute_query(query, result_transformer_=Result.to_df)
+        # print("starting")
+        records, summary, keys = driver.execute_query("MATCH (n) RETURN n")
+        print(keys) 
+        return records
 
     def initialize_query_engine(self, query_engine, graph_path=None, port = 7687):
         """
@@ -108,38 +111,79 @@ class QueryExecutorStep(PipelineStep):
                     print("AvantGraph started, loading graph...")
                 # Start docker client
                 client = docker.from_env()
-                mount = docker.types.Mount(
-                    target="/Code",
-                    source=os.path.join(os.getcwd(), "data"),
-                    type="bind"
-                )
+
                 avGraph = client.containers.run(
-                    "ghcr.io/avantlab/avantgraph:release-2024-01-31",
-                    detach=True,
-                    mounts = mount,
-                    name = "avantgraph",
-                    ports={'7687/tcp': 7687},
+                    image="ghcr.io/avantlab/avantgraph:release-2024-01-31",
+                    ports={'7687/tcp': ('127.0.0.1', 7687)},
+                    volumes={
+                        "/home/mathiasyap/Code/university/phkg/MAI_Project_PHKG": {
+                            'bind': '/code',
+                            'mode': 'rw'
+                        }
+                    },
                     privileged=True,
-                    tty=True
+                    remove=True,  # Equivalent to --rm
+                    tty=True,     # Equivalent to -t
+                    stdin_open=True,  # Equivalent to -i
+                    detach=True  # Run in foreground, like CLI
                 )
-                _,output = avGraph.exec_run("ls -l /Code")
                 # Load graph
-                _,output = avGraph.exec_run("ag-load-graph --graph-format=ntriple " + "/Code/"+graph_path + " output_graph/")
-                _,output = avGraph.exec_run("ls -lh output_graph")
-                print(output)
+                _,output = avGraph.exec_run("ag-load-graph --graph-format=ntriple " + "/code/data/"+graph_path + " output_graph/")
                 if self.verbose:
                     print(output.decode())
                     print("Graph loaded successfully.")
                     print("-- AvantGraph is running --")
-                if self.query_format == "Cypher" or self.query_format == "Graphalg":
-                    # These can be run through the server, so we need to start it
-                    # Start the server
-                    avGraph.exec_run("ag-server --listen 0.0.0.0:"+f"{port}"+" output_graph/", detach=True)
-                    time.sleep(3)
+                # if self.query_format == "Cypher" or self.query_format == "Graphalg":
+                #     # These can be run through the server, so we need to start it
+                #     # Start the server
+                #     avGraph.exec_run("ag-server --listen 0.0.0.0:"+f"{port}"+" output_graph/", detach=True)
+                #     # Wait for the server to be ready
+                #     time.sleep(5)
+                #     # self.wait_for_server(driver_fn=GraphDatabase.driver, uri="bolt://localhost:7687")
                 return avGraph
             case _:
                 raise ValueError(f"Unsupported query engine: {query_engine}")
 
+    def CLI_query_text(self, query: str,remove: bool = False ):
+        """
+        Executes a query using the command line interface (CLI) of the query engine.
+
+        :param query: The query to be executed.
+        :return: Query results.
+        """
+                # Run the query using the CLI
+        file_extension =  self.query_format.lower()
+        query_file_path = f"temp/temp_query.{file_extension}"
+        with open(query_file_path, "w") as query_file:
+            query_file.write(query)
+        _, output = self.query_engine.exec_run("avantgraph output_graph/ --query-type="+f"{self.query_format.lower()} " + "/code/"+query_file_path, stream=True)
+        output_text = ""
+        for line in output:
+            decoded_line = line.decode()
+            output_text += decoded_line
+            if self.verbose:
+                print(decoded_line)
+        # Remove the temporary query file
+        if remove:
+            os.remove(query_file_path)
+        return output
+    
+    
+    def CLI_query_path(self, query_path: str):
+        """
+        Executes a query using the command line interface (CLI) of the query engine.
+
+        :param query: The query to be executed.
+        :return: Query results.
+        """
+        _, output = self.query_engine.exec_run("avantgraph output_graph/ --query-type="+f"{self.query_format.lower()} " + "/code/"+query_path, stream=True)
+        output_text = ""
+        for line in output:
+            decoded_line = line.decode()
+            output_text += decoded_line
+            if self.verbose:
+                print(decoded_line)
+        return output_text
     def close(self):
         """
         Closes the query engine.
@@ -156,7 +200,24 @@ class QueryExecutorStep(PipelineStep):
                 raise ValueError(f"Unsupported query engine: {self.query_engine}")
 
 if __name__ == "__main__":
-    print(QueryExecutorStep.server_query("MATCH (n) RETURN n"))
+    query_executor = QueryExecutorStep(engine_name="avantgraph", graph_path="rdf_100_sphn.nt", verbose=True, query_format="Cypher")
+    result = query_executor.CLI_query_text("MATCH (n) RETURN n")
+    for record in result:
+        print(record)
+    query_executor.close()
+    # for record in result:
+    #     print(record)
+    # Print the first 10 entries of the summary
+    counter = 0
+    # for record in result:
+    #     print(record.values())
+    #     counter += 1
+        
+        
+        
+    # for record in result:
+    #     print(record)
+    # query_executor.close()
     
 #     query_executor = QueryExecutorStep(engine_name="avantgraph", graph_path="rdf_100_sphn.nt",verbose=True, query_format="Cypher")
 #     cypher_query = """
@@ -173,7 +234,6 @@ if __name__ == "__main__":
 #     print(result.head())
 #     print(result)
 #     # Save the result to a CSV file
-#     result.to_csv("query_results.csv", index=False)
 #     if query_executor.verbose:
 #         print("Results saved to query_results.csv")
     # result = query_executor.execute(data)

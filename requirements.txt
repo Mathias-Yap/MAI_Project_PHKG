@@ -1,2 +1,5 @@
 docker
 millenniumdb_driver
+rdflib
+transformers
+torch

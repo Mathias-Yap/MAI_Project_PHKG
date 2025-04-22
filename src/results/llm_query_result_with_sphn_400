@@ -1,0 +1,143 @@
+C:\Users\Johan\PycharmProjects\MAI_Project_PHKG\.venv\Scripts\python.exe C:\Users\Johan\PycharmProjects\MAI_Project_PHKG\src\SimpleLLMQueryGenerator.py
+4.51.3
+📂 Loading RDF data from: C:\Users\Johan\PycharmProjects\MAI_Project_PHKG\data\rdf_400_sphn.txt
+Using device: cpu
+
+🧠 Prompting LLM:
+You are given a knowledge graph that uses the SPHN ontology with the following vocabulary:
+=== INFERRED CLASSES (via rdf:type) ===
+https://www.biomedit.ch/rdf/sphn-schema/sphn/MedicalProcedure
+https://www.biomedit.ch/rdf/sphn-schema/sphn/LabTestEvent
+https://www.biomedit.ch/rdf/sphn-schema/sphn/Substance
+https://www.biomedit.ch/rdf/sphn-schema/sphn/LabResult
+https://www.biomedit.ch/rdf/sphn-schema/sphn/DrugPrescription
+https://www.biomedit.ch/rdf/sphn-schema/sphn/Diagnosis
+https://www.biomedit.ch/rdf/sphn-schema/sphn/SubjectPseudoIdentifier
+https://www.biomedit.ch/rdf/sphn-schema/sphn/Drug
+
+=== INFERRED OBJECT PROPERTIES ===
+
+=== INFERRED DATATYPE PROPERTIES ===
+https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodingSystemAndVersion
+http://www.w3.org/1999/02/22-rdf-syntax-ns#type
+https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabTest
+https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier
+https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode
+https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug
+https://www.biomedit.ch/rdf/sphn-schema/sphn/hasActiveIngredient
+
+
+Here is an example of a correct SPARQL query:
+Question: Which patients have had a lab test result with the code d_labitems/51491?
+SPARQL:
+PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient
+WHERE {
+  ?event a sphn:LabTestEvent ;
+         sphn:hasSubjectPseudoIdentifier ?patient ;
+         sphn:hasLabTest ?result .
+  ?result a sphn:LabResult ;
+          sphn:hasCode <https://www.biomedit.ch/rdf/sphn-schema/sphn/d_labitems/51491> .
+}
+
+Now answer the following question in SPARQL only — no explanation, no markdown, no labels.
+Question: Which patients have had a lab test result with the code d_labitems/50911?
+SPARQL:
+
+
+Device set to use cpu
+Setting `pad_token_id` to `eos_token_id`:128001 for open-end generation.
+📥 Raw LLM Output:
+ PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT?patient
+WHERE {
+ ?event a sphn:LabTestEvent ;
+         sphn:hasSubjectPseudoIdentifier?patient ;
+         sphn:hasLabTest?result.
+ ?result a sphn:LabResult ;
+          sphn:hasCode <https://www.biomedit.ch/rdf/sphn-schema/sphn/d_labitems/50911>.
+}
+
+✅ Final SPARQL Query:
+ PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient
+WHERE {
+ ?event a sphn:LabTestEvent ;
+         sphn:hasSubjectPseudoIdentifier ?patient ;
+         sphn:hasLabTest ?result .
+ ?result a sphn:LabResult ;
+          sphn:hasCode <https://www.biomedit.ch/rdf/sphn-schema/sphn/d_labitems/50911>.
+}
+
+🔍 Query Results:
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/13984339'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/10979912'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/18876712'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/16828535'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/14756995'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/11531320'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/14230007'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/17767787'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/14142268'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/13103745'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/17482307'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/18869364'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/16995942'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/14886443'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/16378632'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/16557461'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/14457339'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/16438060'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/16618220'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/13083369'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/17798591'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/12965871'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/19152594'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/14321892'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/12726753'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/11505559'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/17002221'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/10438899'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/17281354'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/12641622'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/13840316'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/13859475'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/11613862'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/14445029'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/18798540'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/13700216'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/19021878'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/18160869'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/16720431'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/19285526'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/19913788'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/18798146'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/17479839'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/11426065'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/18566452'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/12351461'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/11889518'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/15862570'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/11240669'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/12272152'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/14879136'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/12246058'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/10676001'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/18767618'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/16343571'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/10032207'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/13372085'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/11430053'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/14751111'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/14283373'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/16291409'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/13146633'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/11342314'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/17548402'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/10921094'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/17719689'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/13987701'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/16560198'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/17170624'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/16947512'),)
+(rdflib.term.URIRef('https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/14988229'),)

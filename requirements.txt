@@ -3,3 +3,4 @@ millenniumdb_driver
 rdflib
 transformers
 torch
+neo4j

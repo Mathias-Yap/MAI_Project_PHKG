@@ -1,6 +1,6 @@
 # MAI_Project_PHKG
 
-REQUIREMENTS: Docker
+REQUIREMENTS: Docker, neo4j, milleniumdb_driver
 
 Make sure docker daemon is running: ```sudo systemctl start docker```
 ### Installing MilleniumDB into docker

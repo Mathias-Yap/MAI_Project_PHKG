@@ -1,6 +1,7 @@
 # Ignore all folders in sparql_queries
-sparql_queries/*/
+sparql_queries/*
 
-# Ignore all folders in data
+# Ignore all folders in data xcept the rdf .nt files
 data/*
+!data/*.nt
 

@@ -1,0 +1,4 @@
+PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?drug WHERE {
+    <https://www.biomedit.ch/rdf/sphn-schema/sphn/DrugPrescription/54/patients/19164956> sphn:hasDrug ?drug .
+}

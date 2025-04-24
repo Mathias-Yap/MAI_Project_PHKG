@@ -1,0 +1,1 @@
+SELECT * WHERE { https://www.biomedit.ch/rdf/sphn-schema/sphn/DrugPrescription/14/patients/18945729 https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug ?drug .}

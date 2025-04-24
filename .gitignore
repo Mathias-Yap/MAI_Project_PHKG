@@ -1,0 +1,6 @@
+# Ignore all folders in sparql_queries
+sparql_queries/*/
+
+# Ignore all folders in data
+data/*
+

@@ -9,6 +9,9 @@ class PipelineStep(ABC):
     def initialize(self, data, **kwargs):
         pass
 
+    def close(self):
+        pass
+
 class QueryGenerator(PipelineStep, ABC):
     @abstractmethod
     def run(self, data, **kwargs):

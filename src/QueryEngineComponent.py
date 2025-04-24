@@ -30,23 +30,18 @@ class QueryExecutorStep(PipelineStep):
         :param kwargs: Additional arguments.
         :return: Query results.
         """
-        return self.execute(data)
 
-    def initialize(self, data, **kwargs):
-        return super().initialize(data, **kwargs)
-
-    def execute(self, data):
-        """
-        Executes the query using the query engine.
-
-        :param data: Input data required for query execution.
-        :return: Query results.
-        """
         if not data or 'query' not in data:
             raise ValueError("Input data must contain a 'query' key.")
 
         query = data['query']
-        return self.query_engine.run_query(query)
+        sparql_is_path = kwargs.get("sparql_is_path")
+        if not sparql_is_path:
+            sparql_is_path = False
+        return self.query(query, path=sparql_is_path)
+
+    def initialize(self, data, **kwargs):
+        return super().initialize(data, **kwargs)
 
     # def wait_for_server(self,driver_fn=GraphDatabase.driver, uri="bolt://localhost:7687", timeout=30, interval=1):
     #     """

@@ -23,7 +23,8 @@ class SimpleLLMQueryGenerator(PipelineStages.QueryGenerator):
         match = re.search(r"```sparql(.*?)```", response, re.DOTALL | re.IGNORECASE)
         if match:
             return match.group(1).strip()
-        match = re.search(r"(PREFIX\s+[^\n]+\n)*(SELECT|ASK|CONSTRUCT|DESCRIBE)\b.*", response, re.DOTALL | re.IGNORECASE)
+        match = re.search(r"(PREFIX\s+[^\n]+\n)*(SELECT|ASK|CONSTRUCT|DESCRIBE)\b.*", response,
+                          re.DOTALL | re.IGNORECASE)
         if match:
             return match.group(0).strip()
         return response.strip()
@@ -73,7 +74,7 @@ class SimpleLLMQueryGenerator(PipelineStages.QueryGenerator):
         query = self.clean_query_format(query)
 
         print("\n✅ Final SPARQL Query:\n", query)
-        return query
+        return {"query": query}
 
 
 def main():

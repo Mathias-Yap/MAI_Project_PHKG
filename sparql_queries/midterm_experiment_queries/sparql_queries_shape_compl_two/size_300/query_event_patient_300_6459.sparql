@@ -1,0 +1,6 @@
+PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+                SELECT ?code WHERE {
+                <https://www.biomedit.ch/rdf/sphn-schema/sphn/LabTestEvent/14/patients/17502219> sphn:hasSubjectPseudoIdentifier <https://www.biomedit.ch/rdf/sphn-schema/sphn/PATIENTS/17502219> ;
+                                    sphn:hasLabTest ?labResult .
+                ?labResult sphn:hasCode ?code .
+                }

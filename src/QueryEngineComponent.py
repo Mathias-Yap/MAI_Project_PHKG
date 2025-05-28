@@ -38,7 +38,8 @@ class QueryExecutorStep(PipelineStep):
         sparql_is_path = kwargs.get("sparql_is_path")
         if not sparql_is_path:
             sparql_is_path = False
-        return self.query(query, path=sparql_is_path)
+        data["result"]=self.query(query, path=sparql_is_path)
+        return data
 
     def initialize(self, data, **kwargs):
         return super().initialize(data, **kwargs)

@@ -1,4 +1,5 @@
 from PipelineStages import PipelineStep
+from src.RetrievalAugmentedAnswerLLM import RetrievalAugmentedAnswerLLM
 from src.SimpleLLMQueryGenerator import SimpleLLMQueryGenerator
 from src.QueryEngineComponent import QueryExecutorStep
 
@@ -47,12 +48,19 @@ if __name__ == '__main__':
         query_executor = QueryExecutorStep(engine_name="milleniumDB", graph_path="rdf_100_sphn.nt",
                                            verbose=True, query_format="sparql", construct_graph=False)
 
+        answer_generator=RetrievalAugmentedAnswerLLM(model_name="meta-llama/Llama-3.2-1B-Instruct")
+
+
         pipe.steps.append(query_generator)
         pipe.steps.append(query_executor)
+        pipe.steps.append(answer_generator)
 
         pipe.initialize(vocabulary_path=vocab_path)
         result = pipe.run(natural_language_question=question,sparql_is_path=False)
-        print(result.values())
+        print(f"The Pipeline generated the following output:\n"
+              f"The generated query: {result['query']}\n"
+              f"The query result: {result['result'].values()}\n"
+              f"The generated answer: {result['answer']}")
 
     except Exception as ex:
         traceback.print_exc()

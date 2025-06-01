@@ -19,8 +19,8 @@ class QueryExecutorStep(PipelineStep):
         self.engine_name = engine_name
         self.verbose = verbose
         self.query_format = query_format
-        self.query_engine = self.initialize_query_engine(engine_name, graph_path, construct_graph,
-                                                         "unix:///home/johannes/.docker/desktop/docker.sock")
+        self.query_engine = self.initialize_query_engine(engine_name, graph_path, construct_graph
+                                                        )
 
     def run(self, data, **kwargs):
         """
@@ -101,7 +101,7 @@ class QueryExecutorStep(PipelineStep):
         :param query: The query to be executed.
         :return: Query results.
         """
-        print(">>> Query being sent to MillenniumDB:\n", query)
+        # print(">>> Query being sent to MillenniumDB:\n", query)
         url = 'http://localhost:1234/'
         driver = millenniumdb_driver.driver(url)
         session = driver.session()
@@ -148,7 +148,6 @@ class QueryExecutorStep(PipelineStep):
         if docker_context == "":
             client = docker.from_env()
         else:
-            import os
             client = docker.DockerClient(
                 base_url=os.getenv("DOCKER_HOST", docker_context))
 
@@ -190,7 +189,7 @@ class QueryExecutorStep(PipelineStep):
                     remove=True,  # equivalent to --rm
                     detach=True  # run in background
                 )
-                time.sleep(2)
+                time.sleep(20)
                 return mdb
 
             case "avantgraph":
@@ -282,10 +281,11 @@ class QueryExecutorStep(PipelineStep):
 
 if __name__ == "__main__":
     query_executor = QueryExecutorStep(engine_name="milleniumDB", graph_path="rdf_400_sphn.nt", verbose=True,
-                                       query_format="sparql", construct_graph=True)
+                                       query_format="sparql", construct_graph=False)
     result = query_executor.query("sparql_queries/query_002.sparql", path=True)
-    print(result)
-    query_executor.close()
+    print(result.summary())
+    
+    # query_executor.close()
     # """
     # ag-schema create-graph /code/data/new_graph_loads/graph1/
     # ag-schema create-vertex-table /code/data/new_graph_loads/graph1/ --vertex-label=DrugPrescription \ --vertex-property=id=CHAR_STRING\ 

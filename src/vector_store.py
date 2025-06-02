@@ -17,10 +17,12 @@ vector_store_class = os.path.join(src_dir, "vector_stores/classes.index")
 model_name: str = "mixedbread-ai/mxbai-embed-large-v1"
 
 
+from rdflib import Graph, RDF, RDFS, OWL
+from typing import Tuple
+
 def get_classes(graph: Graph) -> Tuple[list[dict], list[str]]:
     """
     Extracts class metadata and ontology-defined relationships (via rdfs:domain and rdfs:range).
-
     Returns:
         Tuple of metadata dicts and textual summaries.
     """
@@ -28,6 +30,25 @@ def get_classes(graph: Graph) -> Tuple[list[dict], list[str]]:
     def get_label(node):
         return str(graph.value(node, RDFS.label)) if node else None
 
+    # Precompute all object and datatype properties and their domains/ranges
+    prop_info = []
+    for prop_type in [OWL.ObjectProperty, OWL.DatatypeProperty]:
+        for prop in graph.subjects(RDF.type, prop_type):
+            domains = list(graph.objects(prop, RDFS.domain))
+            ranges = list(graph.objects(prop, RDFS.range))
+
+            for domain in domains:
+                for range_ in ranges:
+                    prop_info.append((
+                        prop, 
+                        get_label(prop), 
+                        domain, 
+                        get_label(domain), 
+                        range_, 
+                        get_label(range_) if prop_type == OWL.ObjectProperty else str(range_)
+                    ))
+
+    # Map classes and collect relevant data
     metadatas = []
     text_representations = []
 
@@ -38,32 +59,21 @@ def get_classes(graph: Graph) -> Tuple[list[dict], list[str]]:
         comment = graph.value(class_node, RDFS.comment)
         relations = set()
 
-        for prop_type in [OWL.ObjectProperty, OWL.DatatypeProperty]:
-            for prop in graph.subjects(RDF.type, prop_type):
-                prop_label = get_label(prop)
-                domain = graph.value(prop, RDFS.domain)
-                range_ = graph.value(prop, RDFS.range)
+        for prop, prop_label, domain, domain_label, range_, range_label in prop_info:
+            if prop_label is None:
+                continue
 
-                domain_label = get_label(domain)
-                range_label = (
-                    get_label(range_)
-                    if prop_type == OWL.ObjectProperty
-                    else str(range_)
-                )
+            if domain == class_node:
+                relations.add(f"{domain_label} -> {prop_label} -> {range_label}")
+            if range_ == class_node:
+                relations.add(f"{domain_label} -> {prop_label} -> {range_label}")
 
-                if prop_label and domain == class_node and range_label:
-                    relations.add(f"{domain_label} -> {prop_label} -> {range_label}")
-                if prop_label and range_ == class_node and domain_label:
-                    relations.add(f"{domain_label} -> {prop_label} -> {range_label}")
-
-        metadatas.append(
-            {
-                "uri": str(class_node),
-                "label": class_label,
-                "comment": str(comment) if comment else None,
-                "relations": sorted(relations),
-            }
-        )
+        metadatas.append({
+            "uri": str(class_node),
+            "label": class_label,
+            "comment": str(comment) if comment else None,
+            "relations": sorted(relations),
+        })
 
         if class_label or comment:
             text = f"Class: {class_label}\nDescription: {comment}"
@@ -74,10 +84,11 @@ def get_classes(graph: Graph) -> Tuple[list[dict], list[str]]:
     return metadatas, text_representations
 
 
+
 class VectorStore:
     """Vector store class for creating and loading vector stores."""
 
-    def __init__(self, file_name: str | None):
+    def __init__(self, file_name: str | None = None):
         """Initialize the vector store with the specified file name."""
         self.vector_store = (
             self.create_vector_store(load_graph("ontology"))
@@ -85,7 +96,7 @@ class VectorStore:
             else self.load_vector_store(file_name)
         )
 
-    def create_vector_store(ontology: Graph) -> None:
+    def create_vector_store(self, ontology: Graph) -> None:
         """
         Create a vector store from the specified graph.
 
@@ -106,7 +117,7 @@ class VectorStore:
 
         return vector_store
 
-    def load_vector_store(file_name: str) -> FAISS:
+    def load_vector_store(self, file_name: str) -> FAISS:
         """
         Load the vector store from the specified file(s).
 
@@ -130,9 +141,9 @@ class VectorStore:
 
         return vector_store
 
-    def relevant_classes(self, query: str) -> list[dict]:
+    def query(self, query: str) -> list[dict]:
         """
-        Retrieve relevant classes from the vector store based on the query.
+        Retrieve relevant nodes from the vector store based on the query.
 
         Args:
             query (str): The query string to search for relevant classes.

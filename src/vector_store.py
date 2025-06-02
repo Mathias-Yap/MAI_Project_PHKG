@@ -1,0 +1,144 @@
+"""Creation of and interaction with vector store."""
+
+import os
+
+from langchain_community.vectorstores import FAISS
+from langchain_huggingface import HuggingFaceEmbeddings
+from rdflib import Graph, URIRef, RDF, RDFS, OWL, XSD
+from typing import Tuple
+
+
+from utils.graph import load_graph
+
+src_dir = os.path.dirname(os.path.dirname(__file__))
+vector_store_class = os.path.join(src_dir, "vector_stores/classes.index")
+
+
+model_name: str = "mixedbread-ai/mxbai-embed-large-v1"
+
+
+def get_classes(graph: Graph) -> Tuple[list[dict], list[str]]:
+    """
+    Extracts class metadata and ontology-defined relationships (via rdfs:domain and rdfs:range).
+
+    Returns:
+        Tuple of metadata dicts and textual summaries.
+    """
+
+    def get_label(node):
+        return str(graph.value(node, RDFS.label)) if node else None
+
+    metadatas = []
+    text_representations = []
+
+    class_nodes = set(graph.subjects(RDF.type, OWL.Class))
+
+    for class_node in class_nodes:
+        class_label = get_label(class_node)
+        comment = graph.value(class_node, RDFS.comment)
+        relations = set()
+
+        for prop_type in [OWL.ObjectProperty, OWL.DatatypeProperty]:
+            for prop in graph.subjects(RDF.type, prop_type):
+                prop_label = get_label(prop)
+                domain = graph.value(prop, RDFS.domain)
+                range_ = graph.value(prop, RDFS.range)
+
+                domain_label = get_label(domain)
+                range_label = (
+                    get_label(range_)
+                    if prop_type == OWL.ObjectProperty
+                    else str(range_)
+                )
+
+                if prop_label and domain == class_node and range_label:
+                    relations.add(f"{domain_label} -> {prop_label} -> {range_label}")
+                if prop_label and range_ == class_node and domain_label:
+                    relations.add(f"{domain_label} -> {prop_label} -> {range_label}")
+
+        metadatas.append(
+            {
+                "uri": str(class_node),
+                "label": class_label,
+                "comment": str(comment) if comment else None,
+                "relations": sorted(relations),
+            }
+        )
+
+        if class_label or comment:
+            text = f"Class: {class_label}\nDescription: {comment}"
+            if relations:
+                text += "\nRelations:\n" + "\n".join(sorted(relations))
+            text_representations.append(text)
+
+    return metadatas, text_representations
+
+
+class VectorStore:
+    """Vector store class for creating and loading vector stores."""
+
+    def __init__(self, file_name: str | None):
+        """Initialize the vector store with the specified file name."""
+        self.vector_store = (
+            self.create_vector_store(load_graph("ontology"))
+            if file_name is None
+            else self.load_vector_store(file_name)
+        )
+
+    def create_vector_store(ontology: Graph) -> None:
+        """
+        Create a vector store from the specified graph.
+
+        Args:
+            ontology (Graph): The graph object to create the vector store from.
+        """
+        encoder = HuggingFaceEmbeddings(
+            model_name=model_name, model_kwargs={"device": "cpu"}
+        )  # TODO: Ideally use GPU with multi_process=True, but for our laptop, we use a CPU for simplicity
+
+        metadatas, text_representations = get_classes(ontology)
+
+        # Create a vector store from the text representations and metadata
+        vector_store = FAISS.from_texts(text_representations, encoder, metadatas)
+
+        # Save the vector store as a FAISS index
+        vector_store.save_local(vector_store_class)
+
+        return vector_store
+
+    def load_vector_store(file_name: str) -> FAISS:
+        """
+        Load the vector store from the specified file(s).
+
+        Args:
+            file_name (str): The name of the file to load the vector store from, either classes/predicates.
+
+        Returns:
+            FAISS: The loaded vector store.
+        """
+        # Load the embeddings model
+        encoder = HuggingFaceEmbeddings(
+            model_name=model_name, model_kwargs={"device": "cpu"}
+        )
+
+        # Load the vector store from the specified files
+        vector_store = FAISS.load_local(
+            os.path.join(src_dir, "vector_stores/{file_name}.index"),
+            encoder,
+            allow_dangerous_deserialization=True,
+        )
+
+        return vector_store
+
+    def relevant_classes(self, query: str) -> list[dict]:
+        """
+        Retrieve relevant classes from the vector store based on the query.
+
+        Args:
+            query (str): The query string to search for relevant classes.
+
+        Returns:
+            list[dict]: A list of dictionaries containing relevant class metadata.
+        """
+        results = self.vector_store.similarity_search(query, k=5)
+        return [result.metadata for result in results]

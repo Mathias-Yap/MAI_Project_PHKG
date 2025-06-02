@@ -135,11 +135,5 @@ if __name__ == "__main__":
     
     enumerator = OntologyStarEnumerator(desc)
     
-    # Example usage
-    enumerator.print_star_queries(max_arms=3)
-    
-    # Get star queries for a specific class
-    specific_class_stars = enumerator.get_star_queries_for_class('DrugPrescription', max_arms=3)
-    print(f"Star queries for DrugPrescription: {len(specific_class_stars)} found")
-    for query in specific_class_stars:
-        print(enumerator.format_star_query(query))
+    star_queries = enumerator.enumerate_star_queries(max_arms=4)
+    print(star_queries['Patient'])

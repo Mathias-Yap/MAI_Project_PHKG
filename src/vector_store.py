@@ -2,7 +2,9 @@
 
 import os
 
-from langchain_community.vectorstores import FAISS
+
+import spacy
+from langchain_community.vectorstores import FAISS, DistanceStrategy
 from langchain_huggingface import HuggingFaceEmbeddings
 from rdflib import Graph, URIRef, RDF, RDFS, OWL, XSD
 from typing import Tuple
@@ -16,9 +18,6 @@ vector_store_class = os.path.join(src_dir, "vector_stores/classes.index")
 
 model_name: str = "mixedbread-ai/mxbai-embed-large-v1"
 
-
-from rdflib import Graph, RDF, RDFS, OWL
-from typing import Tuple
 
 def get_classes(graph: Graph) -> Tuple[list[dict], list[str]]:
     """
@@ -39,14 +38,18 @@ def get_classes(graph: Graph) -> Tuple[list[dict], list[str]]:
 
             for domain in domains:
                 for range_ in ranges:
-                    prop_info.append((
-                        prop, 
-                        get_label(prop), 
-                        domain, 
-                        get_label(domain), 
-                        range_, 
-                        get_label(range_) if prop_type == OWL.ObjectProperty else str(range_)
-                    ))
+                    prop_info.append(
+                        (
+                            prop,
+                            get_label(prop),
+                            domain,
+                            get_label(domain),
+                            range_,
+                            get_label(range_)
+                            if prop_type == OWL.ObjectProperty
+                            else str(range_),
+                        )
+                    )
 
     # Map classes and collect relevant data
     metadatas = []
@@ -68,12 +71,14 @@ def get_classes(graph: Graph) -> Tuple[list[dict], list[str]]:
             if range_ == class_node:
                 relations.add(f"{domain_label} -> {prop_label} -> {range_label}")
 
-        metadatas.append({
-            "uri": str(class_node),
-            "label": class_label,
-            "comment": str(comment) if comment else None,
-            "relations": sorted(relations),
-        })
+        metadatas.append(
+            {
+                "uri": str(class_node),
+                "label": class_label,
+                "comment": str(comment) if comment else None,
+                "relations": sorted(relations),
+            }
+        )
 
         if class_label or comment:
             text = f"Class: {class_label}\nDescription: {comment}"
@@ -84,23 +89,35 @@ def get_classes(graph: Graph) -> Tuple[list[dict], list[str]]:
     return metadatas, text_representations
 
 
-
 class VectorStore:
     """Vector store class for creating and loading vector stores."""
 
     def __init__(self, file_name: str | None = None):
         """Initialize the vector store with the specified file name."""
-        self.vector_store = (
-            self.create_vector_store(load_graph("ontology"))
-            if file_name is None
-            else self.load_vector_store(file_name)
-        )
 
         # Load the HuggingFace embeddings model
         self.encoder = HuggingFaceEmbeddings(
             model_name=model_name, model_kwargs={"device": "cpu"}
         )  # TODO: Ideally use GPU with multi_process=True, but for our laptop, we use a CPU for simplicity
 
+        # Create or load the vector store based on the provided file name
+        self.vector_store = (
+            self.create_vector_store(load_graph("ontology"))
+            if file_name is None
+            else self.load_vector_store(file_name)
+        )
+
+        # Initialize the NLP model for text processing
+        def load_nlp_model(model):
+            try:
+                nlp = spacy.load(model)
+            except OSError:
+                print(f"Downloading model: {model}")
+                spacy.cli.download(model)
+                nlp = spacy.load(model)
+            return nlp
+
+        self.nlp = load_nlp_model("en_core_web_trf")
 
     def create_vector_store(self, ontology: Graph) -> None:
         """
@@ -112,7 +129,11 @@ class VectorStore:
         metadatas, text_representations = get_classes(ontology)
 
         # Create a vector store from the text representations and metadata
-        vector_store = FAISS.from_texts(text_representations, self.encoder, metadatas)
+        vector_store = FAISS.from_texts(
+            text_representations,
+            self.encoder,
+            metadatas,
+        )
 
         # Save the vector store as a FAISS index
         vector_store.save_local(vector_store_class)
@@ -138,7 +159,9 @@ class VectorStore:
 
         return vector_store
 
-    def query(self, query: str, score: bool = False) -> list[dict]:
+    def query(
+        self, query: str, threshold: int = 200, k: int = 1, debug: bool = False
+    ) -> list[dict]:
         """
         Retrieve relevant nodes from the vector store based on the query.
 
@@ -148,9 +171,22 @@ class VectorStore:
         Returns:
             list[dict]: A list of dictionaries containing relevant class metadata.
         """
-        if score:
-            results = self.vector_store.similarity_search_with_score(query, k=5)
-            return [{"metadata": result.metadata, "score": score} for result, score in results]
-        else:
-            results = self.vector_store.similarity_search(query, k=5)
-            return [result.metadata for result in results]
+
+        def extract_concepts(query: str) -> list[str]:
+            doc = self.nlp(query)
+            return [chunk.text for chunk in doc.noun_chunks]
+
+        hits = set()
+
+        for concept in extract_concepts(query):
+            results = self.vector_store.similarity_search_with_score(concept, k=k)
+            for result, score in results:
+                if score <= threshold:
+                    if debug:
+                        print(
+                            f"Concept: {concept}, Score: {score}, Metadata: {result.metadata}"
+                        )
+                    hits.add(result.metadata)
+
+        return hits
+

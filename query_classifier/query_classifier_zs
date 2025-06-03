@@ -1,0 +1,202 @@
+import json
+import re
+from typing import Dict, List, Optional, Union, Tuple
+from query_types import ChainQuery, StarQuery, OtherQuery 
+from transformers import pipeline, AutoTokenizer, AutoModelForCausalLM
+import torch
+class LLMQueryClassifier:
+    """
+    An LLM-based zero-shot classifier for identifying chain queries, star queries, or other types.
+    
+    Chain Query: A query that asks for a path or connection between two entities
+    Star Query: A query that asks for multiple related items around a central concept
+    """
+    def __init__(self, model_name: str = "distilgpt2"):
+        """
+        Initializes the classifier with a specified model.
+        
+        :param model_name: The name of the LLM model to use for classification.
+        """
+        self.model_name = model_name
+        self.max_length = 512
+        self.prompt_template = (
+            "You are a query classifier. Classify queries into three types:\n\n"
+            "1. CHAIN QUERY: Asks for a connection, path, or relationship between two specific entities\n"
+            "   - Extract: start entity, end entity, what to retrieve\n"
+            "   - Example: {chain_example}\n\n"
+            "2. STAR QUERY: Asks for multiple related items around a central concept\n"
+            "   - Extract: center concept, arms (types of information requested)\n"
+            "   - Example: {star_example}\n\n"
+            "3. OTHER: Anything that doesn't fit the above patterns\n\n"
+            "Format your response as JSON with these exact structures:\n"
+            '- Chain: {{"type": "chain", "start": "...", "end": "...", "retrieve": "..."}}\n'
+            '- Star: {{"type": "star", "center": "...", "arms": ["..."]}}\n'
+            '- Other: {{"type": "other"}}\n\n'
+        )
+        # Initialize the text generation pipeline
+        self.device = 0 if torch.cuda.is_available() else -1
+        try:
+            self.generator = pipeline(
+                "text-generation",
+                model=model_name,
+                device=self.device,
+                torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32,
+                trust_remote_code=True
+            )
+        except Exception as e:
+            print(f"Failed to load {model_name}, falling back to distilgpt2")
+            self.generator = pipeline(
+                "text-generation",
+                model="distilgpt2",
+                device=self.device
+            )
+        self.examples = []
+    
+    def _create_prompt(self, query: str) -> str:
+        # Concatenate all examples of the same type for the prompt
+        chain_examples = [ex['query'] for ex in self.examples if ex.get('type') == 'chain']
+        star_examples = [ex['query'] for ex in self.examples if ex.get('type') == 'star']
+
+        chain_example = " | ".join(chain_examples) if chain_examples else "No examples of chain queries."
+        star_example = " | ".join(star_examples) if star_examples else "No examples of star queries."
+
+        return self.prompt_template.format(
+            chain_example=chain_example,
+            star_example=star_example
+        ) + f"\nQuery: {query}\nResponse:"
+        
+        
+    def classify(self, query: str, max_new_tokens: int = 150): 
+        """
+        Classify a query using the LLM.
+        
+        Args:
+            query: The input query to classify
+            max_new_tokens: Maximum new tokens to generate
+            
+        Returns:
+            Classification result
+        """
+        if not query or not query.strip():
+            raise ValueError("Query must be a non-empty string.")
+        
+        prompt = self._create_prompt(query)
+        
+        try:
+            # Generate response
+            outputs = self.generator(
+                prompt,
+                max_new_tokens=max_new_tokens,
+                do_sample=True,
+                pad_token_id=self.generator.tokenizer.eos_token_id,
+                return_full_text=False
+            )
+            
+            # Extract the generated text
+            generated_text = outputs[0]['generated_text']
+            
+            # Parse the response
+            return self._parse_llm_response(generated_text)
+            
+        except Exception as e:
+            print(f"Error during classification: {e}")
+        
+        
+        
+        
+    def classify_batch(self, queries: List[str], max_new_tokens: int = 150) -> List[Union[Dict[str,str], None]]:
+        """
+        Classify multiple queries in batch.
+        
+        Args:
+            queries: List of queries to classify
+            max_new_tokens: Maximum new tokens to generate per query
+            
+        Returns:
+            List of classification results
+        """
+        results = []
+        for query in queries:
+            result = self.classify(query, max_new_tokens)
+            results.append(result)
+        return results
+
+    def _parse_llm_response(self, response: str) -> Union[ChainQuery, StarQuery, OtherQuery]:
+        """
+        Parse the LLM response into a classification object.
+        
+        Args:
+            response: Raw response from LLM
+            
+        Returns:
+            Classification object
+        """
+        try:
+            # Try to extract JSON from the response
+            json_match = re.search(r'\{.*\}', response, re.DOTALL)
+            if json_match:
+                json_str = json_match.group()
+                result = json.loads(json_str)
+                
+                if result.get("type") == "chain":
+                    return ChainQuery(
+                        start=result.get("start", ""),
+                        end=result.get("end", ""),
+                        retrieve=result.get("retrieve", "connection")
+                    )
+                elif result.get("type") == "star":
+                    return StarQuery(
+                        center=result.get("center", ""),
+                        arms=result.get("arms", [])
+                    )
+                else:
+                    return OtherQuery()
+            
+            # Fallback parsing if JSON extraction fails
+            response_lower = response.lower()
+            if any(word in response_lower for word in ["chain", "connection", "between", "from", "to"]):
+                # Try to extract components from text
+                start_match = re.search(r'start["\s:]*([^",\n]+)', response_lower)
+                end_match = re.search(r'end["\s:]*([^",\n]+)', response_lower)
+                retrieve_match = re.search(r'retrieve["\s:]*([^",\n]+)', response_lower)
+                
+                return ChainQuery(
+                    start=start_match.group(1).strip() if start_match else "",
+                    end=end_match.group(1).strip() if end_match else "",
+                    retrieve=retrieve_match.group(1).strip() if retrieve_match else "connection"
+                )
+            
+            elif any(word in response_lower for word in ["star", "center", "arms", "around"]):
+                center_match = re.search(r'center["\s:]*([^",\n]+)', response_lower)
+                arms_match = re.search(r'arms["\s:]*\[([^\]]+)\]', response_lower)
+                
+                arms = []
+                if arms_match:
+                    arms_str = arms_match.group(1)
+                    arms = [arm.strip().strip('"\'') for arm in arms_str.split(',')]
+                
+                return StarQuery(
+                    center=center_match.group(1).strip() if center_match else "",
+                    arms=arms
+                )
+            
+            return OtherQuery()
+            
+        except Exception as e:
+            print(f"Error parsing LLM response: {e}")
+            print(f"Response was: {response}")
+            return OtherQuery()
+
+if __name__ == "__main__":
+    # Example usage
+    classifier = LLMQueryClassifier(model_name="gpt-3.5-turbo")
+    examples = [
+        {"query": "What is the path from Paris to Berlin?", "type": "chain"},
+        {"query": "List all the countries in Europe.", "type": "star"},
+        {"query": "What is the capital of France?", "type": "other"}
+    ]
+    classifier.classify("Find the route from New York to Los Angeles.", max_new_tokens=100)
+    print(classifier.prompt_template.format(
+        chain_example=examples[0]['query'],
+        star_example=examples[1]['query']
+    ))

@@ -33,7 +33,7 @@ sphn:MedicalProcedure a owl:Class ;
     rdfs:comment "Invasive or non-invasive intervention performed for, with or on behalf of an individual whose purpose is to assess, improve, maintain, promote or modify health, functioning or health conditions." .
 
 sphn:SubjectPseudoIdentifier a owl:Class ;
-    rdfs:label "Patient Identifier" ;
+    rdfs:label "Subject Pseudo Identifier" ;
     rdfs:comment "A coded unique identifier assigned by a data provider for a specific project to conceal the identity of an individual." .
 
 sphn:Substance a owl:Class ;

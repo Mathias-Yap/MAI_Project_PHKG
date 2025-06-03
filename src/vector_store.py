@@ -134,14 +134,14 @@ class VectorStore:
 
         # Load the vector store from the specified files
         vector_store = FAISS.load_local(
-            os.path.join(src_dir, "vector_stores/{file_name}.index"),
+            os.path.join(src_dir, f"vector_stores/{file_name}.index"),
             encoder,
             allow_dangerous_deserialization=True,
         )
 
         return vector_store
 
-    def query(self, query: str) -> list[dict]:
+    def query(self, query: str, score: bool = False) -> list[dict]:
         """
         Retrieve relevant nodes from the vector store based on the query.
 
@@ -151,5 +151,9 @@ class VectorStore:
         Returns:
             list[dict]: A list of dictionaries containing relevant class metadata.
         """
-        results = self.vector_store.similarity_search(query, k=5)
-        return [result.metadata for result in results]
+        if score:
+            results = self.vector_store.similarity_search_with_score(query, k=5)
+            return [{"metadata": result.metadata, "score": score} for result, score in results]
+        else:
+            results = self.vector_store.similarity_search(query, k=5)
+            return [result.metadata for result in results]

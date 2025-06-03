@@ -186,7 +186,7 @@ class VectorStore:
                         print(
                             f"Concept: {concept}, Score: {score}, Metadata: {result.metadata}"
                         )
-                    hits.add(result.metadata)
+                    hits.add(result.metadata["uri"])
 
         return hits
 

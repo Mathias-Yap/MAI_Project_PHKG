@@ -96,6 +96,12 @@ class VectorStore:
             else self.load_vector_store(file_name)
         )
 
+        # Load the HuggingFace embeddings model
+        self.encoder = HuggingFaceEmbeddings(
+            model_name=model_name, model_kwargs={"device": "cpu"}
+        )  # TODO: Ideally use GPU with multi_process=True, but for our laptop, we use a CPU for simplicity
+
+
     def create_vector_store(self, ontology: Graph) -> None:
         """
         Create a vector store from the specified graph.
@@ -103,14 +109,10 @@ class VectorStore:
         Args:
             ontology (Graph): The graph object to create the vector store from.
         """
-        encoder = HuggingFaceEmbeddings(
-            model_name=model_name, model_kwargs={"device": "cpu"}
-        )  # TODO: Ideally use GPU with multi_process=True, but for our laptop, we use a CPU for simplicity
-
         metadatas, text_representations = get_classes(ontology)
 
         # Create a vector store from the text representations and metadata
-        vector_store = FAISS.from_texts(text_representations, encoder, metadatas)
+        vector_store = FAISS.from_texts(text_representations, self.encoder, metadatas)
 
         # Save the vector store as a FAISS index
         vector_store.save_local(vector_store_class)
@@ -127,15 +129,10 @@ class VectorStore:
         Returns:
             FAISS: The loaded vector store.
         """
-        # Load the embeddings model
-        encoder = HuggingFaceEmbeddings(
-            model_name=model_name, model_kwargs={"device": "cpu"}
-        )
-
         # Load the vector store from the specified files
         vector_store = FAISS.load_local(
             os.path.join(src_dir, f"vector_stores/{file_name}.index"),
-            encoder,
+            self.encoder,
             allow_dangerous_deserialization=True,
         )
 

@@ -4,6 +4,38 @@ from rdflib import Graph
 import PipelineStages
 import LLM_Pipeline
 
+from utils.graph import load_graph
+
+PROMPT = """
+Task: Generate a SPARQL SELECT statement for querying a graph database.
+For instance, to find all email addresses of John Doe, the following query in backticks would be suitable:
+```
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+SELECT ?email
+WHERE {{
+    ?person foaf:name "John Doe" .
+    ?person foaf:mbox ?email .
+}}
+```
+Keep in mind that you might need several classes in order to provide the correct answer. 
+
+Instructions:
+Use only the node types and properties provided in the ontology.
+Do not use any node types and properties that are not explicitly provided.
+Include all necessary prefixes and relations.
+
+The ontology is:
+{ontology}
+
+Note: Be as concise as possible.
+Do not include any explanations or apologies in your responses.
+Do not respond to any questions that ask for anything else than for you to construct a SPARQL query.
+Do not include any text except for the SPARQL query generated.
+
+The question is:
+{question}
+"""
+
 
 class SimpleLLMQueryGenerator(PipelineStages.QueryGenerator):
     def __init__(self, model_name: str):
@@ -46,25 +78,30 @@ class SimpleLLMQueryGenerator(PipelineStages.QueryGenerator):
             "Do NOT explain. Do NOT use markdown. Do NOT prefix with 'SPARQL:' or '```'."
         )
 
-        prompt = (
-            "You are given a knowledge graph that uses the SPHN ontology with the following vocabulary:\n"
-            f"{self.vocabulary}\n\n"
-            "Here is an example of a correct SPARQL query:\n"
-            "Question: Which patients have had a lab test result with the code d_labitems/51491?\n"
-            "SPARQL:\n"
-            "PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>\n"
-            "SELECT ?patient\n"
-            "WHERE {\n"
-            "  ?event a sphn:LabTestEvent ;\n"
-            "         sphn:hasSubjectPseudoIdentifier ?patient ;\n"
-            "         sphn:hasLabTest ?result .\n"
-            "  ?result a sphn:LabResult ;\n"
-            "          sphn:hasCode <https://www.biomedit.ch/rdf/sphn-schema/sphn/d_labitems/51491> .\n"
-            "}\n\n"
-            "Now answer the following question in SPARQL only — no explanation, no markdown, no labels.\n"
-            f"Question: {natural_language_question}\n"
-            "SPARQL:\n"
+        prompt = PROMPT.format(
+            ontology=load_graph("ontology").serialize(format="turtle"),
+            question=natural_language_question
         )
+
+        # prompt = (
+        #     "You are given a knowledge graph that uses the SPHN ontology with the following vocabulary:\n"
+        #     f"{self.vocabulary}\n\n"
+        #     "Here is an example of a correct SPARQL query:\n"
+        #     "Question: Which patients have had a lab test result with the code d_labitems/51491?\n"
+        #     "SPARQL:\n"
+        #     "PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>\n"
+        #     "SELECT ?patient\n"
+        #     "WHERE {\n"
+        #     "  ?event a sphn:LabTestEvent ;\n"
+        #     "         sphn:hasSubjectPseudoIdentifier ?patient ;\n"
+        #     "         sphn:hasLabTest ?result .\n"
+        #     "  ?result a sphn:LabResult ;\n"
+        #     "          sphn:hasCode <https://www.biomedit.ch/rdf/sphn-schema/sphn/d_labitems/51491> .\n"
+        #     "}\n\n"
+        #     "Now answer the following question in SPARQL only — no explanation, no markdown, no labels.\n"
+        #     f"Question: {natural_language_question}\n"
+        #     "SPARQL:\n"
+        # )
 
         print(f"\n🧠 Prompting LLM:\n{prompt}\n")
         raw_output = self.llm_model_pipeline.generate(prompt, system_prompt)

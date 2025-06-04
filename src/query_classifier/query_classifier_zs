@@ -42,31 +42,46 @@ class LLMQueryClassifier:
                 "- A Chain query asks for a path or relationship between two specific entity types. "
                 "It typically follows a linear connection, potentially passing and retrieving intermediate entities, "
                 "but the goal is to find a certain type starting at another entity.\n"
-                "- Examples: {chain_examples}\n\n"
+                # "- Examples: {chain_examples}\n\n"
                 "2. STAR\n"
                 "- A Star query asks for multiple facts or entities related to a single central concept. "
-                "Typically, it involves retrieving multiple items that are connected to a central entity. "
-                "- Examples: {star_examples}\n\n"
+                "Typically, it involves retrieving multiple items that are connected to a central entity. Note that there must be multiple items to retrieve. "
+                # "- Examples: {star_examples}\n\n"
                 "3. OTHER\n"
                 "- Any query that does not fit the above two patterns (e.g., vague, meta-queries, or structurally unrelated questions).\n\n"
                 "Your task:\n"
-                "Note: Return ONLY one of the following labels based on the query:\n"
+                "Classify the query into one of the following types:\n\n"
                 "Chain\n"
                 "Star\n"
                 "Other\n"
-                "If the query is a chain, find the start and end entities, and if applicable, the type of connection to retrieve.\n"
-                "If the query is a star, identify the central entity and the related items (arms) to retrieve.\n"
+                "Next, analyze the query and determine its structure:\n\n"
+                "If the query is a chain, try to find the start and end entities"
+                "If the query is a star, identify the central entity and the arms (related items).\n"
                 "If the query does not fit either pattern, classify it as 'other'.\n\n"
-                "Answer in JSON format with the following structure:\n"
-                "{{"
-                "  \"type\": \"chain\" | \"star\" | \"other\",\n"
-                "  \"start\": \"<start entity>\" (if applicable),\n"
-                "  \"end\": \"<end entity>\" (if applicable),\n"
-                "  \"retrieve\": \"<type of connection to retrieve>\" (if applicable),\n"
-                "  \"center\": \"<central entity>\" (if applicable),\n"
-                "  \"arms\": [\"<related item 1>\", \"<related item 2>\", ...] (if applicable)\n"
+                # "Respond with a JSON object that includes the type and relevant entities: \n"
+                # "{{\n "
+                # "  \"type\": \"<chain/star/other>\",\n"
+                # "  \"structure\": \"<start entity> to <end entity>\" if chain, \n"
+                # "  \"structure\": \"<central entity> with arms <related item 1>, <related item 2>, ...\" if star,\n"
+                # "}}"
+                # "Respond with a JSON object that includes the type and relevant entities:\n\n"
+                "If the query is a chain:\n"
+                "{{\n"
+                "  \"type\": \"chain\",\n"
+                "  \"start\": \"<start entity>\",\n"
+                "  \"end\": \"<end entity>\",\n"
+                "}} \n"
+                "If the query is a star:\n"
+                "{{\n"
+                "  \"type\": \"star\",\n"
+                "  \"center\": \"<central entity>\",\n"
+                "  \"arms\": [\"<related item 1>\", \"<related item 2>\", ...]\n"
                 "}}\n"
-                "Return no other text or explanations.\n\n"
+                "NOTE: Respond with ONLY one of these JSON formats, nothing else.\n"
+                "EXAMPLES: Next follow some examples to help you classify the query:\n\n"
+                "Chain_examples: {chain_examples} \n" 
+                "Star_examples: {star_examples}"
+                "\n Given these examples, classify the following query:\n"
             )
             # "You are a query classifier. Classify queries into three types:\n\n"
             # "1. CHAIN QUERY: Asks for a connection, path, or relationship between two specific entities\n"
@@ -86,39 +101,31 @@ class LLMQueryClassifier:
 
         # Build context for chain queries
         chain_contexts = []
-        for ex in self.examples:
-            if ex.get('type') == 'chain':
-                parts = []
-                if ex.get('start'):
-                    parts.append(f"start: {ex['start']}")
-                if ex.get('end'):
-                    parts.append(f"end: {ex['end']}")
-                if ex.get('retrieve'):
-                    parts.append(f"retrieve: {ex['retrieve']}")
-                if parts:
-                    chain_contexts.append(" | ".join(parts))
-
-        # Build context for star queries
         star_contexts = []
-        for ex in self.examples:
-            if ex.get('type') == 'star':
-                parts = []
-                if ex.get('center'):
-                    parts.append(f"center: {ex['center']}")
-                if ex.get('arms'):
-                    parts.append(f"arms: {', '.join(ex['arms'])}")
-                if ex.get('retrieve'):
-                    parts.append(f"retrieve: {ex['retrieve']}")
-                if parts:
-                    star_contexts.append(" | ".join(parts))
-
+        chain_examples = ""
         star_examples = ""
-        chain_examples =  ""
-        for ex, context in zip(self.examples, star_contexts):
-            if ex.get('type') == 'star':
-                star_examples += f"Example: {ex['query']} | Context: {context}\n"
+        for ex in self.examples:
             if ex.get('type') == 'chain':
-                chain_examples += f"Example: {ex['query']} | Context: {context}\n"
+                context = []
+                if ex.get('start'):
+                    context.append(f"start: {ex['start']}")
+                if ex.get('end'):
+                    context.append(f"end: {ex['end']}")
+                if ex.get('retrieve'):
+                    context.append(f"retrieve: {ex['retrieve']}")
+                if context:
+                    chain_examples += f"\n Query: {ex['query']} \n Context: {context}\n Answer: {ex['type']}\n"
+            if ex.get('type') == 'star':
+                context = []
+                if ex.get('center'):
+                    context.append(f"center: {ex['center']}")
+                if ex.get('arms'):
+                    context.append(f"arms: {', '.join(ex['arms'])}")
+                if ex.get('retrieve'):
+                    context.append(f"retrieve: {ex['retrieve']}")
+                if context:
+                    star_examples += f"\n Query: {ex['query']} \n Context: {context}\n Answer: {ex['type']}\n"
+
 
         return self.prompt_template.format(
             chain_examples=chain_examples,
@@ -233,10 +240,10 @@ if __name__ == "__main__":
     # Example usage
     classifier = LLMQueryClassifier(model_name="meta-llama/Llama-3.2-1B-Instruct")
     examples = [
-        {"query": "What Pseudo-identifiers are related to this Lab Test Event?", "type": "chain", "start": "Lab Test Event", "end": "Pseudo-identifiers", "retrieve": "Pseudo-identifiers"},
-        {"query": "What active substances has patient 49150 been prescribed?", "type": "chain", "start": "patient 49150", "end": "active subtstances", "retrieve": "active substances"},
-        {"query": "What medical procedures and diagnoses did patient 102385 have?", "type": "star", "center": "patient 102385", "arms": ["medical procedures", "diagnoses"], "retrieve": "medical procedures and diagnoses"},
-        {"query": "What Coding System, Code and Lab Test event are related to this diagnosis?", "type": "star", "center": "diagnosis", "arms": ["Coding System", "Code", "Lab Test Event"], "retrieve": "Coding System, Code and Lab Test Event"},
+        {"query": "What Pseudo-identifiers are related to this Lab Test Event?", "type": "chain", "start": "Lab Test Event", "end": "Pseudo-identifiers"},
+        {"query": "What active substances has patient 49150 been prescribed?", "type": "chain", "start": "patient 49150", "end": "active subtstances"},
+        {"query": "What medical procedures and diagnoses did patient 102385 have?", "type": "star", "center": "patient 102385", "arms": ["medical procedures", "diagnoses"]},
+        {"query": "What Coding System, Code and Lab Test event are related to this diagnosis?", "type": "star", "center": "diagnosis", "arms": ["Coding System", "Code", "Lab Test Event"]},
     ]
     classifier.examples = examples
     # print(classifier.prompt_template.format(
@@ -245,3 +252,4 @@ if __name__ == "__main__":
     # ))
     print(classifier._create_prompt("What substances and diagnoses are related to this Lab Test Event?"))
     print(classifier.classify("What substances are related to this Lab Test Event?"))
+    print(classifier.classify("What substances and diagnoses are related to this Lab Test Event?"))

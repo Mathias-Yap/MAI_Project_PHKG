@@ -10,7 +10,7 @@ from rdflib import Graph, URIRef, RDF, RDFS, OWL, XSD
 from typing import Tuple
 
 
-from utils.graph import load_graph
+from src.utils.graph import load_graph
 
 src_dir = os.path.dirname(os.path.dirname(__file__))
 vector_store_class = os.path.join(src_dir, "vector_stores/classes.index")

@@ -1,14 +1,17 @@
 """
 Pytest for Concept Retrieval using Vector Store
+
+Run by: pytest -m tests/test_concept_retrieval.py
 """
 import yaml
 import time
 import pandas as pd
+import pytest
 
 from src.logical_form_generation.vector_store import VectorStore
 
 # Load Test Questions
-file = "test_questions.yml"
+file = "tests/test_questions.yml"
 with open(file, "r") as f:
     test_settings = yaml.safe_load(f)
     questions = test_settings["test_questions"]
@@ -17,17 +20,18 @@ with open(file, "r") as f:
 vector_store = VectorStore()
 
 # Test the vector store with each question
+# @pytest.mark.parametrize("question_id", questions.keys())
 def test_concept_retrieval_vector_store_alone():
     results = []
 
     for question_id in questions.keys():
         expected_classes =  questions[question_id]['classes']
-        expected_predicates = questions[question_id]['object_properties']
+        expected_predicates = questions[question_id]['predicates']
 
         tik = time.time()
 
         # Prediction Step
-        found_classes, found_predicates  = vector_store.query(questions[question_id]["question"])
+        found_classes, found_predicates  = vector_store.query(questions[question_id]["question_en"])
 
         # Calculate the results
         tok = time.time()
@@ -49,21 +53,22 @@ def test_concept_retrieval_vector_store_alone():
     df.to_csv("results/test_concept_retrieval_vector_store_alone.csv")
         
 # Test the vector store and connecting with each question
+# @pytest.mark.parametrize("question_id", questions.keys())
 def test_concept_retrieval_with_connecting():
     results = []
 
     for question_id in questions.keys():
         expected_classes =  questions[question_id]['classes']
-        expected_predicates = questions[question_id]['object_properties']
+        expected_predicates = questions[question_id]['predicates']
 
         tik = time.time()
 
         # Prediction Step
-        found_classes, found_datatype_properties  = vector_store.query(questions[question_id]["question"])
+        found_classes, found_datatype_properties  = vector_store.query(questions[question_id]["question_en"])
 
         # Connecting classes and predicates
-        found_classes = list(found_classes) + # ... TODO: Find connecting classes and their predicates
-        found_predicates = list(found_datatype_properties) # ... TODO: +  (object_properties)
+        found_classes = list(found_classes) # + ... TODO: Find connecting classes and their predicates
+        found_predicates = list(found_datatype_properties) # ... + TODO:  (object_properties)
 
         # Calculate the results
         tok = time.time()

@@ -74,6 +74,7 @@ def get_classes(graph: Graph) -> Tuple[list[dict], list[str]]:
         metadatas.append(
             {
                 "uri": str(class_node),
+                "type": "class",
                 "label": class_label,
                 "comment": str(comment) if comment else None,
                 "relations": sorted(relations),
@@ -85,6 +86,48 @@ def get_classes(graph: Graph) -> Tuple[list[dict], list[str]]:
             if relations:
                 text += "\nRelations:\n" + "\n".join(sorted(relations))
             text_representations.append(text)
+
+    return metadatas, text_representations
+
+def get_datatypes(graph: Graph) -> Tuple[list[dict], list[str]]:
+    """
+    Extracts datatype property metadata and their domains/ranges.
+    Returns:
+        Tuple of metadata dicts and textual summaries.
+    """
+
+    def get_label(node):
+        return str(graph.value(node, RDFS.label)) if node else None
+
+    metadatas = []
+    text_representations = []
+
+    for prop in graph.subjects(RDF.type, OWL.DatatypeProperty):
+        label = get_label(prop)
+        comment = graph.value(prop, RDFS.comment)
+        domains = list(graph.objects(prop, RDFS.domain))
+        ranges = list(graph.objects(prop, RDFS.range))
+
+        if not domains or not ranges:
+            continue
+
+        for domain in domains:
+            for range_ in ranges:
+                metadatas.append(
+                    {
+                        "uri": str(prop),
+                        "type": "datatype_property",
+                        "label": label,
+                        "domain": str(domain),
+                        "range": str(range_),
+                        "comment": str(comment) if comment else None,
+                    }
+                )
+
+                text = f"{domain} -> {label} -> {range_}"
+                if comment:
+                    text += f"\nDescription: {comment}"
+                text_representations.append(text)
 
     return metadatas, text_representations
 
@@ -126,7 +169,13 @@ class VectorStore:
         Args:
             ontology (Graph): The graph object to create the vector store from.
         """
+        # Classes
         metadatas, text_representations = get_classes(ontology)
+
+        # Datatype properties
+        metadatas_, text_representations_ = get_datatypes(ontology)
+        metadatas.extend(metadatas_)
+        text_representations.extend(text_representations_)
 
         # Create a vector store from the text representations and metadata
         vector_store = FAISS.from_texts(
@@ -176,7 +225,8 @@ class VectorStore:
             doc = self.nlp(query)
             return [chunk.text for chunk in doc.noun_chunks]
 
-        hits = set()
+        classes = set()
+        properties = set()
 
         for concept in extract_concepts(query):
             results = self.vector_store.similarity_search_with_score(concept, k=k)
@@ -186,7 +236,10 @@ class VectorStore:
                         print(
                             f"Concept: {concept}, Score: {score}, Metadata: {result.metadata}"
                         )
-                    hits.add(result.metadata["uri"])
+                    if result.metadata["type"] == "class":
+                        classes.add(result.metadata["uri"])
+                    else:
+                        properties.add(result.metadata["uri"])
 
-        return hits
+        return classes, properties
 

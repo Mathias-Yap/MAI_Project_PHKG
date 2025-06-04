@@ -1,8 +1,9 @@
 """
-This file measures the perforance of queryign a question on the vector store
+Pytest for Concept Retrieval using Vector Store
 """
 import yaml
 import time
+import pandas as pd
 
 from src.logical_form_generation.vector_store import VectorStore
 
@@ -42,6 +43,10 @@ def test_concept_retrieval_vector_store_alone():
                 "time": tik - tok,
             }
         )
+
+    # Save results as pandas dataframe
+    df = pd.DataFrame(results)
+    df.to_csv("results/test_concept_retrieval_vector_store_alone.csv")
         
 # Test the vector store and connecting with each question
 def test_concept_retrieval_with_connecting():
@@ -74,5 +79,7 @@ def test_concept_retrieval_with_connecting():
                 "time": tik - tok,
             }
         )
-
-
+    
+    # Save results as pandas dataframe
+    df = pd.DataFrame(results)
+    df.to_csv("results/test_concept_retrieval_with_connecting.csv")

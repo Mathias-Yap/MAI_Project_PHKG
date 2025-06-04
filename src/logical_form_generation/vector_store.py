@@ -241,5 +241,5 @@ class VectorStore:
                     else:
                         properties.add(result.metadata["uri"])
 
-        return classes, properties
+        return list(classes), list(properties)
 

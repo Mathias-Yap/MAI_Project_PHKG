@@ -20,7 +20,7 @@ test_questions:
     classes: [
       Code,
       LabTestEvent,
-      LabResult,
+      LabResult,  # TODO: I think this is absolute
       DrugPrescription,
       SubjectPseudoIdentifier,
     ]

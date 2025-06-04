@@ -1,3 +1,5 @@
+# TODO: optional addition of queries in here
+
 test_questions:
   # Simple complexity questions
   1.1:
@@ -7,7 +9,9 @@ test_questions:
       "Diagnosis",
       "SubjectPseudoIdentifier",
     ],
-    datatype_properties: [],
+    predicates: [
+      "hasSubjectPseudoIdentifier",
+    ],
     center_start: "",
     shape: "",
 
@@ -20,7 +24,11 @@ test_questions:
       "DrugPrescription",
       "SubjectPseudoIdentifier",
     ],
-    datatype_properties: [],
+    predicates: [
+      "hasSubjectPseudoIdentifier",
+      "hasLabTest",
+      "hasCode",
+    ],
     center_start: "",
     shape: "",
 
@@ -33,7 +41,10 @@ test_questions:
       "Diagnosis",
       "SubjectPseudoIdentifier",
     ],
-    datatype_properties: [],
+    predicates: [
+      "hasSubjectPseudoIdentifier",
+      "hasLabTest",
+    ],
     center_start: "",
     shape: "",
 
@@ -44,7 +55,10 @@ test_questions:
       "DrugPrescription",
       "Drug",
     ],
-    datatype_properties: [],
+    predicates: [
+      "hasDrug",
+      "hasActiveIngredient",
+    ],
     center_start: "",
     shape: "",
 
@@ -56,7 +70,11 @@ test_questions:
       "LabResult",
       "SubjectPseudoIdentifier",
     ],
-    datatype_properties: [],
+    predicates: [
+      "hasSubjectPseudoIdentifier",
+      "hasLabTest",
+      "hasCode",  # TODO: I think this is absolute
+    ],
     center_start: "",
     shape: "",
 
@@ -69,7 +87,12 @@ test_questions:
       "Diagnosis",
       "SubjectPseudoIdentifier",
     ],
-    datatype_properties: [],
+    predicates: [
+      "hasSubjectPseudoIdentifier",
+      "hasDrug",
+      "hasCode",  # TODO: I think this is absolute
+      "hasActiveIngredient",
+    ],
     center_start: "",
     shape: "",
 
@@ -82,7 +105,11 @@ test_questions:
       "CodingSystemVersion",
       "SubjectPseudoIdentifier",
     ],
-    datatype_properties: [],
+    predicates: [
+      "hasSubjectPseudoIdentifier",
+      "hasCode",
+      "hasCodingSystemAndVersion",
+    ],
     center_start: "",
     shape: "",
 
@@ -97,6 +124,10 @@ test_questions:
       "MedicalProcedure",
       "SubjectPseudoIdentifier",
     ],
-    datatype_properties: ["hasCodingSystemAndVersion"],
+    predicates: [
+      "hasSubjectPseudoIdentifier",
+      "hasDrug",
+      # "hasLabTest", # TODO: I think this is missing
+    ],
     center_start: "",
     shape: "",

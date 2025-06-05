@@ -149,7 +149,7 @@ class QuestionTemplateVectorStore:
     def query(
         self, 
         query: str, 
-        threshold: float = 0.8, 
+        threshold: float = 0.01,
         k: int = 3, 
         debug: bool = False
     ) -> List[Dict]:
@@ -172,7 +172,7 @@ class QuestionTemplateVectorStore:
         
         for result, score in results:
             # Check similarity threshold
-            if score <= threshold:
+            if score >= threshold:
                 query_placeholders = result.metadata.get('query_placeholders', [])
                 question_placeholders = result.metadata.get('question_placeholders', [])
                 template_info = {

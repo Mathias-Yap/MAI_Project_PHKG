@@ -149,7 +149,7 @@ class QuestionTemplateVectorStore:
     def query(
         self, 
         query: str, 
-        threshold: float = 0.01,
+        threshold: int = 200,
         k: int = 3, 
         debug: bool = False
     ) -> List[Dict]:
@@ -172,7 +172,7 @@ class QuestionTemplateVectorStore:
         
         for result, score in results:
             # Check similarity threshold
-            if score >= threshold:
+            if score <= threshold:
                 query_placeholders = result.metadata.get('query_placeholders', [])
                 question_placeholders = result.metadata.get('question_placeholders', [])
                 template_info = {
@@ -263,7 +263,6 @@ class QuestionTemplateVectorStore:
         
         return templates
 
-
 # Example usage and helper functions
 def create_sample_templates() -> List[Dict]:
     """
@@ -309,7 +308,7 @@ if __name__ == "__main__":
     question_store = QuestionTemplateVectorStore(qq_data=sample_templates)
     
     # Query for similar questions
-    test_query = "How many substance samples are there?"
+    test_query = "Can you tell me how many samples there exist that contain substance 101234?"
     
     # Query without filters
     all_matches = question_store.query(test_query, debug=True)
@@ -323,29 +322,13 @@ if __name__ == "__main__":
     )
     print(f"Found {len(substance_matches)} substance matches for: '{test_query}'")
     print()
-    
-    # Show template instantiation example
-    if substance_matches:
-        best_match = substance_matches[0]
-        print("Template instantiation example:")
-        print(f"Original question template: {best_match['question_template']}")
-        print(f"Original query template: {best_match['query_template']}")
-        
-        # Instantiate with actual values
-        replacements = {
-            'substance': 'aspirin',
-            'substance_uri': '<http://example.org/substance/aspirin>'
-        }
-        
-        instantiated_q, instantiated_sparql = question_store.instantiate_template(
-            best_match['question_template'],
-            best_match['query_template'],
-            replacements
-        )
-        
-        print(f"Instantiated question: {instantiated_q}")
-        print(f"Instantiated query: {instantiated_sparql}")
-    
+    print("Substance Matches:")
+    for match in substance_matches:
+        print(f"Question: {match['question_template']}")
+        print(f"Query: {match['query_template']}")
+        print(f"Placeholders: {match['question_placeholders']}, {match['query_placeholders']}")
+        print(f"Score: {match['similarity_score']}")
+        print("-" * 50)
     
     # Show all templates with placeholders
     all_templates = question_store.list_all_templates()

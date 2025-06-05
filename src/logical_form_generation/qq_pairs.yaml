@@ -1,0 +1,9 @@
+- question: How many substances does {DRUG} contain?
+  query: SELECT COUNT(DISTINCT substance) FROM substance WHERE drug = {{DRUG}}
+- question: Is there a patient that has taken both {DRUG1} and {DRUG2}?
+  query: SELECT COUNT(DISTINCT patient) FROM drug WHERE drug IN ({{DRUG1}}, {{DRUG2}}) GROUP BY patient HAVING COUNT(DISTINCT drug) = 2
+# comment: the above queries are just examples, you can add more pairs as needed
+# IMPORTANT: single curly braces are used for placeholder classes in the questions, 
+# double curly braces are used for placeholders in the queries
+# The placeholders should contain class names defined in the ontology. If there are multiple 
+# placeholders in the question with the same class, they should have a number suffix, e.g. {DRUG1}, {DRUG2}.

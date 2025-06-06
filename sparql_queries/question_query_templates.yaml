@@ -1,13 +1,13 @@
-- Query: SELECT ?patient WHERE {?patient sphn:Diagnosis {{Diagnosis}}.}
+- Query: SELECT ?patient WHERE {{{Diagnosis}} sphn:hasSubjectPseudoIdentifier ?patient.}
   Question: Who are the patients diagnosed with {Diagnosis}?
 - Query: SELECT ?drug WHERE {?prescription sphn:hasSubjectPseudoIdentifier {{SubjectPseudoIdentifier}};
     sphn:hasDrug ?drug .}
   Question: What drugs have been prescribed to a {SubjectPseudoIdentifier}?
 - Query: SELECT ?testEvent WHERE {?testEvent sphn:hasSubjectPseudoIdentifier {SubjectPseudoIdentifier}
-    .}
+    . ?testEvent a sphn:LabTestEvent}
   Question: List all lab test events for {SubjectPseudoIdentifier}.
-- Query: SELECT ?procedure WHERE {?procedure sphn:MedicalProcedure {SubjectPseudoIdentifier}
-    .}
+- Query: SELECT ?procedure WHERE {{{SubjectPseudoIdentifier}} sphn:hasSubjectPseudoIdentifier
+    ?procedure . }
   Question: List all medical procedures performed on {SubjectPseudoIdentifier}.
 - Query: SELECT ?disease WHERE {?labTestEvent sphn:hasCode {{LabTestEvent}}; sphn:hasSubjectPseudoIdentifier
     ?patient . ?disease sphn:hasSubjectPseudoIdentifier ?patient .}

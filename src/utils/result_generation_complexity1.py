@@ -5,7 +5,7 @@ import pandas as pd
 
 g = Graph()
 
-##g.parse(r'/content/drive/MyDrive/RDF files/rdf_100_sphn.txt', format="turtle")
+##g.parse(r'/content/drive/MyDrive/RDF files/rdf_100_sphn.nt', format="turtle")
 
 
 sample_size = 400

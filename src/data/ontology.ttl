@@ -1,0 +1,88 @@
+@prefix sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+# Classes
+#################################################################
+
+sphn:Diagnosis a owl:Class ;
+    rdfs:label "Diagnosis" ;
+    rdfs:comment "Determination of the presence of a disease, condition, or injury from expressed signs and symptoms and assessments such as physical examination, laboratory test, or the like." .
+
+sphn:Drug a owl:Class ;
+    rdfs:label "Drug" ;
+    rdfs:comment "Any substance with the intent to prevent, diagnose, treat, or relieve symptoms of a disease or abnormal condition." .
+
+sphn:DrugPrescription a owl:Class ;
+    rdfs:label "Drug Prescription" ;
+    rdfs:comment "Plan that defines at which frequency a drug should be administered to a patient with a given quantity; at every frequency time point a drug administration event should occur." .
+
+sphn:LabResult a owl:Class ;
+    rdfs:label "Lab Result" ;
+    rdfs:comment "Outcome, value, or information which gives insight about a laboratory test." .
+
+sphn:LabTestEvent a owl:Class ;
+    rdfs:label "Lab Test Event" ;
+    rdfs:comment "Occurrence in which one or multiple laboratory tests are performed on a biological specimen at a given time." .
+
+sphn:MedicalProcedure a owl:Class ;
+    rdfs:label "Medical Procedure" ;
+    rdfs:comment "Invasive or non-invasive intervention performed for, with or on behalf of an individual whose purpose is to assess, improve, maintain, promote or modify health, functioning or health conditions." .
+
+sphn:SubjectPseudoIdentifier a owl:Class ;
+    rdfs:label "Patient Identifier" ;
+    rdfs:comment "A coded unique identifier assigned by a data provider for a specific project to conceal the identity of an individual." .
+
+sphn:Substance a owl:Class ;
+    rdfs:label "Substance" ;
+    rdfs:comment "Any matter of defined composition that has discrete existence, whose origin may be biological, mineral or chemical." .
+
+sphn:Code a owl:Class ;
+    rdfs:label "Code" ;
+    rdfs:comment "Symbols and/or expressions defined in a coding system." .
+
+#################################################################
+# Object Properties
+#################################################################
+
+sphn:hasActiveIngredient a owl:ObjectProperty ;
+    rdfs:label "has Active Ingredient" ;
+    rdfs:comment "Active component of the concept." ;
+    rdfs:domain sphn:Drug ;
+    rdfs:range sphn:Substance .
+
+sphn:hasCode a owl:ObjectProperty ;
+    rdfs:label "has Code" ;
+    rdfs:comment "Coded information specifying the concept." ;
+    rdfs:domain sphn:Diagnosis, sphn:LabResult, sphn:MedicalProcedure, sphn:Substance ;
+    rdfs:range sphn:Code .
+
+sphn:hasDrug a owl:ObjectProperty ;
+    rdfs:label "has Drug" ;
+    rdfs:comment "Medication associated to the concept." ;
+    rdfs:domain sphn:DrugPrescription ;
+    rdfs:range sphn:Drug .
+
+sphn:hasLabTest a owl:ObjectProperty ;
+    rdfs:label "has Lab Test" ;
+    rdfs:comment "Lab test associated to the concept." ;
+    rdfs:domain sphn:LabTestEvent ;
+    rdfs:range sphn:LabResult .
+
+sphn:hasSubjectPseudoIdentifier a owl:ObjectProperty ;
+    rdfs:label "has Subject Pseudo Identifier" ;
+    rdfs:domain sphn:Diagnosis, sphn:DrugPrescription, sphn:LabTestEvent, sphn:MedicalProcedure ;
+    rdfs:range sphn:SubjectPseudoIdentifier .
+
+#################################################################
+# Datatype Properties
+#################################################################
+
+sphn:hasCodingSystemAndVersion a owl:DatatypeProperty ;
+    rdfs:label "has Coding System and Version" ;
+    rdfs:comment "Name and version of the coding system." ;
+    rdfs:domain sphn:Code ;
+    rdfs:range xsd:string .

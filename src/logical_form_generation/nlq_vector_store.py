@@ -41,7 +41,13 @@ class QuestionTemplateVectorStore:
         elif yaml_file is not None:
             with open(yaml_file, 'r') as file:
                 question_templates = yaml.safe_load(file)
-            self.vector_store = self.create_vector_store(question_templates)
+                # If the YAML file contains keys "Question" and "Query", rename them to "question_template" and "query_template"
+                for template in question_templates:
+                    if "Question" in template:
+                        template["question_template"] = template.pop("Question")
+                    if "Query" in template:
+                        template["query_template"] = template.pop("Query")
+                self.vector_store = self.create_vector_store(question_templates)
         elif qq_data is not None:
             self.vector_store = self.create_vector_store(qq_data)
         else:
@@ -274,41 +280,44 @@ def create_sample_templates() -> List[Dict]:
     """
     return [
         {
-            'question_template': "What is the definition of {substance}?",
+            'question_template': "How many patients have {x.type} {x.value}",
             'query_template': "SELECT ?definition WHERE { {{substance_uri}} rdfs:comment ?definition }"
         },
-        {
-            'question_template': "What are the properties of {patient}?",
-            'query_template': "SELECT ?property WHERE { ?property rdfs:domain {{patient_uri}} }"
-        },
-        {
-            'question_template': "What treatments are available for {patient}?",
-            'query_template': "SELECT ?treatment WHERE { {{patient_uri}} :hasTreatment ?treatment }"
-        },
-        {
-            'question_template': "How many {substance} samples are there?",
-            'query_template': "SELECT (COUNT(?sample) as ?count) WHERE { ?sample rdf:type {{substance_uri}} }"
-        },
-        {
-            'question_template': "What is the dosage for {substance}?",
-            'query_template': "SELECT ?dosage WHERE { {{substance_uri}} :hasDosage ?dosage }"
-        },
-        {
-            'question_template': "What is the interaction between {substance1} and {substance2}?",
-            'query_template': "SELECT ?interaction WHERE { {{substance1_uri}} :interactsWith {{substance2_uri}} . {{substance1_uri}} :hasInteraction ?interaction }"
+        {   'question_template': "How many patients have {x.type} {x.value} that contains {y.type} {y.value}",       
+            'query_template': "SELECT ?definition WHERE { {{substance_uri}} rdfs:comment ?definition . {{substance_uri}} :contains {{substance2_uri}} }"
         }
+        # {
+        #     'question_template': "What are the properties of {patient}?",
+        #     'query_template': "SELECT ?property WHERE { ?property rdfs:domain {{patient_uri}} }"
+        # },
+        # {
+        #     'question_template': "What treatments are available for {patient}?",
+        #     'query_template': "SELECT ?treatment WHERE { {{patient_uri}} :hasTreatment ?treatment }"
+        # },
+        # {
+        #     'question_template': "How many {substance} samples are there?",
+        #     'query_template': "SELECT (COUNT(?sample) as ?count) WHERE { ?sample rdf:type {{substance_uri}} }"
+        # },
+        # {
+        #     'question_template': "What is the dosage for {substance}?",
+        #     'query_template': "SELECT ?dosage WHERE { {{substance_uri}} :hasDosage ?dosage }"
+        # },
+        # {
+        #     'question_template': "What is the interaction between {substance1} and {substance2}?",
+        #     'query_template': "SELECT ?interaction WHERE { {{substance1_uri}} :interactsWith {{substance2_uri}} . {{substance1_uri}} :hasInteraction ?interaction }"
+        # }
     ]
 
 
 if __name__ == "__main__":
     # Example usage
     sample_templates = create_sample_templates()
-    
+     
     # Create a new vector store with sample templates
-    question_store = QuestionTemplateVectorStore(qq_data=sample_templates)
+    question_store = QuestionTemplateVectorStore(yaml_file = "/home/mathiasyap/Code/university/phkg/MAI_Project_PHKG/sparql_queries/question_query_templates.yaml")
     
     # Query for similar questions
-    test_query = "Can you tell me how many samples there exist that contain substance 101234?"
+    test_query ="List all medical procedures performed on patient 120356"
     
     # Query without filters
     all_matches = question_store.query(test_query, debug=True)
@@ -320,7 +329,7 @@ if __name__ == "__main__":
         test_query, 
         debug=True
     )
-    print(f"Found {len(substance_matches)} substance matches for: '{test_query}'")
+    print(f"Found {len(substance_matches)} query matches for: '{test_query}'")
     print()
     print("Substance Matches:")
     for match in substance_matches:

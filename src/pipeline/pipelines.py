@@ -1,6 +1,6 @@
 from .pipeline_stages import PipelineStep
 from .rag_answer_llm import RetrievalAugmentedAnswerLLM
-from src.pipeline.simple_llm_query_generator import SimpleLLMQueryGenerator
+from .simple_llm_query_generator import SimpleLLMQueryGenerator
 from .query_engine_component import QueryExecutorStep
 
 

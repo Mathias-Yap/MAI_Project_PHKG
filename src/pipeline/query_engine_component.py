@@ -3,12 +3,12 @@ import time
 import millenniumdb_driver
 from neo4j import GraphDatabase, Result
 import docker
-from .pipeline_stages import PipelineStep
+from . import pipeline_stages
 import subprocess
 import os
 
 
-class QueryExecutorStep(PipelineStep):
+class QueryExecutorStep(pipeline_stages.PipelineStep):
     def __init__(self, engine_name="avantgraph", query_format="sparql", graph_path=None, verbose=False,
                  construct_graph=False,windows=True):
         """
@@ -23,8 +23,10 @@ class QueryExecutorStep(PipelineStep):
             self.query_engine = self.initialize_query_engine(engine_name, graph_path, construct_graph,
                                                          "")
         else:
-            self.query_engine = self.initialize_query_engine(engine_name, graph_path, construct_graph,
-                                                         "unix:///home/johannes/.docker/desktop/docker.sock")
+            # if you're johannes, uncomment
+            # self.query_engine = self.initialize_query_engine(engine_name, graph_path, construct_graph,
+            #                                              "unix:///home/johannes/.docker/desktop/docker.sock")
+            self.query_engine = self.initialize_query_engine(engine_name, graph_path, construct_graph)
 
     def run(self, data, **kwargs):
         """

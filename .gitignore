@@ -2,7 +2,7 @@
 
 
 # Ignore all folders in data xcept the rdf .nt files
-!data/
-
+!data/*.nt
+!src/data/*.nt 
 .env
 venv

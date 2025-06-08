@@ -3,7 +3,7 @@ from rdflib import Graph
 from . import pipeline_stages
 from .llm import llm_pipeline
 
-from src.utils.graph import load_graph
+from utils.graph import load_graph
 import json
 
 PROMPT = """
@@ -71,12 +71,35 @@ Here is some additional content you might want to consider:
 
 """
 
+VALIDATION_PROMPT = """
+Task: Fix a SPARQL SELECT statement for querying a graph database that returned an error.
+This query is supposed to answer some question, but it caused an error when executed.
+Instructions:
+Fix ONLY the error that is provided. Do not significantly change the structure of the query, but fix it to be valid.
+The query should still answer the original question.
+
+The ontology is:
+{ontology}
+
+Note: Be as concise as possible.
+Do not include any explanations or apologies in your responses.
+Do not respond to any questions that ask for anything else than for you to construct a SPARQL query.
+Do not include any text except for the SPARQL query generated.
+
+Here is the SPARQL query that caused an error:
+{query}
+
+Here is the error message:
+{error}
+"""
 import re
 import time
 
 class SimpleLLMQueryGenerator(pipeline_stages.QueryGenerator):
     def __init__(self, model_name: str):
         super().__init__()
+        self.tries = 0
+        self.max_tries = 3
         self.model_name = model_name
         self.llm_model_pipeline = llm_pipeline.ModelPipeline(self.model_name)
         self.vocabulary = ""
@@ -101,6 +124,7 @@ class SimpleLLMQueryGenerator(pipeline_stages.QueryGenerator):
             return response.strip()
 
         raise ValueError("No valid SPARQL query found in response.")
+    
 
     def run(self, data=None, **kwargs):
         natural_language_question = kwargs.get("natural_language_question")
@@ -123,21 +147,47 @@ class SimpleLLMQueryGenerator(pipeline_stages.QueryGenerator):
         )
         print(f"Prompt: {prompt}")
 
-        max_retries = 3
-        for attempt in range(1, max_retries + 1):
-            print(f"\n🧠 Attempt {attempt}: Prompting LLM...\n")
+        while( self.tries < self.max_tries):
+            print(f"\n🧠 Attempt {self.tries}: Prompting LLM...\n")
             raw_output = self.llm_model_pipeline.generate(prompt, system_prompt)
             print("📥 Raw LLM Output:\n", raw_output)
-
             try:
                 query = self.extract_sparql(raw_output)
                 print("\n✅ Final SPARQL Query:\n", query)
                 return {"query": query}
             except Exception as e:
-                print(f"\n⚠️ Parsing failed on attempt {attempt}: {e}")
+                print(f"\n Parsing failed on attempt {self.tries}: {e}")
                 time.sleep(1)
 
         raise RuntimeError("❌ All attempts to extract a valid SPARQL query failed.")
+
+
+    def handle_query_error(self, query:str, error: str, **kwargs):
+        error_message = f"This SPARQL query returned an error: {error}. Fix the query and try again. Again, do not include any explanations or apologies in your responses." 
+        self.tries += 1
+        system_prompt = (
+            "You are a system that returns only raw SPARQL queries. "
+            "Do NOT include explanations, JSON, or any other formatting. "
+            "Return only the SPARQL query, optionally inside triple backticks."
+        )
+        prompt = (
+            VALIDATION_PROMPT.format(
+            ontology=self.vocabulary,
+            query=query,
+            error=error_message
+            )
+        )
+        raw_output = self.llm_model_pipeline.generate(prompt, system_prompt)
+        try:
+            print("Query fixing prompt: " + error_message)
+            fixed_query = self.extract_sparql(raw_output)
+            print("\n✅ Fixed SPARQL Query:\n", fixed_query)
+            return {"query": fixed_query}
+        except Exception as e:
+            print(f"\n⚠️ Failed to extract fixed query: {e}")
+            if self.tries >= self.max_tries:
+                self.tries = 0
+                raise RuntimeError("All attempts to fix the SPARQL query failed.")
 
 
 def main():

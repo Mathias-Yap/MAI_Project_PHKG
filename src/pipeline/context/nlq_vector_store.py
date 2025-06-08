@@ -42,10 +42,11 @@ class QuestionTemplateVectorStore:
                 question_templates = yaml.safe_load(file)
                 # If the YAML file contains keys "Question" and "Query", rename them to "question_template" and "query_template"
                 for template in question_templates:
-                    if "Question" in template:
-                        template["question_template"] = template.pop("Question")
-                    if "Query" in template:
-                        template["query_template"] = template.pop("Query")
+                    for key in list(template.keys()):
+                        if key.lower() == "question":
+                            template["question_template"] = template.pop(key)
+                        elif key.lower() == "query":
+                            template["query_template"] = template.pop(key)
                 self.vector_store = self.create_vector_store(question_templates)
         elif qq_data is not None:
             self.vector_store = self.create_vector_store(qq_data)

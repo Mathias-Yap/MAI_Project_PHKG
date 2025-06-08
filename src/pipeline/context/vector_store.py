@@ -7,14 +7,37 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from rdflib import Graph, URIRef, RDF, RDFS, OWL, XSD
 from typing import Tuple
 
-from utils.graph import load_graph
-
 src_dir = os.path.dirname(os.path.dirname(__file__))
 vector_store_class = os.path.join(src_dir, "vector_stores/classes.index")
 
 
 model_name: str = "mixedbread-ai/mxbai-embed-large-v1"
+def load_graph(
+    file_name: str | None = None,
+) -> Graph:
+    """
+    Load a specific graph from the dataset.
 
+    Args:
+        file_name (str | None): The name of the ttl file without the extension.
+
+    Returns:
+        Graph: The graph object.
+    """
+    if file_name is None:
+        raise ValueError("Either 'file_name' or 'dataset' must be provided.")
+
+    # Get the graph
+    graph = Graph()
+    graph.parse(
+        os.path.join(
+            "src/data",
+            f"{file_name}.ttl",
+        ),
+        format="turtle",
+    )
+
+    return graph
 
 def get_classes(graph: Graph) -> Tuple[list[dict], list[str]]:
     """

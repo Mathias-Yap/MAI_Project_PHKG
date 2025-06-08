@@ -1,0 +1,37 @@
+- Query: SELECT ?patient WHERE { ?patient sphn:hasDiagnosis ?diag . ?diag sphn:hasCode
+    ?code . ?code sphn:hasValue {{Diagnosis}} . }
+  Question: 'Question: Which patients have been diagnosed with {Diagnosis}?'
+- Query: SELECT ?patient WHERE { ?event sphn:hasSubjectPseudoIdentifier ?patient .
+    ?event sphn:hasLabResult ?res . ?res sphn:hasQuantityValue ?val . FILTER(?val
+    >{{Threshold}}) }
+  Question: 'Question : Which patient’s lab results have surpassed the threshold of
+    {Threshold}?'
+- Query: SELECT ?patient WHERE { ?patient sphn:hasDiagnosis ?diag . ?diag sphn:hasCode
+    ?code . ?code sphn:hasValue {{Diagnosis}} . ?event sphn:hasSubjectPseudoIdentifier
+    ?patient . ?event sphn:hasLabResult ?res . ?res sphn:hasQuantityValue ?val . FILTER(?val
+    > {{Threshold}}) }
+  Question: 'Question : Which patient has been diagnosed with {Diagnosis} and had
+    a lab result surpass the threshold of {Threshold}?'
+- Query: ?patient WHERE { ?presc sphn:hasSubjectPseudoIdentifier ?patient . ?presc
+    sphn:hasDrug ?drug . ?drug sphn:hasCode ?code . ?code sphn:hasValue {{Drug}} }
+  Question: Which patients have taken {Drug}?
+- Query: SELECT (COUNT(DISTINCT ?patient) AS ?numPatients) WHERE { ?patient sphn:hasDiagnosis
+    ?diag . ?diag sphn:hasCode ?code . ?code sphn:hasValue {{Diagnosis}} . }
+  Question: How many patients are there who have been diagnosed with {Diagnosis}?
+- Query: SELECT ?site (COUNT(DISTINCT ?patient) AS ?count) WHERE { ?event rdf:type
+    sphn:EnrollmentEvent . ?event sphn:hasSite ?site . ?event sphn:hasSubjectPseudoIdentifier
+    ?patient . } GROUP BY ?site
+  Question: How many patients have enrolled per site?
+- Query: SELECT ?patient WHERE { ?patient sphn:hasBirthDate ?dob . BIND(year(NOW())
+    - year(?dob) AS ?age) FILTER(?age >= {{Age}}) }
+  Question: What patients are over the age of {Age}?
+- Query: SELECT ?patient WHERE { { ?patient sphn:hasDiagnosis ?diag . ?diag sphn:hasCode
+    ?code . ?code sphn:hasValue {{Diagnosis1}} .} UNION { ?patient sphn:hasDiagnosis
+    ?diag . ?diag sphn:hasCode ?code . ?code sphn:hasValue {{Diagnosis2}} . } }
+  Question: Which patients have been diagnosed with {Diagnosis1} or {Diagnosis2}
+- Query: SELECT ?patient WHERE { ?patient sphn:hasDiagnosis ?diag . ?diag sphn:hasCode
+    ?code . ?code sphn:hasValue {{Diagnosis}} . ?event sphn:hasSubjectPseudoIdentifier
+    ?patient . ?event sphn:hasLabResult ?res . ?res sphn:hasQuantityValue ?val . FILTER(?val
+    > {{Threshold}}) }
+  Question: Which patients have been diagnosed with {Diagnosis} and have had a lab
+    test surpass the value {Threshold}?

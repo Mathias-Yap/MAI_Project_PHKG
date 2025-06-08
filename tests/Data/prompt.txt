@@ -1,0 +1,1 @@
+This is the ontology of a graph from sphn about healthcare data. Please generate 100 question-sparql query templates that a clinical trial user might ask based on this graph. Focus on clinically meaningful, data-driven prompts and different question structures. Try to avoid questions related to the Code or Coding System. Also, ensure that the queries are executable.

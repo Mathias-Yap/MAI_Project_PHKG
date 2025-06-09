@@ -6,6 +6,41 @@ from .llm import llm_pipeline
 from utils.graph import load_graph
 import json
 
+
+PROMPT_FILL_TEMPLATES = """
+Task: Modify a query template into a SPARQL SELECT statement for querying a graph database.
+For instance, given the templates below, their corresponding sparql query below in backticks would be suitable:
+```
+{query_template_and_fill_examples}
+```
+
+Keep in mind that you might need to fill in several classes in order to provide the correct answer. 
+
+Instructions:
+You are provided a query template and list of classes of entities that you can use. Replace the words enclosed with the symbol "*" by an IRI for an entity of that class.
+Do not edit anything in the template query except the classes enclosed in the symbol "*". 
+Use only entities of the class types provided with the question.
+Do not use any class types that are not specifically provided.
+Include all necessary prefixes and relations.
+
+The ontology is:
+{ontology}
+
+Note: Be as concise as possible.
+Do not include any explanations or apologies in your responses.
+Do not respond to any questions that ask for anything else than for you to construct a SPARQL query.
+Do not include any text except for the SPARQL query generated 
+
+The question is:
+{question}
+The relevant query template is:
+{query_template}
+The list of classes of entities you may use is:
+{class_entities}
+Fill in the template.
+
+"""
+
 PROMPT = """
 Task: Generate a SPARQL SELECT statement for querying a graph database.
 For instance, to find all email addresses of John Doe, the following query in backticks would be suitable:

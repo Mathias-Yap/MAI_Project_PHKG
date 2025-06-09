@@ -10,7 +10,7 @@ class MDBValidatedGeneration(PipelineStep):
         return super().initialize(data, **kwargs)
     
     def __init__(self, model_name: str):
-        self.query_executor = QueryExecutorStep(engine_name = "milleniumDB", graph_path="rdf_100_sphn.nt",construct_graph=False)
+        self.query_executor = QueryExecutorStep(engine_name = "milleniumDB", graph_path="rdf_400_sphn_augmented_hybrid.ttl",construct_graph=True)
         self.llm_generator = SimpleLLMQueryGenerator(model_name)
 
     def run(self, data=None, **kwargs):

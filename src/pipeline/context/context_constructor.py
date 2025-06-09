@@ -22,6 +22,27 @@ class context_constructor(PipelineStep):
     def initialize(self, data, **kwargs):
         return super().initialize(data, **kwargs)
 
+    def get_template_fill_context(self,question:str):
+        qq_examples = self.nlq_store.query(
+            question
+        )
+        classes = self.class_vector_store.query(
+            question
+        )
+        formatted_examples = "\n".join([
+            f"Question: {example['question_example']}\n"
+            f"Query template: {example['query_template']}\n"
+            f"Filled in query: {example['query_example']}\n"
+            for example in qq_examples
+        ])
+        formatted_classes = "\n".join([f"Class IRI: {cls}" for cls in classes])
+        self.context = (
+            "Next follow template questions and queries related to the natural language question:\n"
+            f"{formatted_examples}\n"
+            "The following class IRIs can be placed in place of the classes enclosed by brackets {{}} in the templates:\n"
+            f"{formatted_classes}\n"
+        )
+        return self.context
     def get_context(self, question: str):
         qq_examples = self.nlq_store.query(
             question

@@ -44,7 +44,10 @@ class QueryExecutorStep(pipeline_stages.PipelineStep):
         sparql_is_path = kwargs.get("sparql_is_path")
         if not sparql_is_path:
             sparql_is_path = False
+        start_time = time.time()
         data["result"]=self.query(query, path=sparql_is_path)
+        end_time = time.time()
+        data["final_query_execution_time"] = end_time - start_time
         return data
 
     def initialize(self, data, **kwargs):
@@ -108,12 +111,13 @@ class QueryExecutorStep(pipeline_stages.PipelineStep):
         :param query: The query to be executed.
         :return: Query results.
         """
-        print(">>> Query being sent to MillenniumDB:\n", query)
+        if self.verbose:
+            print(">>> Query being sent to MillenniumDB:\n", query)
         url = 'http://localhost:1234/'
         driver = millenniumdb_driver.driver(url)
         session = driver.session()
         result = session.run(query)
-        return result
+        return result.data()
 
     def file_to_string(self, path):
         """
@@ -158,8 +162,8 @@ class QueryExecutorStep(pipeline_stages.PipelineStep):
 
             client = docker.DockerClient(
                 base_url=os.getenv("DOCKER_HOST", docker_context))
-
-        print("Checking available images...")
+        if self.verbose:
+            print("Checking available images...")
         for image in client.images.list():
             print(image.tags)
 

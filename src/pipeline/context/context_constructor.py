@@ -1,6 +1,8 @@
 from .nlq_vector_store import QuestionTemplateVectorStore
 from .vector_store import VectorStore
-class context_constructor:
+from pipeline.pipeline_stages import PipelineStep
+class context_constructor(PipelineStep):
+
     def __init__(self,construct_vector_store: bool = False, example_queries_file:str|None = None):
         """_summary_
 
@@ -16,6 +18,9 @@ class context_constructor:
             self.nlq_store = QuestionTemplateVectorStore(yaml_file=example_queries_file)
         else:
             self.nlq_store = QuestionTemplateVectorStore(file_name="questions")
+
+    def initialize(self, data, **kwargs):
+        return super().initialize(data, **kwargs)
 
     def get_context(self, question: str):
         qq_examples = self.nlq_store.query(
@@ -36,6 +41,9 @@ class context_constructor:
             f"{formatted_classes}\n"
         )
         return self.context
+    def run(self,data,**kwargs):
+        data["context"] = self.get_context(data["natural_language_question"])
+        return data
 if __name__ == "__main__":
     constructor = context_constructor()
     context = constructor.get_context("How many substances does drug 12305 contain?")

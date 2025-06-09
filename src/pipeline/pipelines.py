@@ -2,12 +2,11 @@ from .pipeline_stages import PipelineStep
 from .rag_answer_llm import RetrievalAugmentedAnswerLLM
 from .simple_llm_query_generator import SimpleLLMQueryGenerator
 from .query_engine_component import QueryExecutorStep
-
-
 import time
 
 class Pipeline:
-    def __init__(self, steps: list[PipelineStep]):
+    def __init__(self, steps: list[PipelineStep], verbose = False):
+        self.verbose = verbose
         self.steps = steps
 
     def initialize(self, initial_data=None, **kwargs):
@@ -16,15 +15,20 @@ class Pipeline:
             step.initialize(data, **kwargs)
 
     def run(self, initial_data=None, **kwargs):
+        total_start_time = time.time()
         data = initial_data
         for step in self.steps:
             step_name = step.__class__.__name__
-            print(f"▶ Running step: {step_name}")
+            if self.verbose:
+                print(f"▶ Running step: {step_name}")
             start_time = time.time()
             data = step.run(data, **kwargs)
             end_time = time.time()
             duration = end_time - start_time
-            print(f"✅ Step '{step_name}' completed in {duration:.2f} seconds\n")
+            if self.verbose:
+                print(f"✅ Step '{step_name}' completed in {duration:.2f} seconds\n")
+        total_end_time = time.time()
+        data["total_time"] = total_end_time - total_start_time
         return data
 
     def close(self):
@@ -33,7 +37,7 @@ class Pipeline:
 
 
 class InitialPipeline(Pipeline):
-    def __init__(self, steps: list[PipelineStep]):
+    def __init__(self, steps: list[PipelineStep], verbose = False):
         super().__init__(steps)
 
 if __name__ == '__main__':

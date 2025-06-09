@@ -96,13 +96,20 @@ import re
 import time
 
 class SimpleLLMQueryGenerator(pipeline_stages.QueryGenerator):
-    def __init__(self, model_name: str):
+    def __init__(self, model_name: str,verbose = False):
         super().__init__()
+        self.verbose = verbose
         self.tries = 0
         self.max_tries = 3
         self.model_name = model_name
         self.llm_model_pipeline = llm_pipeline.ModelPipeline(self.model_name)
         self.vocabulary = ""
+
+        self.system_prompt = (
+            "You are a system that returns only raw SPARQL queries. "
+            "Do NOT include explanations, JSON, or any other formatting. "
+            "Return only the SPARQL query, optionally inside triple backticks."
+        )
 
     def initialize(self, data=None, **kwargs):
         vocab_path = kwargs.get("vocabulary_path")
@@ -130,46 +137,46 @@ class SimpleLLMQueryGenerator(pipeline_stages.QueryGenerator):
         natural_language_question = kwargs.get("natural_language_question")
         if not natural_language_question:
             raise ValueError("Missing 'natural_language_question' argument.")
-
         context = kwargs.get("context")
         ontology_serialized = load_graph("ontology").serialize(format="turtle")
 
-        system_prompt = (
-            "You are a system that returns only raw SPARQL queries. "
-            "Do NOT include explanations, JSON, or any other formatting. "
-            "Return only the SPARQL query, optionally inside triple backticks."
-        )
 
         prompt = PROMPT_additional_context.format(
             ontology=ontology_serialized,
             question=natural_language_question,
             context=context or ""
         )
-        print(f"Prompt: {prompt}")
+        # print(f"Prompt: {prompt}")
 
         while( self.tries < self.max_tries):
-            print(f"\n🧠 Attempt {self.tries}: Prompting LLM...\n")
-            raw_output = self.llm_model_pipeline.generate(prompt, system_prompt)
-            print("📥 Raw LLM Output:\n", raw_output)
+            if self.verbose:
+                print(f"\n🧠 Attempt {self.tries}: Prompting LLM...\n")
+            raw_output = self.llm_model_pipeline.generate(prompt, self.system_prompt)
+            # raw_output =  """
+            # SELECT (COUNT(?patient) AS ?count)
+            #     WHERE {
+            #       ?patient a <http://www.semanticweb.org/ontologies/2023/10/untitled-ontology-2#Patient> .
+            #       ?patient <http://www.semanticweb.org/ontologies/2023/10/untitled-ontology-2#hasDiagnosis> <http://www.semanticweb.org/ontologies/2023/10/untitled-ontology-2#Diagnosis102358> .
+            #     }
+            #     """
             try:
                 query = self.extract_sparql(raw_output)
-                print("\n✅ Final SPARQL Query:\n", query)
-                return {"query": query}
+                if self.verbose:
+                    print("\n✅ Final SPARQL Query:\n", query)
+                data["query"] = query
+                data["attempts"] = self.tries
+                return data
             except Exception as e:
-                print(f"\n Parsing failed on attempt {self.tries}: {e}")
+                if self.verbose:
+                    print(f"\n Parsing failed on attempt {self.tries}: {e}")
                 time.sleep(1)
 
         raise RuntimeError("❌ All attempts to extract a valid SPARQL query failed.")
 
 
     def handle_query_error(self, query:str, error: str, **kwargs):
-        error_message = f"This SPARQL query returned an error: {error}. Fix the query and try again. Again, do not include any explanations or apologies in your responses." 
+        error_message = f"This SPARQL query returned an error: {error}. Fix this error in the query and try again. Again, do not include any explanations or apologies in your responses." 
         self.tries += 1
-        system_prompt = (
-            "You are a system that returns only raw SPARQL queries. "
-            "Do NOT include explanations, JSON, or any other formatting. "
-            "Return only the SPARQL query, optionally inside triple backticks."
-        )
         prompt = (
             VALIDATION_PROMPT.format(
             ontology=self.vocabulary,
@@ -177,14 +184,20 @@ class SimpleLLMQueryGenerator(pipeline_stages.QueryGenerator):
             error=error_message
             )
         )
-        raw_output = self.llm_model_pipeline.generate(prompt, system_prompt)
+        raw_output = self.llm_model_pipeline.generate(prompt, self.system_prompt)
+        data = {}
         try:
-            print("Query fixing prompt: " + error_message)
             fixed_query = self.extract_sparql(raw_output)
-            print("\n✅ Fixed SPARQL Query:\n", fixed_query)
-            return {"query": fixed_query}
+            if self.verbose:
+                print("Query fixing prompt: " + error_message)
+                print("\n✅ Fixed SPARQL Query:\n", fixed_query)
+
+            data["query"] = query
+            data["attempts"] = self.tries
+            return data
         except Exception as e:
-            print(f"\n⚠️ Failed to extract fixed query: {e}")
+            if self.verbose:
+                print(f"\n⚠️ Failed to extract fixed query: {e}")
             if self.tries >= self.max_tries:
                 self.tries = 0
                 raise RuntimeError("All attempts to fix the SPARQL query failed.")

@@ -66,23 +66,23 @@ class QuestionTemplateVectorStore:
         # Find all occurrences of {placeholder} in the text
         matches = re.findall(r"\{([^{}]+)\}", text)
         # Remove trailing digits and convert to lowercase
-        placeholders = [re.sub(r"\d+$", "", m).lower() for m in matches]
+        placeholders = [re.sub(r"\d+$", "", m).upper() for m in matches]
         return placeholders
     
     def extract_sparql_placeholders(self, text: str) -> List[str]:
         """
-        Extract SPARQL placeholder types from a text string.
+        Extract placeholder types enclosed by double underscores (e.g., __placeholder__) from a text string.
         
         Args:
-            text (str): The SPARQL query text to extract placeholders from
+            text (str): The text to extract placeholders from
 
         Returns:
             List[str]: List of extracted placeholder types
         """
-        # Match patterns like {{placeholder}} and return the placeholder names
-        matches = re.findall(r"\{\{([^{}]+)\}\}", text)
+        # Match patterns like __placeholder__ and return the placeholder names
+        matches = re.findall(r"__([^_]+?)__", text)
         # Remove trailing digits and convert to lowercase
-        placeholders = [re.sub(r"\d+$", "", m).lower() for m in matches]
+        placeholders = [re.sub(r"\d+$", "", m).upper() for m in matches]
         return placeholders
 
     def create_vector_store(self, question_templates: List[Dict]) -> FAISS:

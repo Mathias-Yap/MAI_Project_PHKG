@@ -1,0 +1,146 @@
+- query_example: |
+    SELECT ?patient WHERE {
+      ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag .
+      ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code .
+      ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue>
+             <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#I427> .
+    }
+  question_example: Which patients have been diagnosed with I427?
+  question_template: Which patients have been diagnosed with {Diagnosis}
+  QuestionNumber: 1
+  query_template: |
+    SELECT ?patient WHERE {
+      ?patient sphn:hasDiagnosis ?diag .
+      ?diag sphn:hasCode ?code .
+      ?code sphn:hasValue §Diagnosis§ .
+    }
+
+- query_example: |
+    SELECT ?patient WHERE {
+      ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient .
+      ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res .
+      ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val .
+      FILTER(?val > 9.0)
+    }
+  question_template: Which patient's lab results have surpassed the threshold of {THRESHOLD}
+  question_example: Which patient's lab results have surpassed the threshold of 9.0?
+  QuestionNumber: 11
+  query_template: |
+    SELECT ?patient WHERE {
+      ?event sphn:hasSubjectPseudoIdentifier ?patient .
+      ?event sphn:hasLabResult ?res .
+      ?res sphn:hasQuantityValue ?val .
+      FILTER(?val > §Threshold§)
+    }
+
+- query_example: |
+    SELECT ?patient WHERE {
+      ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient .
+      ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug .
+      ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code .
+      ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasValue> "M01AE01"
+    }
+  question_example: Which patients have taken M01AE01?
+  question_template:  Which patients have taken {DRUG}?
+
+  QuestionNumber: 21
+  query_template: |
+    SELECT ?patient WHERE {
+      ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+      ?presc sphn:hasDrug ?drug .
+      ?drug sphn:hasCode ?code .
+      ?code sphn:hasValue §Drug§
+    }
+
+- query_example: |
+    SELECT (COUNT(*) AS ?numPatients) WHERE {
+      {
+        SELECT DISTINCT ?patient WHERE {
+          ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag .
+          ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code .
+          ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue>
+                 <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#I422> .
+        }
+      }
+    }
+  question_example: How many patients are there who have been diagnosed with I422?
+  QuestionNumber: 22
+  question_template: How many patients are there who have been diagnosed with {Diagnosis}?
+  query_template: |
+    SELECT (COUNT(DISTINCT ?patient) AS ?numPatients) WHERE {
+      ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag .
+      ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code .
+      ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ .
+    }
+
+- query_example: |
+    SELECT ?patient WHERE {
+      ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasBirthDate> ?dob .
+      BIND(year(NOW()) - year(?dob) AS ?age)
+      FILTER(?age >= 41)
+    }
+  question_example: What patients are over the age of 41?
+  QuestionNumber: 32
+  question_template: What patients are over the age of {Age}?
+  query_template: |
+    SELECT ?patient WHERE {
+      ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasBirthDate> ?dob .
+      BIND(year(NOW()) - year(?dob) AS ?age)
+      FILTER(?age >= §Age§)
+    }
+
+- query_example: |
+    SELECT ?patient WHERE {
+      ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient .
+      ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug .
+      ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code .
+      ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasValue> "M01AE01"
+    }
+  question_example: Which patients have been exposed to the drug M01AE01?
+  QuestionNumber: 42
+  question_template: Which patients have been exposed to the drug {Drug}?
+  query_template: |
+    SELECT ?patient WHERE {
+      ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient .
+      ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug .
+      ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code .
+      ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§
+    }
+
+- query_example: |
+    SELECT ?patient WHERE {
+      ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient .
+      ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res .
+      ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val .
+      FILTER(?val < 3.0)
+    }
+  question_example: Which patients have not reached the threshold of 3.0 for their lab tests?
+  QuestionNumber: 43
+  question_template: Which patients have not reached the threshold of {Threshold} for their lab tests?
+  query_template: |
+    SELECT ?patient WHERE {
+      ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient .
+      ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res .
+      ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val .
+      FILTER(?val < §Threshold§)
+    }
+
+- query_example: |
+    SELECT ?patient WHERE {
+      ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+           <https://www.biomedit.ch/rdf/sphn-schema/sphn/AdverseEvent> .
+      ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient .
+      ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSeverity> ?sev .
+      FILTER(?sev IN ("Serious"))
+    }
+  question_example: Which patients have had a serious adverse event?
+  QuestionNumber: 53
+  question_template: Which patients have had a {Severity} adverse event?
+  query_template: |
+    SELECT ?patient WHERE {
+      ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+           <https://www.biomedit.ch/rdf/sphn-schema/sphn/AdverseEvent> .
+      ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient .
+      ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSeverity> ?sev .
+      FILTER(?sev IN ("§Severity§"))
+    }

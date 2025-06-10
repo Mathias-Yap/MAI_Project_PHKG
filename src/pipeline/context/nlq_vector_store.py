@@ -103,23 +103,16 @@ class QuestionTemplateVectorStore:
         text_representations = []
         metadatas = []
 
-        for i, template_pair in enumerate(question_templates):
-            if 'question_template' not in template_pair or 'query_template' not in template_pair:
-                raise ValueError(f"Template at index {i} missing required keys 'question_template' or 'query_template'")
-            
-            question_template = template_pair['question_template']
-            query_template = template_pair['query_template']
+        for question in question_templates:
             
             # Use the question template as the text representation for embedding
-            text_representations.append(question_template)
+            text_representations.append(question['question_template'])
             
             # Store only question, query and their placeholders in metadata
-            metadatas.append({
-                'question_template': question_template,
-                'query_template': query_template,
-                'question_placeholders': self.extract_nlq_placeholders(question_template),
-                'query_placeholders': self.extract_sparql_placeholders(query_template)
-            })
+            metadata = dict(question)  # Copy all entries from the question dictionary
+            metadata['question_placeholders'] = self.extract_nlq_placeholders(question['question_template'])
+            metadata['query_placeholders'] = self.extract_sparql_placeholders(question['query_template'])
+            metadatas.append(metadata)
 
         # Create a vector store from the question templates and metadata
         vector_store = FAISS.from_texts(
@@ -155,7 +148,7 @@ class QuestionTemplateVectorStore:
     def query(
         self, 
         query: str, 
-        threshold: int = 200,
+        threshold: int = 500,
         k: int = 3, 
         debug: bool = False
     ) -> List[Dict]:
@@ -179,27 +172,13 @@ class QuestionTemplateVectorStore:
         for result, score in results:
             # Check similarity threshold
             if score <= threshold:
-                query_placeholders = result.metadata.get('query_placeholders', [])
-                question_placeholders = result.metadata.get('question_placeholders', [])
-                template_info = {
-                    'question_template': result.metadata['question_template'],
-                    'query_template': result.metadata['query_template'],
-                    'question_placeholders': question_placeholders,
-                    'query_placeholders': query_placeholders,
-                    'similarity_score': score
-                }
-                
                 if debug:
-                    print(f"Query: {query}")
-                    print(f"Matched Question: {result.metadata['question_template']}")
-                    print(f"Query Template: {result.metadata['query_template']}")
-                    print(f"Question Placeholders: {question_placeholders}")
-                    print(f"Query Placeholders: {query_placeholders}")
-                    print(f"Score: {score}")
-                    print("-" * 50)
+                    print(result)
+                dict_results = result.metadata
+                dict_results["score"] = score
+                matched_templates.append(dict_results)
                 
-                matched_templates.append(template_info)
-            
+
         
         return matched_templates
 

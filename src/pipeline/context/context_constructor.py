@@ -22,13 +22,17 @@ class context_constructor(PipelineStep):
     def initialize(self, data, **kwargs):
         return super().initialize(data, **kwargs)
 
+    def verify_template_classes(self, classes, template):
+        pass
+        
     def get_template_fill_context(self,question:str):
+        classes = self.class_vector_store.query(
+        question
+        )
         qq_examples = self.nlq_store.query(
             question
         )
-        classes = self.class_vector_store.query(
-            question
-        )
+        most_similar_template = qq_examples[0] if qq_examples else ""
         formatted_examples = "\n".join([
             f"Question: {example['question_example']}\n"
             f"Query template: {example['query_template']}\n"
@@ -36,13 +40,7 @@ class context_constructor(PipelineStep):
             for example in qq_examples
         ])
         formatted_classes = "\n".join([f"Class IRI: {cls}" for cls in classes])
-        self.context = (
-            "Next follow template questions and queries related to the natural language question:\n"
-            f"{formatted_examples}\n"
-            "The following class IRIs can be placed in place of the classes enclosed by brackets {{}} in the templates:\n"
-            f"{formatted_classes}\n"
-        )
-        return self.context
+        return formatted_examples, most_similar_template, formatted_classes 
     def get_context(self, question: str):
         qq_examples = self.nlq_store.query(
             question
@@ -62,9 +60,12 @@ class context_constructor(PipelineStep):
             f"{formatted_classes}\n"
         )
         return self.context
+
     def run(self,data,**kwargs):
-        data["context"] = self.get_context(data["natural_language_question"])
+        data["prompt_examples"], data["found_template"], data["relevant_classes"] = self.get_template_fill_context(data["natural_language_question"])
+        print("data after context: ",data)
         return data
+
 if __name__ == "__main__":
     constructor = context_constructor()
     context = constructor.get_context("How many substances does drug 12305 contain?")

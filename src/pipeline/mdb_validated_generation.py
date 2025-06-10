@@ -10,7 +10,7 @@ class MDBValidatedGeneration(PipelineStep):
         return super().initialize(data, **kwargs)
     
     def __init__(self, model_name: str):
-        self.query_executor = QueryExecutorStep(engine_name = "milleniumDB", graph_path="rdf_100_sphn.nt",construct_graph=False)
+        self.query_executor = QueryExecutorStep(engine_name = "milleniumDB", graph_path="rdf_400_sphn_augmented_hybrid.ttl",construct_graph=False)
         self.llm_generator = SimpleLLMQueryGenerator(model_name)
 
     def run(self, data=None, **kwargs):
@@ -37,16 +37,18 @@ class MDBValidatedGeneration(PipelineStep):
                 data["valid_query"] = True
                 return data
             except millenniumdb_driver.MillenniumDBError:
-                if self.llm_generator.tries >= self.llm_generator.max_tries:
-                    print("❌ Maximum attempts reached. Unable to generate a valid query.")
-                    return data
                 start_validation_time = time.time()
                 full_traceback =  traceback.format_exc()
                 error_message = ""
                 for line in full_traceback.splitlines():
                     if "Query Exception:" in line:
                         error_message = line.split("Query Exception:")[1]
-                query = self.llm_generator.handle_query_error(data, error_message, **kwargs)
+                if self.llm_generator.tries >= self.llm_generator.max_tries:
+                    print("❌ Maximum attempts reached. Unable to generate a valid query.")
+                    print("Failed query: " + data["query"])
+                    print("Error message: " + error_message)
+                    return data
+                data = self.llm_generator.handle_query_error(data, error_message, **kwargs)
                 data["validation_time"].append(time.time() - start_validation_time)
 
     

@@ -6,6 +6,39 @@ from .llm import llm_pipeline
 from utils.graph import load_graph
 import json
 
+
+FILL_TEMPLATES_PROMPT = """
+Task: Generate a SPARQL SELECT statement for querying a graph database.
+
+Instructions:
+The SPARQL SELECT statement should answer the user question by filling in the provided query templates.
+Use the ontology terminology to ensure the query is executable on the graph database.
+Use the question mentioned ontology classes to guide the selection of the appropriate query template.
+
+--- Ontology ---
+{ontology}
+
+--- Templates ---
+{query_templates}
+
+--- Examples ---
+{examples}
+
+--- Notes ---
+Be as concise as possible.
+Do not include any explanations or apologies in your responses.
+Do not include any text except for the SPARQL query generated.
+
+--- User Question ---
+The user question is:
+{question}
+
+The question mentioned ontology classes are:
+{relevant_classes}
+
+The answered SPARQL query is:
+"""
+
 PROMPT = """
 Task: Generate a SPARQL SELECT statement for querying a graph database.
 For instance, to find all email addresses of John Doe, the following query in backticks would be suitable:
@@ -134,31 +167,31 @@ class SimpleLLMQueryGenerator(pipeline_stages.QueryGenerator):
     
 
     def run(self, data=None, **kwargs):
+        print("examples in LLM:", data['prompt_examples'])
         natural_language_question = kwargs.get("natural_language_question")
         if not natural_language_question:
             raise ValueError("Missing 'natural_language_question' argument.")
-        context = kwargs.get("context")
         ontology_serialized = load_graph("ontology").serialize(format="turtle")
 
-
-        prompt = PROMPT_additional_context.format(
-            ontology=ontology_serialized,
-            question=natural_language_question,
-            context=context or ""
+        prompt = FILL_TEMPLATES_PROMPT.format(
+            ontology = ontology_serialized,
+            query_templates = data['prompt_templates'],
+            examples = data['prompt_examples'],
+            question = data['natural_language_question'],
+            relevant_classes = data['relevant_classes']
+            
         )
-        # print(f"Prompt: {prompt}")
+        print("prompt filled in: " + prompt)
+        # prompt = PROMPT_additional_context.format(
+        #     ontology=ontology_serialized,
+        #     question=natural_language_question,
+        #     context=context or ""
+        # )
 
         while( self.tries < self.max_tries):
             if self.verbose:
                 print(f"\n🧠 Attempt {self.tries}: Prompting LLM...\n")
             raw_output = self.llm_model_pipeline.generate(prompt, self.system_prompt)
-            # raw_output =  """
-            # SELECT (COUNT(?patient) AS ?count)
-            #     WHERE {
-            #       ?patient a <http://www.semanticweb.org/ontologies/2023/10/untitled-ontology-2#Patient> .
-            #       ?patient <http://www.semanticweb.org/ontologies/2023/10/untitled-ontology-2#hasDiagnosis> <http://www.semanticweb.org/ontologies/2023/10/untitled-ontology-2#Diagnosis102358> .
-            #     }
-            #     """
             try:
                 query = self.extract_sparql(raw_output)
                 if self.verbose:
@@ -174,25 +207,23 @@ class SimpleLLMQueryGenerator(pipeline_stages.QueryGenerator):
         raise RuntimeError("❌ All attempts to extract a valid SPARQL query failed.")
 
 
-    def handle_query_error(self, query:str, error: str, **kwargs):
+    def handle_query_error(self, data, error: str, **kwargs):
         error_message = f"This SPARQL query returned an error: {error}. Fix this error in the query and try again. Again, do not include any explanations or apologies in your responses." 
         self.tries += 1
         prompt = (
             VALIDATION_PROMPT.format(
             ontology=self.vocabulary,
-            query=query,
+            query=data['query'],
             error=error_message
             )
         )
         raw_output = self.llm_model_pipeline.generate(prompt, self.system_prompt)
-        data = {}
         try:
             fixed_query = self.extract_sparql(raw_output)
             if self.verbose:
                 print("Query fixing prompt: " + error_message)
                 print("\n✅ Fixed SPARQL Query:\n", fixed_query)
-
-            data["query"] = query
+            data['query'] = fixed_query
             data["attempts"] = self.tries
             return data
         except Exception as e:

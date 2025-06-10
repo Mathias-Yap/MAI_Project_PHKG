@@ -1,211 +1,1036 @@
 question_template,sparql_template
-What patients have received a §Diagnosis§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-Which patients have been given a §Diagnosis§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-What patients have been diagnosed as having §Diagnosis§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-Which patients have been identified as having §Diagnosis§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-What patients have been assessed and found to have §Diagnosis§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-Who are the patients that have been diagnosed with §Diagnosis§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-What individuals have been diagnosed with §Diagnosis§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-Which individuals have been assessed and diagnosed with §Diagnosis§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-What are the names of the patients who have been diagnosed with §Diagnosis§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-Which individuals have been found to have a §Diagnosis§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-Who are the patients that have received a diagnosis of §Diagnosis§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-Who are the patients that have been assessed as having §Diagnosis§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-Which individuals have been determined to have §Diagnosis§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-Which individuals have received a diagnosis of §Diagnosis§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-Which patients have been identified as having been diagnosed with §Diagnosis§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-Which patient's laboratory outcomes have exceeded the §Threshold§ limit?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient's laboratory results have gone beyond the §Threshold§ limit?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient's lab outcomes have gone over the §Threshold§ limit?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient has lab results that have exceeded the threshold of §Threshold§?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient's lab findings have surpassed the limit set at §Threshold§?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient's laboratory findings have gone beyond the threshold of §Threshold§?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient's laboratory results have crossed the §Threshold§ limit?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient has laboratory results that have exceeded the threshold of §Threshold§?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient's laboratory results have gone over the threshold of §Threshold§?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient's laboratory outcomes have surpassed the limit of §Threshold§?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient's laboratory results have surpassed the §Threshold§ limit?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient's laboratory results have gone past the §Threshold§ limit?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient has lab results that have gone above the §Threshold§ threshold?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient's laboratory results have exceeded the threshold set at §Threshold§?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient has laboratory results that have gone beyond the threshold of §Threshold§?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patients have received §Drug§?,?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-Which patients have administered §Drug§?,?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-Which patients have used §Drug§?,?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-Which patients have consumed §Drug§?,?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-Which patients have utilized §Drug§?,?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-Which patients have ingested §Drug§?,?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-Which patients have partaken in §Drug§?,?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-Which patients have been given §Drug§?,?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-Which patients have had §Drug§?,?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-Which patients have undergone treatment with §Drug§?,?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-Which patients have dosed with §Drug§?,?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-Which patients have partaken of §Drug§?,?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-Which patients have received a dose of §Drug§?,?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-Which patients have had a dose of §Drug§?,?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-Which patients have had access to §Drug§?,?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-What is the number of patients diagnosed with §Diagnosis§?,SELECT (COUNT(DISTINCT ?patient) AS ?numPatients) WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-What is the total count of patients diagnosed with §Diagnosis§?,SELECT (COUNT(DISTINCT ?patient) AS ?numPatients) WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-What is the count of patients who have received a §Diagnosis§?,SELECT (COUNT(DISTINCT ?patient) AS ?numPatients) WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-What is the total number of patients who have been diagnosed with §Diagnosis§?,SELECT (COUNT(DISTINCT ?patient) AS ?numPatients) WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-What is the quantity of patients diagnosed with §Diagnosis§?,SELECT (COUNT(DISTINCT ?patient) AS ?numPatients) WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-What is the total number of patients that have received a §Diagnosis§?,SELECT (COUNT(DISTINCT ?patient) AS ?numPatients) WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-What is the number of patients who have been diagnosed with §Diagnosis§?,SELECT (COUNT(DISTINCT ?patient) AS ?numPatients) WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-What is the total amount of patients that have been diagnosed with §Diagnosis§?,SELECT (COUNT(DISTINCT ?patient) AS ?numPatients) WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-What is the total figure of patients diagnosed with §Diagnosis§?,SELECT (COUNT(DISTINCT ?patient) AS ?numPatients) WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-What is the total number of patients who have received a §Diagnosis§?,SELECT (COUNT(DISTINCT ?patient) AS ?numPatients) WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-What is the total number of patients that have been diagnosed with §Diagnosis§?,SELECT (COUNT(DISTINCT ?patient) AS ?numPatients) WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-What is the number of patients that have been diagnosed with §Diagnosis§?,SELECT (COUNT(DISTINCT ?patient) AS ?numPatients) WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-What is the total number of patients who have received a diagnosis of §Diagnosis§?,SELECT (COUNT(DISTINCT ?patient) AS ?numPatients) WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-What is the number of patients who have received a diagnosis of §Diagnosis§?,SELECT (COUNT(DISTINCT ?patient) AS ?numPatients) WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-How many patients have received a diagnosis of §Diagnosis§?,SELECT (COUNT(DISTINCT ?patient) AS ?numPatients) WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . }
-What is the number of patients that have registered at each site?,SELECT ?site (COUNT(DISTINCT ?patient) AS ?count) WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/EnrollmentEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSite> ?site . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . } GROUP BY ?site
-What is the count of patients who have enrolled at each site?,SELECT ?site (COUNT(DISTINCT ?patient) AS ?count) WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/EnrollmentEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSite> ?site . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . } GROUP BY ?site
-What is the total number of patients that have signed up at each site?,SELECT ?site (COUNT(DISTINCT ?patient) AS ?count) WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/EnrollmentEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSite> ?site . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . } GROUP BY ?site
-What is the number of patients enrolled at each site?,SELECT ?site (COUNT(DISTINCT ?patient) AS ?count) WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/EnrollmentEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSite> ?site . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . } GROUP BY ?site
-What is the total count of patients who have enrolled per site?,SELECT ?site (COUNT(DISTINCT ?patient) AS ?count) WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/EnrollmentEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSite> ?site . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . } GROUP BY ?site
-What is the enrollment count of patients at each site?,SELECT ?site (COUNT(DISTINCT ?patient) AS ?count) WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/EnrollmentEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSite> ?site . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . } GROUP BY ?site
-What is the patient enrollment figure for each site?,SELECT ?site (COUNT(DISTINCT ?patient) AS ?count) WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/EnrollmentEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSite> ?site . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . } GROUP BY ?site
-What is the number of patients that have signed up at each site?,SELECT ?site (COUNT(DISTINCT ?patient) AS ?count) WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/EnrollmentEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSite> ?site . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . } GROUP BY ?site
-What is the number of patients who have registered at each site?,SELECT ?site (COUNT(DISTINCT ?patient) AS ?count) WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/EnrollmentEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSite> ?site . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . } GROUP BY ?site
-What is the total number of patients who have enrolled at each site?,SELECT ?site (COUNT(DISTINCT ?patient) AS ?count) WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/EnrollmentEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSite> ?site . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . } GROUP BY ?site
-What is the number of patients who have signed up for each site?,SELECT ?site (COUNT(DISTINCT ?patient) AS ?count) WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/EnrollmentEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSite> ?site . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . } GROUP BY ?site
-What is the number of patients that have enrolled at each individual site?,SELECT ?site (COUNT(DISTINCT ?patient) AS ?count) WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/EnrollmentEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSite> ?site . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . } GROUP BY ?site
-What is the number of patients who have enrolled at each individual site?,SELECT ?site (COUNT(DISTINCT ?patient) AS ?count) WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/EnrollmentEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSite> ?site . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . } GROUP BY ?site
-What is the count of patients enrolled at each site?,SELECT ?site (COUNT(DISTINCT ?patient) AS ?count) WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/EnrollmentEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSite> ?site . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . } GROUP BY ?site
-What is the number of patients who have enrolled at each site?,SELECT ?site (COUNT(DISTINCT ?patient) AS ?count) WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/EnrollmentEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSite> ?site . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . } GROUP BY ?site
-Which patients exceed the age of §Age§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasBirthDate> ?dob . BIND(year(NOW()) - year(?dob) AS ?age) FILTER(?age >= §Age§ ) }
-Which patients are older than §Age§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasBirthDate> ?dob . BIND(year(NOW()) - year(?dob) AS ?age) FILTER(?age >= §Age§ ) }
-Which patients are beyond the age of §Age§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasBirthDate> ?dob . BIND(year(NOW()) - year(?dob) AS ?age) FILTER(?age >= §Age§ ) }
-Which patients are above the age of §Age§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasBirthDate> ?dob . BIND(year(NOW()) - year(?dob) AS ?age) FILTER(?age >= §Age§ ) }
-Which patients fall into the category of being over §Age§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasBirthDate> ?dob . BIND(year(NOW()) - year(?dob) AS ?age) FILTER(?age >= §Age§ ) }
-Which patients surpass the age of §Age§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasBirthDate> ?dob . BIND(year(NOW()) - year(?dob) AS ?age) FILTER(?age >= §Age§ ) }
-What patients have an age greater than §Age§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasBirthDate> ?dob . BIND(year(NOW()) - year(?dob) AS ?age) FILTER(?age >= §Age§ ) }
-Which patients are considered to be over §Age§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasBirthDate> ?dob . BIND(year(NOW()) - year(?dob) AS ?age) FILTER(?age >= §Age§ ) }
-Which patients are classified as being older than §Age§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasBirthDate> ?dob . BIND(year(NOW()) - year(?dob) AS ?age) FILTER(?age >= §Age§ ) }
-Which patients are regarded as exceeding the age of §Age§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasBirthDate> ?dob . BIND(year(NOW()) - year(?dob) AS ?age) FILTER(?age >= §Age§ ) }
-Which patients are considered older than §Age§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasBirthDate> ?dob . BIND(year(NOW()) - year(?dob) AS ?age) FILTER(?age >= §Age§ ) }
-Which patients are identified as being over §Age§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasBirthDate> ?dob . BIND(year(NOW()) - year(?dob) AS ?age) FILTER(?age >= §Age§ ) }
-Which patients are listed as being over §Age§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasBirthDate> ?dob . BIND(year(NOW()) - year(?dob) AS ?age) FILTER(?age >= §Age§ ) }
-Which patients are recognized as being above the age of §Age§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasBirthDate> ?dob . BIND(year(NOW()) - year(?dob) AS ?age) FILTER(?age >= §Age§ ) }
-Which patients have an age that exceeds §Age§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasBirthDate> ?dob . BIND(year(NOW()) - year(?dob) AS ?age) FILTER(?age >= §Age§ ) }
-What patients have had exposure to the drug §Drug§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-Which patients have encountered the drug §Drug§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-What patients have come into contact with the drug §Drug§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-Which patients have had contact with the drug §Drug§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-What patients have been subjected to the drug §Drug§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-What patients have encountered exposure to the drug §Drug§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-Which patients have had exposure to the drug §Drug§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-What patients have been exposed to the medication §Drug§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-What patients have been in contact with the drug §Drug§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-Which patients have had exposure to the medication §Drug§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-What patients have experienced exposure to the drug §Drug§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-Which patients have been in contact with the medication §Drug§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-Which patients have had contact with the medication §Drug§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-What patients have encountered the medication §Drug§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-Which patients have been subjected to the medication §Drug§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Drug§ }
-Who are the patients that have come into contact with the substance §Substance§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubstanceClass> ?class . ?class <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Substance§ . }
-Which patients have had exposure to the substance §Substance§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubstanceClass> ?class . ?class <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Substance§ . }
-What patients have had exposure to the substance §Substance§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubstanceClass> ?class . ?class <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Substance§ . }
-What patients have been exposed to the substance §Substance§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubstanceClass> ?class . ?class <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Substance§ . }
-Which patients have encountered the substance §Substance§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubstanceClass> ?class . ?class <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Substance§ . }
-Which individuals have come into contact with the substance §Substance§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubstanceClass> ?class . ?class <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Substance§ . }
-What individuals have been in contact with the substance §Substance§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubstanceClass> ?class . ?class <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Substance§ . }
-What patients have encountered the substance §Substance§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubstanceClass> ?class . ?class <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Substance§ . }
-Which individuals have been exposed to the substance §Substance§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubstanceClass> ?class . ?class <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Substance§ . }
-What patients have come into contact with the substance §Substance§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubstanceClass> ?class . ?class <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Substance§ . }
-What individuals have been exposed to the substance §Substance§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubstanceClass> ?class . ?class <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Substance§ . }
-What patients have had interaction with the substance §Substance§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubstanceClass> ?class . ?class <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Substance§ . }
-What patients have been in contact with the substance §Substance§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubstanceClass> ?class . ?class <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Substance§ . }
-What patients have been subjected to the substance §Substance§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubstanceClass> ?class . ?class <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Substance§ . }
-What patients have been subjected to exposure from the substance §Substance§?,SELECT ?patient WHERE { ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?presc <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDrug> ?drug . ?drug <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubstanceClass> ?class . ?class <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Substance§ . }
-Which patients have failed to meet the §Threshold§ for their laboratory tests?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val < §Threshold§ ) }
-Which patients have not achieved the §Threshold§ for their laboratory results?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val < §Threshold§ ) }
-Which patients have not attained the §Threshold§ for their laboratory tests?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val < §Threshold§ ) }
-Which patients have not met the §Threshold§ for their laboratory assessments?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val < §Threshold§ ) }
-Which patients have yet to reach the §Threshold§ for their laboratory evaluations?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val < §Threshold§ ) }
-Which patients have not fulfilled the §Threshold§ for their laboratory evaluations?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val < §Threshold§ ) }
-Which patients have not yet achieved the §Threshold§ for their lab tests?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val < §Threshold§ ) }
-Which patients have not reached the §Threshold§ for their laboratory tests?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val < §Threshold§ ) }
-Which patients have not successfully reached the §Threshold§ in their laboratory tests?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val < §Threshold§ ) }
-Which patients have not met the requirement of §Threshold§ for their laboratory tests?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val < §Threshold§ ) }
-Which patients have not satisfied the §Threshold§ for their laboratory tests?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val < §Threshold§ ) }
-Which patients have not achieved the threshold of §Threshold§ in their laboratory evaluations?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val < §Threshold§ ) }
-Which patients have not met the §Threshold§ in their lab evaluations?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val < §Threshold§ ) }
-Which patients have not yet reached the §Threshold§ for their laboratory tests?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val < §Threshold§ ) }
-Which patients have not fulfilled the §Threshold§ for their laboratory tests?,SELECT ?patient WHERE { ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val < §Threshold§ ) }
-Which patients experienced an adverse event classified as §Severity§?,"SELECT ?patient WHERE { ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/AdverseEvent> . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSeverity> ?sev . FILTER(?sev IN (""§Severity§"")) }"
-Which patients have encountered an adverse event of §Severity§?,"SELECT ?patient WHERE { ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/AdverseEvent> . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSeverity> ?sev . FILTER(?sev IN (""§Severity§"")) }"
-Which patients have suffered an adverse event rated as §Severity§?,"SELECT ?patient WHERE { ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/AdverseEvent> . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSeverity> ?sev . FILTER(?sev IN (""§Severity§"")) }"
-Which patients have undergone an adverse event with a severity level of §Severity§?,"SELECT ?patient WHERE { ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/AdverseEvent> . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSeverity> ?sev . FILTER(?sev IN (""§Severity§"")) }"
-Which patients have faced an adverse event of §Severity§?,"SELECT ?patient WHERE { ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/AdverseEvent> . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSeverity> ?sev . FILTER(?sev IN (""§Severity§"")) }"
-Which patients have reported an adverse event that is categorized as §Severity§?,"SELECT ?patient WHERE { ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/AdverseEvent> . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSeverity> ?sev . FILTER(?sev IN (""§Severity§"")) }"
-Which patients have experienced an adverse event that is considered to be of §Severity§?,"SELECT ?patient WHERE { ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/AdverseEvent> . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSeverity> ?sev . FILTER(?sev IN (""§Severity§"")) }"
-Which patients have had an adverse event deemed to be of §Severity§?,"SELECT ?patient WHERE { ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/AdverseEvent> . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSeverity> ?sev . FILTER(?sev IN (""§Severity§"")) }"
-Which patients have encountered an adverse event that is rated as §Severity§?,"SELECT ?patient WHERE { ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/AdverseEvent> . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSeverity> ?sev . FILTER(?sev IN (""§Severity§"")) }"
-Which patients have had an adverse event classified with a severity of §Severity§?,"SELECT ?patient WHERE { ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/AdverseEvent> . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSeverity> ?sev . FILTER(?sev IN (""§Severity§"")) }"
-Which patients have experienced an adverse event classified as §Severity§?,"SELECT ?patient WHERE { ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/AdverseEvent> . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSeverity> ?sev . FILTER(?sev IN (""§Severity§"")) }"
-Which patients have undergone an adverse event that falls under the classification of §Severity§?,"SELECT ?patient WHERE { ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/AdverseEvent> . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSeverity> ?sev . FILTER(?sev IN (""§Severity§"")) }"
-Which patients have experienced an adverse event of §Severity§?,"SELECT ?patient WHERE { ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/AdverseEvent> . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSeverity> ?sev . FILTER(?sev IN (""§Severity§"")) }"
-Which patients have experienced an adverse event that is categorized as §Severity§?,"SELECT ?patient WHERE { ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/AdverseEvent> . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSeverity> ?sev . FILTER(?sev IN (""§Severity§"")) }"
-Which patients have had an adverse event that is rated as §Severity§?,"SELECT ?patient WHERE { ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/AdverseEvent> . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?ae <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSeverity> ?sev . FILTER(?sev IN (""§Severity§"")) }"
-What patients experienced a test event following the date of §Date§?,"SELECT ?patient WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/LabTestEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient .?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDate> ?date .FILTER(?date > ""§Date§""^^xsd:date)}"
-Which patients experienced a test event subsequent to §Date§?,"SELECT ?patient WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/LabTestEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient .?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDate> ?date .FILTER(?date > ""§Date§""^^xsd:date)}"
-What patients have undergone a test event since the date §Date§?,"SELECT ?patient WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/LabTestEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient .?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDate> ?date .FILTER(?date > ""§Date§""^^xsd:date)}"
-What patients have had a test event after the date §Date§?,"SELECT ?patient WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/LabTestEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient .?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDate> ?date .FILTER(?date > ""§Date§""^^xsd:date)}"
-What patients have undergone a test event after the date §Date§?,"SELECT ?patient WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/LabTestEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient .?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDate> ?date .FILTER(?date > ""§Date§""^^xsd:date)}"
-Which patients have undergone a test event subsequent to the date §Date§?,"SELECT ?patient WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/LabTestEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient .?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDate> ?date .FILTER(?date > ""§Date§""^^xsd:date)}"
-Which patients have participated in a test event since the date §Date§?,"SELECT ?patient WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/LabTestEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient .?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDate> ?date .FILTER(?date > ""§Date§""^^xsd:date)}"
-What patients have participated in a test event following the date §Date§?,"SELECT ?patient WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/LabTestEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient .?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDate> ?date .FILTER(?date > ""§Date§""^^xsd:date)}"
-Which patients have participated in a test event after the date of §Date§?,"SELECT ?patient WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/LabTestEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient .?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDate> ?date .FILTER(?date > ""§Date§""^^xsd:date)}"
-Which patients have taken part in a test event after the date of §Date§?,"SELECT ?patient WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/LabTestEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient .?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDate> ?date .FILTER(?date > ""§Date§""^^xsd:date)}"
-Which patients have experienced a test event after the date of §Date§?,"SELECT ?patient WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/LabTestEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient .?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDate> ?date .FILTER(?date > ""§Date§""^^xsd:date)}"
-Which patients have taken part in a test event after the date §Date§?,"SELECT ?patient WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/LabTestEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient .?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDate> ?date .FILTER(?date > ""§Date§""^^xsd:date)}"
-Which patients have taken part in a test event following the date of §Date§?,"SELECT ?patient WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/LabTestEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient .?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDate> ?date .FILTER(?date > ""§Date§""^^xsd:date)}"
-What patients have taken part in a test event after the date §Date§?,"SELECT ?patient WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/LabTestEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient .?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDate> ?date .FILTER(?date > ""§Date§""^^xsd:date)}"
-What patients have had a test event after §Date§?,"SELECT ?patient WHERE { ?event <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.biomedit.ch/rdf/sphn-schema/sphn/LabTestEvent> . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient .?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDate> ?date .FILTER(?date > ""§Date§""^^xsd:date)}"
-Which patient received a §Diagnosis§ and showed lab results exceeding the §Threshold§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient has a §Diagnosis§ and recorded a lab result that exceeded the §Threshold§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient was diagnosed with §Diagnosis§ and exhibited a lab result that surpassed the §Threshold§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient was found to have a §Diagnosis§ and presented a lab result that exceeded the §Threshold§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient has received a diagnosis of §Diagnosis§ and had a lab result that went beyond the §Threshold§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient has received a diagnosis of §Diagnosis§ and had a lab result that exceeded the threshold of §Threshold§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient has been identified with a §Diagnosis§ and had a lab result that went beyond the §Threshold§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient has been identified with a §Diagnosis§ and recorded a lab result that surpassed the §Threshold§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient has been diagnosed with a §Diagnosis§ and has a lab result that exceeded the §Threshold§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient has been diagnosed with a §Diagnosis§ and displayed a lab result that surpassed the §Threshold§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient has been diagnosed with a §Diagnosis§ and had a lab result that surpassed the §Threshold§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient has a diagnosis of §Diagnosis§ and had a lab result that exceeded the threshold of §Threshold§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient was diagnosed with a §Diagnosis§ and had a lab result that surpassed the §Threshold§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient has received a diagnosis of §Diagnosis§ and had a lab result that exceeded the §Threshold§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which patient has received a §Diagnosis§ and shown a lab result that exceeds the §Threshold§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§ ) }
-Which individuals have received a diagnosis of either §Diagnosis1§ or §Diagnosis2§?,SELECT ?patient WHERE { { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis1§ .} UNION { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis2§ . } }
-Which patients have been given a diagnosis of §Diagnosis1§ or §Diagnosis2§?,SELECT ?patient WHERE { { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis1§ .} UNION { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis2§ . } }
-Which patients have been identified with either §Diagnosis1§ or §Diagnosis2§?,SELECT ?patient WHERE { { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis1§ .} UNION { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis2§ . } }
-Which patients have been assessed with a diagnosis of §Diagnosis1§ or §Diagnosis2§?,SELECT ?patient WHERE { { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis1§ .} UNION { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis2§ . } }
-Which patients have been found to have a diagnosis of §Diagnosis1§ or §Diagnosis2§?,SELECT ?patient WHERE { { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis1§ .} UNION { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis2§ . } }
-Which patients have been diagnosed as having either §Diagnosis1§ or §Diagnosis2§?,SELECT ?patient WHERE { { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis1§ .} UNION { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis2§ . } }
-Which patients have been determined to have a diagnosis of §Diagnosis1§ or §Diagnosis2§?,SELECT ?patient WHERE { { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis1§ .} UNION { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis2§ . } }
-Which patients have been assessed as having §Diagnosis1§ or §Diagnosis2§?,SELECT ?patient WHERE { { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis1§ .} UNION { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis2§ . } }
-Which patients have been evaluated and found to have a diagnosis of §Diagnosis1§ or §Diagnosis2§?,SELECT ?patient WHERE { { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis1§ .} UNION { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis2§ . } }
-Which patients have been diagnosed as having §Diagnosis1§ or §Diagnosis2§?,SELECT ?patient WHERE { { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis1§ .} UNION { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis2§ . } }
-Which patients have been recognized as having either §Diagnosis1§ or §Diagnosis2§?,SELECT ?patient WHERE { { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis1§ .} UNION { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis2§ . } }
-Which patients have been found to have either §Diagnosis1§ or §Diagnosis2§?,SELECT ?patient WHERE { { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis1§ .} UNION { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis2§ . } }
-Which patients have been diagnosed with either §Diagnosis1§ or §Diagnosis2§?,SELECT ?patient WHERE { { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis1§ .} UNION { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis2§ . } }
-Which patients have been identified as having §Diagnosis1§ or §Diagnosis2§?,SELECT ?patient WHERE { { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis1§ .} UNION { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis2§ . } }
-Which patients have received a diagnosis of §Diagnosis1§ or §Diagnosis2§?,SELECT ?patient WHERE { { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis1§ .} UNION { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis2§ . } }
-Which patients have received a §Diagnosis§ and have undergone a lab test that exceeded the value of §Threshold§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§) }
-What patients have undergone a diagnosis of §Diagnosis§ and had a lab test that exceeded the §Threshold§ value?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§) }
-Which patients have a §Diagnosis§ and have had a lab test that surpassed the §Threshold§ value?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§) }
-What patients have been diagnosed with §Diagnosis§ and experienced a lab test result that exceeded the §Threshold§ value?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§) }
-What patients have received a §Diagnosis§ and had a lab test that exceeded the §Threshold§ value?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§) }
-Which patients have received a diagnosis of §Diagnosis§ and had a lab test result that surpassed §Threshold§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§) }
-Which patients have a diagnosis of §Diagnosis§ and have undergone a lab test that went beyond the §Threshold§ value?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§) }
-What patients have been diagnosed with §Diagnosis§ and undergone a lab test that went above the §Threshold§ value?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§) }
-What patients have received a diagnosis of §Diagnosis§ and had a lab test result that exceeded the value of §Threshold§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§) }
-Which patients have received a §Diagnosis§ and had a lab test result that surpassed the §Threshold§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§) }
-Which patients have received a §Diagnosis§ and undergone a lab test that exceeded the §Threshold§ value?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§) }
-What patients have received a diagnosis of §Diagnosis§ and had a lab test that exceeded the §Threshold§ value?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§) }
-What patients have been diagnosed with §Diagnosis§ and experienced a lab test result that went beyond the §Threshold§ value?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§) }
-Which patients have a diagnosis of §Diagnosis§ and have experienced a lab test that surpassed the §Threshold§ value?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§) }
-What patients have received a §Diagnosis§ and had a lab test that surpassed the value of §Threshold§?,SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue> §Diagnosis§ . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient . ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult> ?res . ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue> ?val . FILTER(?val > §Threshold§) }
+Which patients have received a diagnosis of {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT ?patient WHERE {
+  ?patient sphn:hasDiagnosis ?diag .
+  ?diag sphn:hasCode ?code .
+  ?code sphn:hasCodeValue icd:§Diagnosis§ .
+}
+"
+Which patients have been given a diagnosis of {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT ?patient WHERE {
+  ?patient sphn:hasDiagnosis ?diag .
+  ?diag sphn:hasCode ?code .
+  ?code sphn:hasCodeValue icd:§Diagnosis§ .
+}
+"
+Which patients have been diagnosed as having {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT ?patient WHERE {
+  ?patient sphn:hasDiagnosis ?diag .
+  ?diag sphn:hasCode ?code .
+  ?code sphn:hasCodeValue icd:§Diagnosis§ .
+}
+"
+Which patients have been assessed and found to have {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT ?patient WHERE {
+  ?patient sphn:hasDiagnosis ?diag .
+  ?diag sphn:hasCode ?code .
+  ?code sphn:hasCodeValue icd:§Diagnosis§ .
+}
+"
+Which patients have been identified as having {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT ?patient WHERE {
+  ?patient sphn:hasDiagnosis ?diag .
+  ?diag sphn:hasCode ?code .
+  ?code sphn:hasCodeValue icd:§Diagnosis§ .
+}
+"
+Which patients have been determined to have {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT ?patient WHERE {
+  ?patient sphn:hasDiagnosis ?diag .
+  ?diag sphn:hasCode ?code .
+  ?code sphn:hasCodeValue icd:§Diagnosis§ .
+}
+"
+Which patients are recognized as having {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT ?patient WHERE {
+  ?patient sphn:hasDiagnosis ?diag .
+  ?diag sphn:hasCode ?code .
+  ?code sphn:hasCodeValue icd:§Diagnosis§ .
+}
+"
+Which patients have been found to have {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT ?patient WHERE {
+  ?patient sphn:hasDiagnosis ?diag .
+  ?diag sphn:hasCode ?code .
+  ?code sphn:hasCodeValue icd:§Diagnosis§ .
+}
+"
+Which patients have been confirmed to have {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT ?patient WHERE {
+  ?patient sphn:hasDiagnosis ?diag .
+  ?diag sphn:hasCode ?code .
+  ?code sphn:hasCodeValue icd:§Diagnosis§ .
+}
+"
+Which patients are reported to have {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT ?patient WHERE {
+  ?patient sphn:hasDiagnosis ?diag .
+  ?diag sphn:hasCode ?code .
+  ?code sphn:hasCodeValue icd:§Diagnosis§ .
+}
+"
+Which patients are identified as having {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT ?patient WHERE {
+  ?patient sphn:hasDiagnosis ?diag .
+  ?diag sphn:hasCode ?code .
+  ?code sphn:hasCodeValue icd:§Diagnosis§ .
+}
+"
+Which patients are diagnosed as having {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT ?patient WHERE {
+  ?patient sphn:hasDiagnosis ?diag .
+  ?diag sphn:hasCode ?code .
+  ?code sphn:hasCodeValue icd:§Diagnosis§ .
+}
+"
+Which patients have been found to be diagnosed with {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT ?patient WHERE {
+  ?patient sphn:hasDiagnosis ?diag .
+  ?diag sphn:hasCode ?code .
+  ?code sphn:hasCodeValue icd:§Diagnosis§ .
+}
+"
+Which patients have been evaluated and diagnosed with {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT ?patient WHERE {
+  ?patient sphn:hasDiagnosis ?diag .
+  ?diag sphn:hasCode ?code .
+  ?code sphn:hasCodeValue icd:§Diagnosis§ .
+}
+"
+Which patients have been assessed and diagnosed with {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT ?patient WHERE {
+  ?patient sphn:hasDiagnosis ?diag .
+  ?diag sphn:hasCode ?code .
+  ?code sphn:hasCodeValue icd:§Diagnosis§ .
+}
+"
+Which patient's laboratory results have exceeded the §Threshold§?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val > §Threshold§)
+}
+"
+Which patient's lab results have gone beyond the §Threshold§?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val > §Threshold§)
+}
+"
+Which patient's laboratory results have gone over the §Threshold§?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val > §Threshold§)
+}
+"
+Which patient's laboratory results have surpassed the §Threshold§?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val > §Threshold§)
+}
+"
+Which patient's lab results have crossed the §Threshold§?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val > §Threshold§)
+}
+"
+Which patient's laboratory results have gone beyond the threshold of {THRESHOLD}?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val > §Threshold§)
+}
+"
+Which patient has laboratory results that have exceeded the §Threshold§?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val > §Threshold§)
+}
+"
+Which patient's laboratory results have gone past the §Threshold§?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val > §Threshold§)
+}
+"
+Which patient has lab results that have exceeded the §Threshold§?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val > §Threshold§)
+}
+"
+Which patient's laboratory results have exceeded the threshold of §Threshold§?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val > §Threshold§)
+}
+"
+Which patient has laboratory results that have surpassed the §Threshold§?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val > §Threshold§)
+}
+"
+Which patient's laboratory results have gone over the threshold of §Threshold§?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val > §Threshold§)
+}
+"
+Which patient has lab results that have gone beyond the threshold of §Threshold§?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val > §Threshold§)
+}
+"
+Which patient's laboratory results have exceeded the threshold set at §Threshold§?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val > §Threshold§)
+}
+"
+Which patient's laboratory results have outstripped the threshold of §Threshold§?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val > §Threshold§)
+}
+"
+What patients have received {DRUG}?,"SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue §Drug§
+}
+"
+Which patients have administered {DRUG}?,"SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue §Drug§
+}
+"
+What patients have taken {DRUG}?,"SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue §Drug§
+}
+"
+Which patients have used {DRUG}?,"SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue §Drug§
+}
+"
+Which patients have been prescribed {DRUG}?,"SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue §Drug§
+}
+"
+Which patients have consumed {DRUG}?,"SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue §Drug§
+}
+"
+Which patients have ingested {DRUG}?,"SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue §Drug§
+}
+"
+Which patients have been given {DRUG}?,"SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue §Drug§
+}
+"
+Which patients have undergone treatment with {DRUG}?,"SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue §Drug§
+}
+"
+Which patients are on {DRUG}?,"SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue §Drug§
+}
+"
+What patients have been treated with {DRUG}?,"SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue §Drug§
+}
+"
+Which patients have utilized {DRUG}?,"SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue §Drug§
+}
+"
+What patients have used {DRUG}?,"SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue §Drug§
+}
+"
+What patients have had {DRUG}?,"SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue §Drug§
+}
+"
+Which patients have had {DRUG} administered?,"SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue §Drug§
+}
+"
+What is the number of patients diagnosed with {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT (COUNT(*) AS ?numPatients) WHERE {
+  {
+    SELECT DISTINCT ?patient WHERE {
+      ?patient sphn:hasDiagnosis ?diag .
+      ?diag sphn:hasCode ?code .
+      ?code sphn:hasCodeValue icd:§Diagnosis§ .
+    }
+  }
+}
+"
+What is the total count of patients who have received a {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT (COUNT(*) AS ?numPatients) WHERE {
+  {
+    SELECT DISTINCT ?patient WHERE {
+      ?patient sphn:hasDiagnosis ?diag .
+      ?diag sphn:hasCode ?code .
+      ?code sphn:hasCodeValue icd:§Diagnosis§ .
+    }
+  }
+}
+"
+What is the total number of patients that have been diagnosed with {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT (COUNT(*) AS ?numPatients) WHERE {
+  {
+    SELECT DISTINCT ?patient WHERE {
+      ?patient sphn:hasDiagnosis ?diag .
+      ?diag sphn:hasCode ?code .
+      ?code sphn:hasCodeValue icd:§Diagnosis§ .
+    }
+  }
+}
+"
+What is the total number of patients who have been diagnosed with {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT (COUNT(*) AS ?numPatients) WHERE {
+  {
+    SELECT DISTINCT ?patient WHERE {
+      ?patient sphn:hasDiagnosis ?diag .
+      ?diag sphn:hasCode ?code .
+      ?code sphn:hasCodeValue icd:§Diagnosis§ .
+    }
+  }
+}
+"
+What is the count of patients diagnosed with {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT (COUNT(*) AS ?numPatients) WHERE {
+  {
+    SELECT DISTINCT ?patient WHERE {
+      ?patient sphn:hasDiagnosis ?diag .
+      ?diag sphn:hasCode ?code .
+      ?code sphn:hasCodeValue icd:§Diagnosis§ .
+    }
+  }
+}
+"
+What is the number of patients who have been diagnosed with {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT (COUNT(*) AS ?numPatients) WHERE {
+  {
+    SELECT DISTINCT ?patient WHERE {
+      ?patient sphn:hasDiagnosis ?diag .
+      ?diag sphn:hasCode ?code .
+      ?code sphn:hasCodeValue icd:§Diagnosis§ .
+    }
+  }
+}
+"
+What is the total amount of patients that have received a {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT (COUNT(*) AS ?numPatients) WHERE {
+  {
+    SELECT DISTINCT ?patient WHERE {
+      ?patient sphn:hasDiagnosis ?diag .
+      ?diag sphn:hasCode ?code .
+      ?code sphn:hasCodeValue icd:§Diagnosis§ .
+    }
+  }
+}
+"
+What is the number of patients who have received a diagnosis of {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT (COUNT(*) AS ?numPatients) WHERE {
+  {
+    SELECT DISTINCT ?patient WHERE {
+      ?patient sphn:hasDiagnosis ?diag .
+      ?diag sphn:hasCode ?code .
+      ?code sphn:hasCodeValue icd:§Diagnosis§ .
+    }
+  }
+}
+"
+What is the quantity of patients that have been diagnosed with {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT (COUNT(*) AS ?numPatients) WHERE {
+  {
+    SELECT DISTINCT ?patient WHERE {
+      ?patient sphn:hasDiagnosis ?diag .
+      ?diag sphn:hasCode ?code .
+      ?code sphn:hasCodeValue icd:§Diagnosis§ .
+    }
+  }
+}
+"
+What is the total count of patients that have been diagnosed with {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT (COUNT(*) AS ?numPatients) WHERE {
+  {
+    SELECT DISTINCT ?patient WHERE {
+      ?patient sphn:hasDiagnosis ?diag .
+      ?diag sphn:hasCode ?code .
+      ?code sphn:hasCodeValue icd:§Diagnosis§ .
+    }
+  }
+}
+"
+What is the total number of patients that have been diagnosed as having {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT (COUNT(*) AS ?numPatients) WHERE {
+  {
+    SELECT DISTINCT ?patient WHERE {
+      ?patient sphn:hasDiagnosis ?diag .
+      ?diag sphn:hasCode ?code .
+      ?code sphn:hasCodeValue icd:§Diagnosis§ .
+    }
+  }
+}
+"
+What is the number of patients that have received a diagnosis of {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT (COUNT(*) AS ?numPatients) WHERE {
+  {
+    SELECT DISTINCT ?patient WHERE {
+      ?patient sphn:hasDiagnosis ?diag .
+      ?diag sphn:hasCode ?code .
+      ?code sphn:hasCodeValue icd:§Diagnosis§ .
+    }
+  }
+}
+"
+What is the number of patients diagnosed as having {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT (COUNT(*) AS ?numPatients) WHERE {
+  {
+    SELECT DISTINCT ?patient WHERE {
+      ?patient sphn:hasDiagnosis ?diag .
+      ?diag sphn:hasCode ?code .
+      ?code sphn:hasCodeValue icd:§Diagnosis§ .
+    }
+  }
+}
+"
+What is the total number of patients that have been identified with {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT (COUNT(*) AS ?numPatients) WHERE {
+  {
+    SELECT DISTINCT ?patient WHERE {
+      ?patient sphn:hasDiagnosis ?diag .
+      ?diag sphn:hasCode ?code .
+      ?code sphn:hasCodeValue icd:§Diagnosis§ .
+    }
+  }
+}
+"
+What is the total figure of patients who have been diagnosed as having {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT (COUNT(*) AS ?numPatients) WHERE {
+  {
+    SELECT DISTINCT ?patient WHERE {
+      ?patient sphn:hasDiagnosis ?diag .
+      ?diag sphn:hasCode ?code .
+      ?code sphn:hasCodeValue icd:§Diagnosis§ .
+    }
+  }
+}
+"
+Which patients are older than {Age}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?patient sphn:hasBirthDate ?dob .
+  BIND(year(NOW()) - year(?dob) AS ?age)
+  FILTER(?age >= §Age§)
+}
+"
+Which patients exceed the age of {Age}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?patient sphn:hasBirthDate ?dob .
+  BIND(year(NOW()) - year(?dob) AS ?age)
+  FILTER(?age >= §Age§)
+}
+"
+Which patients are above the age of {Age}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?patient sphn:hasBirthDate ?dob .
+  BIND(year(NOW()) - year(?dob) AS ?age)
+  FILTER(?age >= §Age§)
+}
+"
+What patients are beyond the age of {Age}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?patient sphn:hasBirthDate ?dob .
+  BIND(year(NOW()) - year(?dob) AS ?age)
+  FILTER(?age >= §Age§)
+}
+"
+Which patients are over the age of {Age}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?patient sphn:hasBirthDate ?dob .
+  BIND(year(NOW()) - year(?dob) AS ?age)
+  FILTER(?age >= §Age§)
+}
+"
+Which patients surpass the age of {Age}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?patient sphn:hasBirthDate ?dob .
+  BIND(year(NOW()) - year(?dob) AS ?age)
+  FILTER(?age >= §Age§)
+}
+"
+Which patients are aged more than {Age}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?patient sphn:hasBirthDate ?dob .
+  BIND(year(NOW()) - year(?dob) AS ?age)
+  FILTER(?age >= §Age§)
+}
+"
+Which patients are greater than {Age} in age?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?patient sphn:hasBirthDate ?dob .
+  BIND(year(NOW()) - year(?dob) AS ?age)
+  FILTER(?age >= §Age§)
+}
+"
+Which patients fall into the age category above {Age}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?patient sphn:hasBirthDate ?dob .
+  BIND(year(NOW()) - year(?dob) AS ?age)
+  FILTER(?age >= §Age§)
+}
+"
+Which patients are considered to be older than {Age}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?patient sphn:hasBirthDate ?dob .
+  BIND(year(NOW()) - year(?dob) AS ?age)
+  FILTER(?age >= §Age§)
+}
+"
+Which patients are considered to be over {Age} years old?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?patient sphn:hasBirthDate ?dob .
+  BIND(year(NOW()) - year(?dob) AS ?age)
+  FILTER(?age >= §Age§)
+}
+"
+Which patients fall into the category of being older than {Age}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?patient sphn:hasBirthDate ?dob .
+  BIND(year(NOW()) - year(?dob) AS ?age)
+  FILTER(?age >= §Age§)
+}
+"
+Which patients are classified as being older than {Age}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?patient sphn:hasBirthDate ?dob .
+  BIND(year(NOW()) - year(?dob) AS ?age)
+  FILTER(?age >= §Age§)
+}
+"
+Which patients are in the age group exceeding {Age}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?patient sphn:hasBirthDate ?dob .
+  BIND(year(NOW()) - year(?dob) AS ?age)
+  FILTER(?age >= §Age§)
+}
+"
+Which patients have an age that exceeds {Age}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?patient sphn:hasBirthDate ?dob .
+  BIND(year(NOW()) - year(?dob) AS ?age)
+  FILTER(?age >= §Age§)
+}
+"
+Which individuals have had exposure to the drug {Drug}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue ""§Drug§""
+}
+"
+Which patients have had contact with the drug {Drug}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue ""§Drug§""
+}
+"
+Which patients have encountered the drug {Drug}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue ""§Drug§""
+}
+"
+Which patients have interacted with the drug {Drug}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue ""§Drug§""
+}
+"
+Which patients have come into contact with the drug {Drug}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue ""§Drug§""
+}
+"
+Which patients have been in contact with the drug {Drug}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue ""§Drug§""
+}
+"
+Which patients have experienced exposure to the drug {Drug}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue ""§Drug§""
+}
+"
+Which patients have had exposure to the drug {Drug}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue ""§Drug§""
+}
+"
+Which patients have been subjected to the drug {Drug}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue ""§Drug§""
+}
+"
+Which patients have undergone exposure to the drug {Drug}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue ""§Drug§""
+}
+"
+Which patients have been introduced to the drug {Drug}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue ""§Drug§""
+}
+"
+Which patients have had interaction with the drug {Drug}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue ""§Drug§""
+}
+"
+Which patients have had dealings with the drug {Drug}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue ""§Drug§""
+}
+"
+Which patients have been affected by the drug {Drug}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue ""§Drug§""
+}
+"
+Which patients have had an encounter with the drug {Drug}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue ""§Drug§""
+}
+"
+What patients have not met the {Threshold} for their laboratory tests?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val < §Threshold§)
+}
+"
+Which patients have failed to achieve the {Threshold} for their laboratory tests?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val < §Threshold§)
+}
+"
+What patients have not attained the {Threshold} level for their laboratory tests?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val < §Threshold§)
+}
+"
+Which patients have not attained the {Threshold} mark in their laboratory tests?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val < §Threshold§)
+}
+"
+Which patients have not achieved the {Threshold} level in their lab tests?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val < §Threshold§)
+}
+"
+What patients have not reached the {Threshold} benchmark in their laboratory tests?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val < §Threshold§)
+}
+"
+What patients have not met the {Threshold} standard in their lab tests?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val < §Threshold§)
+}
+"
+What patients have not fulfilled the {Threshold} requirement for their laboratory tests?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val < §Threshold§)
+}
+"
+Which patients have not reached the {Threshold} level for their laboratory tests?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val < §Threshold§)
+}
+"
+What patients have not met the {Threshold} criteria for their laboratory tests?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val < §Threshold§)
+}
+"
+What patients have not achieved the {Threshold} threshold in their laboratory tests?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val < §Threshold§)
+}
+"
+What patients have not satisfied the {Threshold} requirement in their laboratory tests?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val < §Threshold§)
+}
+"
+What patients have not reached the {Threshold} limit in their laboratory tests?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val < §Threshold§)
+}
+"
+What patients have not satisfied the {Threshold} criteria for their lab tests?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val < §Threshold§)
+}
+"
+What patients have not met the {Threshold} threshold for their laboratory tests?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val < §Threshold§)
+}
+"
+Which patients have experienced an adverse event classified as {Severity}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+       sphn:AdverseEvent .
+  ?ae sphn:hasSubjectPseudoIdentifier ?patient .
+  ?ae sphn:hasSeverity ?sev .
+  FILTER(?sev IN (""§Severity§""))
+}
+"
+Which patients have encountered an adverse event rated as {Severity}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+       sphn:AdverseEvent .
+  ?ae sphn:hasSubjectPseudoIdentifier ?patient .
+  ?ae sphn:hasSeverity ?sev .
+  FILTER(?sev IN (""§Severity§""))
+}
+"
+Which patients have suffered an adverse event identified as {Severity}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+       sphn:AdverseEvent .
+  ?ae sphn:hasSubjectPseudoIdentifier ?patient .
+  ?ae sphn:hasSeverity ?sev .
+  FILTER(?sev IN (""§Severity§""))
+}
+"
+Which patients have reported an adverse event categorized as {Severity}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+       sphn:AdverseEvent .
+  ?ae sphn:hasSubjectPseudoIdentifier ?patient .
+  ?ae sphn:hasSeverity ?sev .
+  FILTER(?sev IN (""§Severity§""))
+}
+"
+Which patients have faced an adverse event deemed {Severity}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+       sphn:AdverseEvent .
+  ?ae sphn:hasSubjectPseudoIdentifier ?patient .
+  ?ae sphn:hasSeverity ?sev .
+  FILTER(?sev IN (""§Severity§""))
+}
+"
+Which patients have undergone an adverse event considered {Severity}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+       sphn:AdverseEvent .
+  ?ae sphn:hasSubjectPseudoIdentifier ?patient .
+  ?ae sphn:hasSeverity ?sev .
+  FILTER(?sev IN (""§Severity§""))
+}
+"
+Which patients have had an adverse event that is classified as {Severity}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+       sphn:AdverseEvent .
+  ?ae sphn:hasSubjectPseudoIdentifier ?patient .
+  ?ae sphn:hasSeverity ?sev .
+  FILTER(?sev IN (""§Severity§""))
+}
+"
+Which patients have experienced an adverse event that is rated {Severity}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+       sphn:AdverseEvent .
+  ?ae sphn:hasSubjectPseudoIdentifier ?patient .
+  ?ae sphn:hasSeverity ?sev .
+  FILTER(?sev IN (""§Severity§""))
+}
+"
+Which patients have dealt with an adverse event assessed as {Severity}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+       sphn:AdverseEvent .
+  ?ae sphn:hasSubjectPseudoIdentifier ?patient .
+  ?ae sphn:hasSeverity ?sev .
+  FILTER(?sev IN (""§Severity§""))
+}
+"
+Which patients have reported an adverse event rated as {Severity}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+       sphn:AdverseEvent .
+  ?ae sphn:hasSubjectPseudoIdentifier ?patient .
+  ?ae sphn:hasSeverity ?sev .
+  FILTER(?sev IN (""§Severity§""))
+}
+"
+Which patients have encountered an adverse event of {Severity}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+       sphn:AdverseEvent .
+  ?ae sphn:hasSubjectPseudoIdentifier ?patient .
+  ?ae sphn:hasSeverity ?sev .
+  FILTER(?sev IN (""§Severity§""))
+}
+"
+Which patients have experienced an adverse event that is {Severity}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+       sphn:AdverseEvent .
+  ?ae sphn:hasSubjectPseudoIdentifier ?patient .
+  ?ae sphn:hasSeverity ?sev .
+  FILTER(?sev IN (""§Severity§""))
+}
+"
+Which patients have undergone an adverse event that is {Severity}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+       sphn:AdverseEvent .
+  ?ae sphn:hasSubjectPseudoIdentifier ?patient .
+  ?ae sphn:hasSeverity ?sev .
+  FILTER(?sev IN (""§Severity§""))
+}
+"
+Which patients have undergone an adverse event that is classified as {Severity}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+       sphn:AdverseEvent .
+  ?ae sphn:hasSubjectPseudoIdentifier ?patient .
+  ?ae sphn:hasSeverity ?sev .
+  FILTER(?sev IN (""§Severity§""))
+}
+"
+Which patients have faced an adverse event that is {Severity}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+       sphn:AdverseEvent .
+  ?ae sphn:hasSubjectPseudoIdentifier ?patient .
+  ?ae sphn:hasSeverity ?sev .
+  FILTER(?sev IN (""§Severity§""))
+}
+"

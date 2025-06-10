@@ -33,7 +33,7 @@ class context_constructor(PipelineStep):
         qq_examples = self.nlq_store.query(
             question
         )
-        most_similar_template = qq_examples[0] if qq_examples else ""
+        # most_similar_template = qq_examples[0] if qq_examples else ""
         templates = ""
         examples = ""
         for i, example in enumerate(qq_examples):
@@ -43,16 +43,17 @@ class context_constructor(PipelineStep):
                 f"Template Question: {example['question_template']}",
                 f"Template Query: {example['query_template']}"
             ])
+            template_classes, properties =  self.class_vector_store.query(example['question_example'])
+            classes = classes+properties
             example_string = "\n".join([
                 f"Example {i}:",
                 f"Question: {example['question_example']}",
-                # f"Relevant Classes: TODO add {classes}",
+                f"Relevant Classes: {template_classes}",
                 f"Answer Example {i}: {example['query_example']}"
             ])
             examples += example_string + "\n\n"
             templates += template + "\n\n"
         
-        print("examples in get_template:", examples)
         return templates, examples, classes
     def get_context(self, question: str):
         qq_examples = self.nlq_store.query(

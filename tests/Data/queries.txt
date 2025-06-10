@@ -1,62 +1,34 @@
-1. Question: Which patients have been diagnosed with {Diagnosis}?
-- SELECT ?patient WHERE {   ?patient sphn:hasDiagnosis ?diag .   ?diag sphn:hasCode ?code .   ?code sphn:hasValue {{Diagnosis}} . }
-2. Question : Which patient’s lab results have surpassed the threshold of {Threshold}?
-- SELECT ?patient WHERE {   ?event sphn:hasSubjectPseudoIdentifier ?patient .   ?event sphn:hasLabResult ?res .   ?res sphn:hasQuantityValue ?val .   FILTER(?val >{{Threshold}}) }
-3. Question : Which patient has been diagnosed with {Diagnosis} and had a lab result surpass the threshold of {Threshold}?
-- SELECT ?patient WHERE {   ?patient sphn:hasDiagnosis ?diag .   ?diag sphn:hasCode ?code .   ?code sphn:hasValue {{Diagnosis}} . ?event sphn:hasSubjectPseudoIdentifier ?patient .   ?event sphn:hasLabResult ?res .   ?res sphn:hasQuantityValue ?val .   FILTER(?val > {{Threshold}}) }
-4. Which patients have taken {Drug}?
-SELECT ?patient WHERE {  ?presc sphn:hasSubjectPseudoIdentifier ?patient .   ?presc sphn:hasDrug ?drug .   ?drug sphn:hasCode ?code .   ?code sphn:hasValue {{Drug}} }
-5. How many patients are there who have been diagnosed with {Diagnosis}?
-- SELECT (COUNT(DISTINCT ?patient) AS ?numPatients) WHERE { ?patient sphn:hasDiagnosis ?diag . ?diag sphn:hasCode ?code . ?code sphn:hasValue {{Diagnosis}} . }
+1. Which patients have been diagnosed with §Diagnosis§?
+- SELECT ?patient WHERE {   ?patient sphn:hasDiagnosis ?diag .   ?diag sphn:hasCode ?code .   ?code sphn:hasCodeValue §Diagnosis§ . }
+2. Which patient’s lab results have surpassed the threshold of §Threshold§?
+- SELECT ?patient WHERE {   ?event sphn:hasSubjectPseudoIdentifier ?patient .   ?event sphn:hasLabResult ?res .   ?res sphn:hasQuantityValue ?val .   FILTER(?val > §Threshold§ ) }
+3. Which patient has been diagnosed with §Diagnosis§ and had a lab result surpass the threshold of §Threshold§?
+- SELECT ?patient WHERE {   ?patient sphn:hasDiagnosis ?diag .   ?diag sphn:hasCode ?code .   ?code sphn:hasCodeValue §Diagnosis§ . ?event sphn:hasSubjectPseudoIdentifier ?patient .   ?event sphn:hasLabResult ?res .   ?res sphn:hasQuantityValue ?val .   FILTER(?val > §Threshold§ ) }
+4. Which patients have taken §Drug§?
+SELECT ?patient WHERE {  ?presc sphn:hasSubjectPseudoIdentifier ?patient .   ?presc sphn:hasDrug ?drug .   ?drug sphn:hasCode ?code .   ?code sphn:hasCodeValue §Drug§ }
+5. How many patients are there who have been diagnosed with §Diagnosis§ ?
+- SELECT (COUNT(DISTINCT ?patient) AS ?numPatients) WHERE { ?patient sphn:hasDiagnosis ?diag . ?diag sphn:hasCode ?code . ?code sphn:hasCodeValue §Diagnosis§ . }
 6. How many patients have enrolled per site?
 - SELECT ?site (COUNT(DISTINCT ?patient) AS ?count) WHERE { ?event rdf:type sphn:EnrollmentEvent . ?event sphn:hasSite ?site . ?event sphn:hasSubjectPseudoIdentifier ?patient . } GROUP BY ?site
-7. What patients are over the age of {Age}?
-- SELECT ?patient WHERE { ?patient sphn:hasBirthDate ?dob . BIND(year(NOW()) - year(?dob) AS ?age) FILTER(?age >= {{Age}}) }
-8. Which patients have been diagnosed with {Diagnosis1} or {Diagnosis2}
-- SELECT ?patient WHERE {   {     ?patient sphn:hasDiagnosis ?diag . ?diag sphn:hasCode ?code . ?code sphn:hasValue {{Diagnosis1}} .} UNION { ?patient sphn:hasDiagnosis ?diag . ?diag sphn:hasCode ?code . ?code sphn:hasValue {{Diagnosis2}} . } }
-9. Which patients have been diagnosed with {Diagnosis} and have had a lab test surpass the value {Threshold}?
-- SELECT ?patient WHERE { ?patient sphn:hasDiagnosis ?diag . ?diag sphn:hasCode ?code . ?code sphn:hasValue {{Diagnosis}} . ?event sphn:hasSubjectPseudoIdentifier ?patient . ?event sphn:hasLabResult ?res . ?res sphn:hasQuantityValue ?val . FILTER(?val > {{Threshold}}) }
-1. Which patients have been exposed to the drug {Drug}?
-- SELECT ?patient WHERE {  ?presc sphn:hasSubjectPseudoIdentifier ?patient .   ?presc sphn:hasDrug ?drug .   ?drug sphn:hasCode ?code .   ?code sphn:hasValue {{Drug}} }
-2. Which patients have been exposed to the substance {Substance}?
-- SELECT ?patient WHERE { ?presc sphn:hasSubjectPseudoIdentifier ?patient . ?presc sphn:hasDrug ?drug . ?drug sphn:hasSubstanceClass ?class .  ?class sphn:hasCode ?code .  ?code sphn:hasValue {{Substance}} .  }
-3. Patients reaching target biomarker thresholds
-SELECT ?patient WHERE {
-  ?event sphn:hasSubjectPseudoIdentifier ?patient .
-  ?event sphn:hasLabResult ?res .
-  ?res sphn:hasQuantityValue ?val .
-  FILTER(?val < 6.5)
-}
-4. Adverse events above severity threshold
-SELECT ?patient WHERE {
-  ?ae rdf:type sphn:AdverseEvent .
-  ?ae sphn:hasSubjectPseudoIdentifier ?patient .
-  ?ae sphn:hasSeverity ?sev .
-  FILTER(?sev IN ("severe", "life-threatening"))
-}
-5. Time-anchored lab or AE events
-SELECT ?patient WHERE {
-  ?event rdf:type sphn:LabTestEvent .
-  ?event sphn:hasSubjectPseudoIdentifier ?patient .
-  ?event sphn:hasDate ?date .
-  FILTER(?date > "2023-01-01"^^xsd:date)
-}
-6. Patients with AE + drug exposure
-SELECT DISTINCT ?patient WHERE {
-  ?ae rdf:type sphn:AdverseEvent .
-  ?ae sphn:hasSubjectPseudoIdentifier ?patient .
-  
-  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
-  ?presc sphn:hasDrug ?drug .
-}
-7. Count AE events by type or severity
-SELECT ?type (COUNT(?ae) AS ?count) WHERE {
-  ?ae rdf:type sphn:AdverseEvent .
-  ?ae sphn:hasType ?type .
-} GROUP BY ?type
-8. Co-medication overlap detection
-SELECT DISTINCT ?patient WHERE {
-  ?presc1 sphn:hasSubjectPseudoIdentifier ?patient .
-  ?presc2 sphn:hasSubjectPseudoIdentifier ?patient .
-  FILTER(?presc1 != ?presc2)
-}
+7. What patients are over the age of §Age§?
+- SELECT ?patient WHERE { ?patient sphn:hasBirthDate ?dob . BIND(year(NOW()) - year(?dob) AS ?age) FILTER(?age >= §Age§ ) }
+8. Which patients have been diagnosed with §Diagnosis1§ or §Diagnosis2§
+- SELECT ?patient WHERE {   {     ?patient sphn:hasDiagnosis ?diag . ?diag sphn:hasCode ?code . ?code sphn:hasCodeValue §Diagnosis1§ .} UNION { ?patient sphn:hasDiagnosis ?diag . ?diag sphn:hasCode ?code . ?code sphn:hasCodeValue §Diagnosis2§ . } }
+9. Which patients have been diagnosed with §Diagnosis§ and have had a lab test surpass the value §Threshold§?
+- SELECT ?patient WHERE { ?patient sphn:hasDiagnosis ?diag . ?diag sphn:hasCode ?code . ?code sphn:hasCodeValue §Diagnosis§ . ?event sphn:hasSubjectPseudoIdentifier ?patient . ?event sphn:hasLabResult ?res . ?res sphn:hasQuantityValue ?val . FILTER(?val > §Threshold§) }
+10. Which patients have been exposed to the drug §Drug§?
+- SELECT ?patient WHERE {  ?presc sphn:hasSubjectPseudoIdentifier ?patient .   ?presc sphn:hasDrug ?drug .   ?drug sphn:hasCode ?code .   ?code sphn:hasCodeValue §Drug§ }
+11. Which patients have been exposed to the substance §Substance§?
+- SELECT ?patient WHERE { ?presc sphn:hasSubjectPseudoIdentifier ?patient . ?presc sphn:hasDrug ?drug . ?drug sphn:hasSubstanceClass ?class .  ?class sphn:hasCode ?code .  ?code sphn:hasCodeValue §Substance§ .  }
+12. Which patients have not reached the threshold of §Threshold§ for their lab tests?
+- SELECT ?patient WHERE {  ?event sphn:hasSubjectPseudoIdentifier ?patient .   ?event sphn:hasLabResult ?res .   ?res sphn:hasQuantityValue ?val .   FILTER(?val < §Threshold§ ) }
+13. Which patients have had a §Severity§ adverse event?
+- SELECT ?patient WHERE { ?ae rdf:type sphn:AdverseEvent . ?ae sphn:hasSubjectPseudoIdentifier ?patient . ?ae sphn:hasSeverity ?sev . FILTER(?sev IN ("§Severity§")) }
+14. Which patients have had a test event after the date of §Date§?
+- SELECT ?patient WHERE { ?event rdf:type sphn:LabTestEvent . ?event sphn:hasSubjectPseudoIdentifier ?patient .?event sphn:hasDate ?date .FILTER(?date > "§Date§"^^xsd:date)}
+15. Which patients have taken a drug and have been subjected to an adverse event?Patients with AE + drug exposure
+- SELECT DISTINCT ?patient WHERE { ?ae rdf:type sphn:AdverseEvent . ?ae sphn:hasSubjectPseudoIdentifier ?patient . ?presc sphn:hasSubjectPseudoIdentifier ?patient .  ?presc sphn:hasDrug ?drug . }
+16. Give me a count of adverse events and a count of how many have gone through them.
+- SELECT ?type (COUNT(?ae) AS ?count) WHERE { ?ae rdf:type sphn:AdverseEvent . ?ae sphn:hasType ?type . } GROUP BY ?type 
+17. Which patients have been given the exact same medical prescription?
+- SELECT DISTINCT ?patient WHERE { ?presc1 sphn:hasSubjectPseudoIdentifier ?patient . ?presc2 sphn:hasSubjectPseudoIdentifier ?patient . FILTER(?presc1 != ?presc2) }

@@ -254,109 +254,123 @@ SELECT ?patient WHERE {
   FILTER(?val > §Threshold§)
 }
 "
-What patients have received {DRUG}?,"SELECT ?patient WHERE {
+What patients have received {DRUG}?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
   ?presc sphn:hasSubjectPseudoIdentifier ?patient .
   ?presc sphn:hasDrug ?drug .
   ?drug sphn:hasCode ?code .
-  ?code sphn:hasValue §Drug§
+  ?code sphn:hasValue ""§Drug§""
 }
 "
-Which patients have administered {DRUG}?,"SELECT ?patient WHERE {
+Which patients have administered {DRUG}?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
   ?presc sphn:hasSubjectPseudoIdentifier ?patient .
   ?presc sphn:hasDrug ?drug .
   ?drug sphn:hasCode ?code .
-  ?code sphn:hasValue §Drug§
+  ?code sphn:hasValue ""§Drug§""
 }
 "
-What patients have taken {DRUG}?,"SELECT ?patient WHERE {
+What patients have taken {DRUG}?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
   ?presc sphn:hasSubjectPseudoIdentifier ?patient .
   ?presc sphn:hasDrug ?drug .
   ?drug sphn:hasCode ?code .
-  ?code sphn:hasValue §Drug§
+  ?code sphn:hasValue ""§Drug§""
 }
 "
-Which patients have used {DRUG}?,"SELECT ?patient WHERE {
+Which patients have used {DRUG}?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
   ?presc sphn:hasSubjectPseudoIdentifier ?patient .
   ?presc sphn:hasDrug ?drug .
   ?drug sphn:hasCode ?code .
-  ?code sphn:hasValue §Drug§
+  ?code sphn:hasValue ""§Drug§""
 }
 "
-Which patients have been prescribed {DRUG}?,"SELECT ?patient WHERE {
+Which patients have been prescribed {DRUG}?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
   ?presc sphn:hasSubjectPseudoIdentifier ?patient .
   ?presc sphn:hasDrug ?drug .
   ?drug sphn:hasCode ?code .
-  ?code sphn:hasValue §Drug§
+  ?code sphn:hasValue ""§Drug§""
 }
 "
-Which patients have consumed {DRUG}?,"SELECT ?patient WHERE {
+Which patients have consumed {DRUG}?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
   ?presc sphn:hasSubjectPseudoIdentifier ?patient .
   ?presc sphn:hasDrug ?drug .
   ?drug sphn:hasCode ?code .
-  ?code sphn:hasValue §Drug§
+  ?code sphn:hasValue ""§Drug§""
 }
 "
-Which patients have ingested {DRUG}?,"SELECT ?patient WHERE {
+Which patients have ingested {DRUG}?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
   ?presc sphn:hasSubjectPseudoIdentifier ?patient .
   ?presc sphn:hasDrug ?drug .
   ?drug sphn:hasCode ?code .
-  ?code sphn:hasValue §Drug§
+  ?code sphn:hasValue ""§Drug§""
 }
 "
-Which patients have been given {DRUG}?,"SELECT ?patient WHERE {
+Which patients have been given {DRUG}?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
   ?presc sphn:hasSubjectPseudoIdentifier ?patient .
   ?presc sphn:hasDrug ?drug .
   ?drug sphn:hasCode ?code .
-  ?code sphn:hasValue §Drug§
+  ?code sphn:hasValue ""§Drug§""
 }
 "
-Which patients have undergone treatment with {DRUG}?,"SELECT ?patient WHERE {
+Which patients have undergone treatment with {DRUG}?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
   ?presc sphn:hasSubjectPseudoIdentifier ?patient .
   ?presc sphn:hasDrug ?drug .
   ?drug sphn:hasCode ?code .
-  ?code sphn:hasValue §Drug§
+  ?code sphn:hasValue ""§Drug§""
 }
 "
-Which patients are on {DRUG}?,"SELECT ?patient WHERE {
+Which patients are on {DRUG}?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
   ?presc sphn:hasSubjectPseudoIdentifier ?patient .
   ?presc sphn:hasDrug ?drug .
   ?drug sphn:hasCode ?code .
-  ?code sphn:hasValue §Drug§
+  ?code sphn:hasValue ""§Drug§""
 }
 "
-What patients have been treated with {DRUG}?,"SELECT ?patient WHERE {
+What patients have been treated with {DRUG}?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
   ?presc sphn:hasSubjectPseudoIdentifier ?patient .
   ?presc sphn:hasDrug ?drug .
   ?drug sphn:hasCode ?code .
-  ?code sphn:hasValue §Drug§
+  ?code sphn:hasValue ""§Drug§""
 }
 "
-Which patients have utilized {DRUG}?,"SELECT ?patient WHERE {
+Which patients have utilized {DRUG}?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
   ?presc sphn:hasSubjectPseudoIdentifier ?patient .
   ?presc sphn:hasDrug ?drug .
   ?drug sphn:hasCode ?code .
-  ?code sphn:hasValue §Drug§
+  ?code sphn:hasValue ""§Drug§""
 }
 "
-What patients have used {DRUG}?,"SELECT ?patient WHERE {
+What patients have used {DRUG}?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
   ?presc sphn:hasSubjectPseudoIdentifier ?patient .
   ?presc sphn:hasDrug ?drug .
   ?drug sphn:hasCode ?code .
-  ?code sphn:hasValue §Drug§
+  ?code sphn:hasValue ""§Drug§""
+"
+What patients have had {DRUG}?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue ""§Drug§""
 }
 "
-What patients have had {DRUG}?,"SELECT ?patient WHERE {
+Which patients have had {DRUG} administered?,"PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
   ?presc sphn:hasSubjectPseudoIdentifier ?patient .
   ?presc sphn:hasDrug ?drug .
   ?drug sphn:hasCode ?code .
-  ?code sphn:hasValue §Drug§
-}
-"
-Which patients have had {DRUG} administered?,"SELECT ?patient WHERE {
-  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
-  ?presc sphn:hasDrug ?drug .
-  ?drug sphn:hasCode ?code .
-  ?code sphn:hasValue §Drug§
+  ?code sphn:hasValue ""§Drug§""
 }
 "
 What is the number of patients diagnosed with {Diagnosis}?,"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>

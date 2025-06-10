@@ -54,11 +54,12 @@
 
   QuestionNumber: 21
   query_template: |
+    PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
     SELECT ?patient WHERE {
       ?presc sphn:hasSubjectPseudoIdentifier ?patient .
       ?presc sphn:hasDrug ?drug .
       ?drug sphn:hasCode ?code .
-      ?code sphn:hasValue §Drug§
+      ?code sphn:hasValue "§Drug§"
     }
 
 - query_example: |

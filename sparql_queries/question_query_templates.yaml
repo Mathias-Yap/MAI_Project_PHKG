@@ -18,7 +18,7 @@
     ?patient .}
   Question: List all patients who have been prescribed {Drug}.
 - Query: SELECT ?result WHERE {{{LabTestEvent}} sphn:hasLabResult ?result}
-  Question: What results have been obtained from the lab test {LabTestEvent}?
+  Question: What mid_term_results have been obtained from the lab test {LabTestEvent}?
 - Query: SELECT ?procedure WHERE {{{Diagnosis}} sphn:hasSubjectPseudoIdentifier ?patient
     ; ?procedure sphn:hasSubjectPseudoIdentifier ?patient . }
   Question: What medical procedures have been performed on patients diagnosed with
@@ -26,7 +26,7 @@
 - Query: SELECT ?result WHERE {?prescription sphn:hasDrug {{Drug}}; sphn:hasSubjectPseudoIdentifier
     ?patient. ?testevent sphn:hasSubjectPseudoIdentifier ?patient ; sphn:hasLabTest
     ?result}
-  Question: What lab results were obtained for patients prescribed {Drug}?
+  Question: What lab mid_term_results were obtained for patients prescribed {Drug}?
 - Query: SELECT ?drug WHERE {{{Diagnosis}} sphn:hasSubjectPseudoIdentifier ?patient.
     ?prescription sphn:hasSubjectPseudoIdentifier ?patient ; sphn:hasDrug ?drug .}
   Question: List all drugs prescribed for {Diagnosis}.
@@ -42,7 +42,7 @@
 - Query: SELECT ?result WHERE {{{Diagnosis}} sphn:hasSubjectPseudoIdentifier ?patient.
     ?testevent sphn:hasSubjectPseudoIdentifier ?patient ; sphn:hasLabTest ?result
     .}
-  Question: List all lab results for patients diagnosed with {Diagnosis}.
+  Question: List all lab mid_term_results for patients diagnosed with {Diagnosis}.
 - Query: SELECT ?drug WHERE {?drug sphn:hasActiveIngredient {{Substance}} .}
   Question: Which drugs have {Substance} as an active ingredient?
 - Query: SELECT ?diagnosis WHERE {{{LabTestEvent}} sphn:hasSubjectPseudoIdentifier
@@ -54,7 +54,7 @@
   Question: Which diseases have been diagnosed in patients who underwent {MedicalProcedure}?
 - Query: SELECT ?result WHERE {?prescription sphn:hasDrug {{Drug}}; sphn:hasSubjectPseudoIdentifier
     ?patient. ?test sphn:hasSubjectPseudoIdentifier ?patient; sphn:hasLabTest ?result}
-  Question: What are the lab results for patients who have been prescribed {Drug}?
+  Question: What are the lab mid_term_results for patients who have been prescribed {Drug}?
 - Query: SELECT ?procedure WHERE { ?testevent sphn:hasSubjectPseudoIdentifier ?patient;
     sphn:hasLabTest {{LabResult}}. ?procedure sphn:hasSubjectPseudoIdentifier ?patient
     . ?procedure a sphn:MedicalProcedure}
@@ -130,7 +130,7 @@
 - Query: SELECT ?result WHERE {{{MedicalProcedure}} sphn:hasSubjectPseudoIdentifier
     ?patient. ?testevent sphn:hasSubjectPseudoIdentifier ?patient ; sphn:hasLabTest
     ?result .}
-  Question: What are the lab test results of patients who have undergone a {MedicalProcedure}?
+  Question: What are the lab test mid_term_results of patients who have undergone a {MedicalProcedure}?
 - Query: SELECT ?drug WHERE {?drug sphn:hasActiveIngredient {{Substance}} .}
   Question: What drugs contain {Substance}?
 - Query: SELECT ?diagnosis WHERE {?prescription sphn:hasDrug {{Drug}}; sphn:hasSubjectPseudoIdentifier
@@ -159,7 +159,7 @@
   Question: List all diagnoses for patients who have been prescribed {Drug}.
 - Query: SELECT ?result WHERE {?prescription sphn:hasDrug {{Drug}}; sphn:hasSubjectPseudoIdentifier
     ?patient. ?test sphn:hasSubjectPseudoIdentifier ?patient; sphn:hasLabTest ?result}
-  Question: What lab test results have patients who have been prescribed {Drug}?
+  Question: What lab test mid_term_results have patients who have been prescribed {Drug}?
 - Query: SELECT ?ingredient WHERE {?prescription sphn:hasSubjectPseudoIdentifier {{SubjectPseudoIdentifier}};
     sphn:hasDrug ?drug . ?drug sphn:hasActiveIngredient ?ingredient .}
   Question: What is the active ingredient in a drug prescribed to {SubjectPseudoIdentifier}?
@@ -175,7 +175,7 @@
 - Query: SELECT ?result WHERE {{{Diagnosis}} sphn:hasSubjectPseudoIdentifier ?patient.
     ?testevent sphn:hasSubjectPseudoIdentifier ?patient ; sphn:hasLabTest ?result
     .}
-  Question: What lab test results have been obtained for patients who have been diagnosed
+  Question: What lab test mid_term_results have been obtained for patients who have been diagnosed
     with {Diagnosis}?
 - Query: SELECT ?drug WHERE {?drug sphn:hasActiveIngredient {{Substance}} .}
   Question: List all drugs containing {Substance}.
@@ -184,14 +184,14 @@
   Question: What lab tests have been performed on patients who have taken {Drug}?
 - Query: SELECT ?result WHERE {?prescription sphn:hasDrug {{Drug}}; sphn:hasSubjectPseudoIdentifier
     ?patient. ?test sphn:hasSubjectPseudoIdentifier ?patient; sphn:hasLabTest ?result}
-  Question: What lab test results have patients who have taken {Drug}?
+  Question: What lab test mid_term_results have patients who have taken {Drug}?
 - Query: SELECT ?patient WHERE { {{Diagnosis}} sphn:hasSubjectPseudoIdentifier ?patient
     . }
   Question: Which patients were diagnosed with {Diagnosis}?
 - Query: SELECT ?result WHERE {{{Diagnosis}} sphn:hasSubjectPseudoIdentifier ?patient.
     ?testevent sphn:hasSubjectPseudoIdentifier ?patient ; sphn:hasLabTest ?result
     .}
-  Question: What lab test results have patients who were diagnosed with {Diagnosis}
+  Question: What lab test mid_term_results have patients who were diagnosed with {Diagnosis}
     received?
 - Query: SELECT ?testevent WHERE {{{Diagnosis}} sphn:hasSubjectPseudoIdentifier ?patient.
     ?testevent sphn:hasSubjectPseudoIdentifier ?patient . ?testevent a sphn:LabTestEvent.}
@@ -202,7 +202,7 @@
 - Query: SELECT ?result WHERE {{{MedicalProcedure}} sphn:hasSubjectPseudoIdentifier
     ?patient. ?testevent sphn:hasSubjectPseudoIdentifier ?patient ; sphn:hasLabTest
     ?result .}
-  Question: What lab test results have patients who have undergone {MedicalProcedure}
+  Question: What lab test mid_term_results have patients who have undergone {MedicalProcedure}
     received?
 - Query: SELECT ?result WHERE {{{MedicalProcedure}} sphn:hasSubjectPseudoIdentifier
     ?patient. ?testevent sphn:hasSubjectPseudoIdentifier ?patient . ?testevent a sphn:LabTestEvent
@@ -228,7 +228,7 @@
   Question: What diseases have been diagnosed in patients who were prescribed {Drug}?
 - Query: SELECT ?result WHERE {?prescription sphn:hasDrug {{Drug}}; sphn:hasSubjectPseudoIdentifier
     ?patient. ?test sphn:hasSubjectPseudoIdentifier ?patient; sphn:hasLabTest ?result}
-  Question: What lab test results have patients who were prescribed {Drug}?
+  Question: What lab test mid_term_results have patients who were prescribed {Drug}?
 - Query: SELECT ?testevent WHERE {{{Diagnosis}} sphn:hasSubjectPseudoIdentifier ?patient.
     ?testevent sphn:hasSubjectPseudoIdentifier ?patient . ?testevent a sphn:LabTestEvent.}
   Question: What lab tests have been given to patients who have {Diagnosis}?

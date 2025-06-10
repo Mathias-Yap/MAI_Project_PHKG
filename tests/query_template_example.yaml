@@ -1,0 +1,19 @@
+query_example: >
+  SELECT ?patient WHERE {
+    ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient .
+    ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?res .
+    ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?val .
+    FILTER(?val > 4.0)
+  }
+
+query_template: >
+  SELECT ?patient WHERE {
+    ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?patient .
+    ?event <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?res .
+    ?res <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier> ?val .
+    FILTER(?val > *Threshold*)
+  }
+
+question_template: "Which patient's lab results have surpassed the threshold of *Threshold*?"
+
+question_example: "Which patient's lab results have surpassed the threshold of 4.0?"

@@ -4,3 +4,5 @@ rdflib
 transformers
 torch
 neo4j
+langchain-openai
+langchain-community

@@ -117,7 +117,7 @@ class SimpleLLMQueryGenerator(PipelineStages.QueryGenerator):
 def main():
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     data_path = os.path.join(base_dir, "data", "rdf_400_sphn.txt")
-    vocab_path = os.path.join("results", "vocabulary_rdf_400_sphn.txt")
+    vocab_path = os.path.join("mid_term_results", "vocabulary_rdf_400_sphn.txt")
 
     print(f"📂 Loading RDF data from: {data_path}")
     g = Graph()

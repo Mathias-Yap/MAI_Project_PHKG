@@ -26,21 +26,34 @@ class context_constructor(PipelineStep):
         pass
         
     def get_template_fill_context(self,question:str):
-        classes = self.class_vector_store.query(
+        classes, properties = self.class_vector_store.query(
         question
         )
+        classes = classes + properties
         qq_examples = self.nlq_store.query(
             question
         )
         most_similar_template = qq_examples[0] if qq_examples else ""
-        formatted_examples = "\n".join([
-            f"Question: {example['question_example']}\n"
-            f"Query template: {example['query_template']}\n"
-            f"Filled in query: {example['query_example']}\n"
-            for example in qq_examples
-        ])
-        formatted_classes = "\n".join([f"Class IRI: {cls}" for cls in classes])
-        return formatted_examples, most_similar_template, formatted_classes 
+        templates = ""
+        examples = ""
+        for i, example in enumerate(qq_examples):
+            print("example {i}" , example)
+            template = "\n".join([
+                f"Template {i}:",
+                f"Template Question: {example['question_template']}",
+                f"Template Query: {example['query_template']}"
+            ])
+            example_string = "\n".join([
+                f"Example {i}:",
+                f"Question: {example['question_example']}",
+                # f"Relevant Classes: TODO add {classes}",
+                f"Answer Example {i}: {example['query_example']}"
+            ])
+            examples += example_string + "\n\n"
+            templates += template + "\n\n"
+        
+        print("examples in get_template:", examples)
+        return templates, examples, classes
     def get_context(self, question: str):
         qq_examples = self.nlq_store.query(
             question
@@ -62,8 +75,7 @@ class context_constructor(PipelineStep):
         return self.context
 
     def run(self,data,**kwargs):
-        data["prompt_examples"], data["found_template"], data["relevant_classes"] = self.get_template_fill_context(data["natural_language_question"])
-        print("data after context: ",data)
+        data["prompt_templates"], data["prompt_examples"], data["relevant_classes"] = self.get_template_fill_context(data["natural_language_question"])
         return data
 
 if __name__ == "__main__":

@@ -229,7 +229,7 @@ class VectorStore:
         return vector_store
 
     def query(
-        self, query: str, threshold: int = 200, k: int = 1, debug: bool = False
+        self, query: str, threshold: int = 1000, k: int = 1, debug: bool = False
     ) -> list[dict]:
         """
         Retrieve relevant nodes from the vector store based on the query.
@@ -238,7 +238,8 @@ class VectorStore:
             query (str): The query string to search for relevant classes.
 
         Returns:
-            list[dict]: A list of dictionaries containing relevant class metadata.
+            list: A list of relevant class metadata.
+            list: Relevant properties of the class at the same index.
         """
 
         def extract_concepts(query: str) -> list[str]:

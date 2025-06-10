@@ -7,34 +7,36 @@ from utils.graph import load_graph
 import json
 
 
-PROMPT_FILL_TEMPLATES = """
-Task: Modify a query template into a SPARQL SELECT statement for querying a graph database.
-For instance, given the templates below, their corresponding sparql query below in backticks would be suitable:
-```
-{prompt_examples}
-```
-
-Keep in mind that you might need to fill in several classes in order to provide the correct answer. 
+FILL_TEMPLATES_PROMPT = """
+Task: Generate a SPARQL SELECT statement for querying a graph database.
 
 Instructions:
-You are provided a query template and list of classes of entities that you can use. Replace the words enclosed with the symbol "§" by an IRI for an entity of that class.
-Do not edit anything in the template query except the classes enclosed in the symbol "§". 
-Use only entities of the class types provided with the question.
-Do not use any class types that are not specifically provided.
-Include all necessary prefixes and relations.
+The SPARQL SELECT statement should answer the user question by filling in the provided query templates.
+Use the ontology terminology to ensure the query is executable on the graph database.
+Use the question mentioned ontology classes to guide the selection of the appropriate query template.
 
-Note: Be as concise as possible.
+--- Ontology ---
+{ontology}
+
+--- Templates ---
+{query_templates}
+
+--- Examples ---
+{examples}
+
+--- Notes ---
+Be as concise as possible.
 Do not include any explanations or apologies in your responses.
-Do not respond to any questions that ask for anything else than for you to construct a SPARQL query.
-Do not include any text except for the SPARQL query generated 
+Do not include any text except for the SPARQL query generated.
 
-The question is:
+--- User Question ---
+The user question is:
 {question}
-The relevant query template is:
-{found_template}
-The list of classes of entities you may use is:
+
+The question mentioned ontology classes are:
 {relevant_classes}
-Fill in the template.
+
+The answered SPARQL query is:
 """
 
 PROMPT = """
@@ -165,15 +167,17 @@ class SimpleLLMQueryGenerator(pipeline_stages.QueryGenerator):
     
 
     def run(self, data=None, **kwargs):
+        print("examples in LLM:", data['prompt_examples'])
         natural_language_question = kwargs.get("natural_language_question")
         if not natural_language_question:
             raise ValueError("Missing 'natural_language_question' argument.")
-        # ontology_serialized = load_graph("ontology").serialize(format="turtle")
+        ontology_serialized = load_graph("ontology").serialize(format="turtle")
 
-        prompt = PROMPT_FILL_TEMPLATES.format(
-            prompt_examples = data['prompt_examples'],
+        prompt = FILL_TEMPLATES_PROMPT.format(
+            ontology = ontology_serialized,
+            query_templates = data['prompt_templates'],
+            examples = data['prompt_examples'],
             question = data['natural_language_question'],
-            found_template = data['found_template'],
             relevant_classes = data['relevant_classes']
             
         )

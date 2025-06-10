@@ -2,7 +2,7 @@ import os
 from rdflib import Graph
 from . import pipeline_stages
 from .llm import llm_pipeline
-
+from pipeline.llm.gpt_pipeline import gpt_pipeline
 from utils.graph import load_graph
 import json
 
@@ -128,6 +128,7 @@ Here is the error message:
 import re
 import time
 
+
 class SimpleLLMQueryGenerator(pipeline_stages.QueryGenerator):
     def __init__(self, model_name: str,verbose = False):
         super().__init__()
@@ -135,7 +136,10 @@ class SimpleLLMQueryGenerator(pipeline_stages.QueryGenerator):
         self.tries = 0
         self.max_tries = 3
         self.model_name = model_name
-        self.llm_model_pipeline = llm_pipeline.ModelPipeline(self.model_name)
+        if self.model_name == "gpt-4o-mini":
+           self.llm_model_pipeline = gpt_pipeline(model_string = self.model_name) 
+        else:
+            self.llm_model_pipeline = llm_pipeline.ModelPipeline(self.model_name)
         self.vocabulary = ""
 
         self.system_prompt = (

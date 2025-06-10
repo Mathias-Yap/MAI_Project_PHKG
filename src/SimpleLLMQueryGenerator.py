@@ -1,8 +1,9 @@
-substanceimport os
+import os
 import re
 from rdflib import Graph
 import PipelineStages
 import LLM_Pipeline
+from pipeline.llm.gpt_pipeline import gpt_pipeline
 
 from utils.graph import load_graph
 
@@ -41,6 +42,8 @@ class SimpleLLMQueryGenerator(PipelineStages.QueryGenerator):
     def __init__(self, model_name: str):
         super().__init__()
         self.model_name = model_name
+        if self.model_name == "gpt-4o-mini":
+           self.llm_model_pipeline = gpt_pipeline() 
         self.llm_model_pipeline = LLM_Pipeline.ModelPipeline(self.model_name)
         self.vocabulary = ""
 

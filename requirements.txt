@@ -6,3 +6,4 @@ torch
 neo4j
 langchain-openai
 langchain-community
+matplotlib

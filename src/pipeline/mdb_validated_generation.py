@@ -31,7 +31,7 @@ class MDBValidatedGeneration(PipelineStep):
         # Loop until a valid query is generated or max tries are reached
         while(self.llm_generator.tries <= self.llm_generator.max_tries):
             try:
-                print(f"\n🧠 Attempt {self.llm_generator.tries}: Executing query...\n{data["query"]}\n")
+                # print(f"\n🧠 Attempt {self.llm_generator.tries}: Executing query...\n{data["query"]}\n")
                 # Execute the query using the query executor
                 data = self.query_executor.run(data, **kwargs)
                 data["valid_query"] = True

@@ -33,9 +33,6 @@ Do not include any text except for the SPARQL query generated.
 The user question is:
 {question}
 
-The question mentioned ontology classes are:
-{relevant_classes}
-
 The answered SPARQL query is:
 """
 
@@ -171,7 +168,7 @@ class SimpleLLMQueryGenerator(pipeline_stages.QueryGenerator):
     
 
     def run(self, data=None, **kwargs):
-        print("examples in LLM:", data['prompt_examples'])
+        # print("examples in LLM:", data['prompt_examples'])
         natural_language_question = kwargs.get("natural_language_question")
         if not natural_language_question:
             raise ValueError("Missing 'natural_language_question' argument.")
@@ -181,11 +178,9 @@ class SimpleLLMQueryGenerator(pipeline_stages.QueryGenerator):
             ontology = ontology_serialized,
             query_templates = data['prompt_templates'],
             examples = data['prompt_examples'],
-            question = data['natural_language_question'],
-            relevant_classes = data['relevant_classes']
-            
+            question = data['natural_language_question']
         )
-        print("prompt filled in: " + prompt)
+        # print("prompt filled in: " + prompt)
         # prompt = PROMPT_additional_context.format(
         #     ontology=ontology_serialized,
         #     question=natural_language_question,

@@ -1,0 +1,55 @@
+sparql_template,validation_time,attempts,initial_query_time,final_query_execution_time,total_time,template_rank,precision,recall,exact_match,exact_match_percent,n_queries
+"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT (COUNT(*) AS ?numPatients) WHERE {
+  {
+    SELECT DISTINCT ?patient WHERE {
+      ?patient sphn:hasDiagnosis ?diag .
+      ?diag sphn:hasCode ?code .
+      ?code sphn:hasCodeValue icd:§Diagnosis§ .
+    }
+  }
+}
+",0.0,0.0,2.156084982554118,0.0026062700483533508,22.429401471879746,1.2444444444444445,0.0,0.0,0.0,0.0,45
+"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT ?patient WHERE {
+  ?patient sphn:hasDiagnosis ?diag .
+  ?diag sphn:hasCode ?code .
+  ?code sphn:hasCodeValue icd:§Diagnosis§ .
+}
+",0.03817568355136448,0.022222222222222223,2.455449178483751,0.0037718560960557247,19.093883344862196,1.0,0.9777777777777777,0.9777777777777777,0.9777777777777777,97.77777777777777,45
+"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?ae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>
+       sphn:AdverseEvent .
+  ?ae sphn:hasSubjectPseudoIdentifier ?patient .
+  ?ae sphn:hasSeverity ?sev .
+  FILTER(?sev IN (""§Severity§""))
+}
+",0.0,0.0,1.5272675514221192,0.0026537895202636136,15.190398295720419,1.0,0.06666666666666667,0.06666666666666667,0.06666666666666667,6.666666666666667,15
+"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?event sphn:hasSubjectPseudoIdentifier ?patient .
+  ?event sphn:hasLabResult ?res .
+  ?res sphn:hasQuantityValue ?val .
+  FILTER(?val < §Threshold§)
+}
+",0.20074070824517143,0.08888888888888889,1.9173784361945259,0.014769204457600866,15.662141545613606,1.0,0.6707627118644067,0.6888888888888889,0.6666666666666666,66.66666666666666,45
+"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?patient sphn:hasBirthDate ?dob .
+  BIND(year(NOW()) - year(?dob) AS ?age)
+  FILTER(?age >= §Age§)
+}
+",2.1424461417728002,1.1555555555555554,1.9542768955230714,0.0019795672838077536,18.84487402174208,1.0,0.17052154195011338,0.15992719343299183,0.044444444444444446,4.444444444444445,45
+"PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+SELECT ?patient WHERE {
+  ?presc sphn:hasSubjectPseudoIdentifier ?patient .
+  ?presc sphn:hasDrug ?drug .
+  ?drug sphn:hasCode ?code .
+  ?code sphn:hasValue ""§Drug§""
+}
+",0.0,0.0,1.9752599875132242,0.00194811820983882,17.40494089126587,1.0,0.0,0.0,0.0,0.0,15

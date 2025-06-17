@@ -7,6 +7,62 @@ from utils.graph import load_graph
 import json
 
 
+INITIAL_PROMPT = """
+Task: Generate a SPARQL SELECT statement for querying a graph database.
+Question: Which patients have been diagnosed with I427?
+Answer:
+```
+PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
+
+SELECT ?patient WHERE {{
+  ?patient sphn:hasDiagnosis ?diag .
+  ?diag sphn:hasCode ?code .
+  ?code sphn:hasCodeValue
+         icd:I427 .
+}}
+```
+Keep in mind that you might need several classes in order to provide the correct answer. 
+
+Instructions:
+Use only the node types and properties provided in the ontology.
+Do not use any node types and properties that are not explicitly provided.
+Include all necessary prefixes and relations.
+
+The ontology is:
+{ontology}
+
+Note: Be as concise as possible.
+Do not include any explanations or apologies in your responses.
+Do not respond to any questions that ask for anything else than for you to construct a SPARQL query.
+Do not include any text except for the SPARQL query generated.
+
+The question is:
+{question}
+"""
+
+SPARQL_LLM_PROMPT = """
+Task: Generate a SPARQL SELECT statement for querying a graph database.
+--- Examples ---
+{examples}
+Keep in mind that you might need several classes in order to provide the correct answer. 
+
+Instructions:
+Use only the node types and properties provided in the ontology.
+Do not use any node types and properties that are not explicitly provided.
+Include all necessary prefixes and relations.
+
+The ontology is:
+{ontology}
+
+Note: Be as concise as possible.
+Do not include any explanations or apologies in your responses.
+Do not respond to any questions that ask for anything else than for you to construct a SPARQL query.
+Do not include any text except for the SPARQL query generated.
+
+The question is:
+{question}
+"""
 FILL_TEMPLATES_PROMPT = """
 Task: Generate a SPARQL SELECT statement for querying a graph database.
 
@@ -172,7 +228,9 @@ class SimpleLLMQueryGenerator(pipeline_stages.QueryGenerator):
         natural_language_question = kwargs.get("natural_language_question")
         if not natural_language_question:
             raise ValueError("Missing 'natural_language_question' argument.")
-        ontology_serialized = load_graph("ontology").serialize(format="turtle")
+        # ontology_serialized = load_graph("new_ontology").serialize(format="turtle")
+        with open("/home/mathiasyap/Code/university/phkg/MAI_Project_PHKG/src/data/new_ontology.ttl", "r") as f:
+            ontology_serialized = f.read()
 
         prompt = FILL_TEMPLATES_PROMPT.format(
             ontology = ontology_serialized,

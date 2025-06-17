@@ -7,10 +7,9 @@
       ?diag sphn:hasCode ?code .
       ?code sphn:hasCodeValue
              icd:I427 .
-    }
+   
   question_example: Which patients have been diagnosed with I427?
-  question_template: Which patients have been diagnosed with {Diagnosis}
-  QuestionNumber: 1
+  question_template: Which patients have been diagnosed with {Diagnosis}?
   query_template: |
     PREFIX sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
     PREFIX icd: <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#>
@@ -29,7 +28,7 @@
       ?res sphn:hasQuantityValue ?val .
       FILTER(?val > 9.0)
     }
-  question_template: Which patient's lab results have surpassed the threshold of {THRESHOLD}
+  question_template: Which patient's lab results have surpassed the threshold of {Threshold}
   question_example: Which patient's lab results have surpassed the threshold of 9.0?
   QuestionNumber: 11
   query_template: |
@@ -42,7 +41,7 @@
     }
 
 - query_example: |
-    PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
+PREFIX sphn:  <https://www.biomedit.ch/rdf/sphn-schema/sphn/>
     SELECT ?patient WHERE {
       ?presc sphn:hasSubjectPseudoIdentifier> ?patient .
       ?presc sphn: ?drug .

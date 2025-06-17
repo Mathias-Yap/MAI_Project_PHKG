@@ -3,6 +3,7 @@ from .vector_store import VectorStore
 from pipeline.pipeline_stages import PipelineStep
 
 
+TEMPLATES_IN_YAML = 8
 class context_constructor(PipelineStep):
     def __init__(
         self,
@@ -33,12 +34,13 @@ class context_constructor(PipelineStep):
     def get_template_fill_context(self, question: str):
         classes, properties = self.class_vector_store.query(question)
         classes = classes + properties
-        qq_examples = self.nlq_store.query(question)
+        all_ranked = self.nlq_store.query(question, k = TEMPLATES_IN_YAML)
+        qq_examples = all_ranked[:3]
         most_similar_template = qq_examples[0] if qq_examples else ""
         templates = ""
         examples = ""
         for i, example in enumerate(qq_examples):
-            print("example {i}", example)
+            # print("example {i}", example)
             template = "\n".join(
                 [
                     f"Template {i}:",
@@ -54,14 +56,14 @@ class context_constructor(PipelineStep):
                 [
                     f"Example {i}:",
                     f"Question: {example['question_example']}",
-                    f"Relevant Classes: {template_classes}",
+                    # f"Relevant Classes: {template_classes}",
                     f"Answer Example {i}: {example['query_example']}",
                 ]
             )
             examples += example_string + "\n\n"
             templates += template + "\n\n"
-
-        return templates, examples, classes, most_similar_template
+        all_template_queries_ranked = [entry['query_template'] for entry in all_ranked]
+        return templates, examples, all_template_queries_ranked, most_similar_template
 
     def get_context(self, question: str):
         qq_examples = self.nlq_store.query(question)
@@ -85,7 +87,7 @@ class context_constructor(PipelineStep):
         (
             data["prompt_templates"],
             data["prompt_examples"],
-            data["relevant_classes"],
+            data["all_prompts_ranked"],
             data["most_similar_template"],
         ) = self.get_template_fill_context(data["natural_language_question"])
         return data

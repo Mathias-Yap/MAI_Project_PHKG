@@ -1,0 +1,199 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sphn: <https://www.biomedit.ch/rdf/sphn-schema/sphn/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+# Classes
+#################################################################
+
+sphn:AdverseEvent a rdfs:Class,
+        owl:Class ;
+    rdfs:label "AdverseEvent" ;
+    rdfs:comment "Auto-generated comment for class https://www.biomedit.ch/rdf/sphn-schema/sphn/AdverseEvent" .
+
+sphn:Code a rdfs:Class,
+        owl:Class ;
+    rdfs:label "Code" ;
+    rdfs:comment "Symbols and/or expressions defined in a coding system." .
+
+sphn:Diagnosis a rdfs:Class,
+        owl:Class ;
+    rdfs:label "Diagnosis" ;
+    rdfs:comment "Determination of the presence of a disease, condition, or injury from expressed signs and symptoms and assessments such as physical examination, laboratory test, or the like." .
+
+sphn:Drug a rdfs:Class,
+        owl:Class ;
+    rdfs:label "Drug" ;
+    rdfs:comment "Any substance with the intent to prevent, diagnose, treat, or relieve symptoms of a disease or abnormal condition." .
+
+sphn:DrugPrescription a rdfs:Class,
+        owl:Class ;
+    rdfs:label "Drug Prescription" ;
+    rdfs:comment "Plan that defines at which frequency a drug should be administered to a patient with a given quantity; at every frequency time point a drug administration event should occur." .
+
+sphn:FollowUpVisit a rdfs:Class,
+        owl:Class ;
+    rdfs:label "FollowUpVisit" ;
+    rdfs:comment "Auto-generated comment for class https://www.biomedit.ch/rdf/sphn-schema/sphn/FollowUpVisit" .
+
+sphn:LabResult a rdfs:Class,
+        owl:Class ;
+    rdfs:label "Lab Result" ;
+    rdfs:comment "Outcome, value, or information which gives insight about a laboratory test." .
+
+sphn:LabTestEvent a rdfs:Class,
+        owl:Class ;
+    rdfs:label "Lab Test Event" ;
+    rdfs:comment "Occurrence in which one or multiple laboratory tests are performed on a biological specimen at a given time." .
+
+sphn:MedicalProcedure a rdfs:Class,
+        owl:Class ;
+    rdfs:label "Medical Procedure" ;
+    rdfs:comment "Invasive or non-invasive intervention performed for, with or on behalf of an individual whose purpose is to assess, improve, maintain, promote or modify health, functioning or health conditions." .
+
+sphn:Patient a rdfs:Class,
+        owl:Class ;
+    rdfs:label "Patient" ;
+    rdfs:comment "Auto-generated comment for class https://www.biomedit.ch/rdf/sphn-schema/sphn/Patient" .
+
+sphn:Substance a rdfs:Class,
+        owl:Class ;
+    rdfs:label "Substance" ;
+    rdfs:comment "Any matter of defined composition that has discrete existence, whose origin may be biological, mineral or chemical." .
+
+sphn:SubjectPseudoIdentifier a owl:Class ;
+    rdfs:label "Patient Identifier" ;
+    rdfs:comment "A coded unique identifier assigned by a data provider for a specific project to conceal the identity of an individual." .
+
+#################################################################
+# Object Properties
+#################################################################
+
+<http://kg-representation-ehr.org/ontology/clinicalIntent#hasDrugPrescription> a rdf:Property,
+        owl:ObjectProperty ;
+    rdfs:label "clinicalIntent#hasDrugPrescription" ;
+    rdfs:comment "Auto-generated comment for property http://kg-representation-ehr.org/ontology/clinicalIntent#hasDrugPrescription" ;
+    rdfs:domain sphn:Patient ;
+    rdfs:range sphn:DrugPrescription .
+
+<http://kg-representation-ehr.org/ontology/clinicalIntent#hasMedicalProcedure> a rdf:Property,
+        owl:ObjectProperty ;
+    rdfs:label "clinicalIntent#hasMedicalProcedure" ;
+    rdfs:comment "Auto-generated comment for property http://kg-representation-ehr.org/ontology/clinicalIntent#hasMedicalProcedure" ;
+    rdfs:domain sphn:Patient ;
+    rdfs:range sphn:MedicalProcedure .
+
+sphn:hasActiveIngredient a rdf:Property,
+        owl:ObjectProperty ;
+    rdfs:label "has Active Ingredient" ;
+    rdfs:comment "Active component of the concept." ;
+    rdfs:domain sphn:Drug ;
+    rdfs:range sphn:Substance .
+
+sphn:hasCode a rdf:Property,
+        owl:ObjectProperty ;
+    rdfs:label "has Code" ;
+    rdfs:comment "Coded information specifying the concept." ;
+    rdfs:domain sphn:Diagnosis,
+        sphn:LabResult,
+        sphn:MedicalProcedure,
+        sphn:Substance ;
+    rdfs:range sphn:Code .
+
+sphn:hasDiagnosis a rdf:Property,
+        owl:ObjectProperty ;
+    rdfs:label "hasDiagnosis" ;
+    rdfs:comment "Auto-generated comment for property https://www.biomedit.ch/rdf/sphn-schema/sphn/hasDiagnosis" ;
+    rdfs:domain sphn:Patient ;
+    rdfs:range sphn:Diagnosis .
+
+sphn:hasDrug a rdf:Property,
+        owl:ObjectProperty ;
+    rdfs:label "has Drug" ;
+    rdfs:comment "Medication associated to the concept." ;
+    rdfs:domain sphn:DrugPrescription ;
+    rdfs:range sphn:Drug .
+
+sphn:hasLabTest a owl:ObjectProperty ;
+    rdfs:label "has Lab Test" ;
+    rdfs:comment "Lab test associated to the concept." ;
+    rdfs:domain sphn:LabTestEvent ;
+    rdfs:range sphn:LabResult .
+
+sphn:hasSubjectPseudoIdentifier a rdf:Property,
+        owl:ObjectProperty ;
+    rdfs:label "has Subject Pseudo Identifier" ;
+    rdfs:comment "Auto-generated comment for property https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSubjectPseudoIdentifier" ;
+    rdfs:domain sphn:Diagnosis,
+        sphn:DrugPrescription,
+        sphn:LabTestEvent,
+        sphn:MedicalProcedure ;
+    rdfs:range sphn:SubjectPseudoIdentifier .
+
+sphn:hasLabResult a rdf:Property,
+        owl:ObjectProperty ;
+    rdfs:label "hasLabResult" ;
+    rdfs:comment "Auto-generated comment for property https://www.biomedit.ch/rdf/sphn-schema/sphn/hasLabResult" .
+    rdfs:domain sphn:LabTestEvent ;
+    rdfs:range sphn:LabResult .
+
+#################################################################
+# Datatype Properties
+#################################################################
+
+sphn:hasCodingSystemAndVersion a owl:DatatypeProperty ;
+    rdfs:label "has Coding System and Version" ;
+    rdfs:comment "Name and version of the coding system." ;
+    rdfs:domain sphn:Code ;
+    rdfs:range xsd:string .
+
+sphn:hasValue a rdf:Property,
+        owl:DatatypeProperty ;
+    rdfs:label "hasValue" ;
+    rdfs:comment "Auto-generated comment for property https://www.biomedit.ch/rdf/sphn-schema/sphn/hasValue" .
+    rdfs:domain sphn:Code ;
+    rdfs:range xsd:string .
+
+sphn:hasVisitDate a rdf:Property,
+        owl:DatatypeProperty ;
+    rdfs:label "hasVisitDate" ;
+    rdfs:comment "Auto-generated comment for property https://www.biomedit.ch/rdf/sphn-schema/sphn/hasVisitDate" ;
+    rdfs:domain sphn:FollowUpVisit ;
+    rdfs:range xsd:date .
+
+sphn:hasQuantityValue a rdf:Property,
+        owl:DatatypeProperty ;
+    rdfs:label "hasQuantityValue" ;
+    rdfs:comment "Auto-generated comment for property https://www.biomedit.ch/rdf/sphn-schema/sphn/hasQuantityValue" ;
+    rdfs:domain sphn:LabResult ;
+    rdfs:range xsd:float .
+
+sphn:hasSeverity a rdf:Property,
+        owl:DatatypeProperty ;
+    rdfs:label "hasSeverity" ;
+    rdfs:comment "Auto-generated comment for property https://www.biomedit.ch/rdf/sphn-schema/sphn/hasSeverity" ;
+    rdfs:domain sphn:AdverseEvent ;
+    rdfs:range xsd:string .
+
+sphn:hasCodeValue a rdf:Property ;
+    rdfs:label "hasCodeValue" ;
+    rdfs:comment "Auto-generated comment for property https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCodeValue" ;
+    rdfs:domain sphn:Code ;
+    rdfs:range <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#...> .
+
+sphn:hasEventDate a rdf:Property,
+        owl:DatatypeProperty ;
+    rdfs:label "hasEventDate" ;
+    rdfs:comment "Auto-generated comment for property https://www.biomedit.ch/rdf/sphn-schema/sphn/hasEventDate" ;
+    rdfs:domain sphn:LabTestEvent,
+        sphn:AdverseEvent ;
+    rdfs:range xsd:date .
+
+sphn:hasBirthDate a rdf:Property,
+        owl:DatatypeProperty ;
+    rdfs:label "hasBirthDate" ;
+    rdfs:comment "Auto-generated comment for property https://www.biomedit.ch/rdf/sphn-schema/sphn/hasBirthDate" ;
+    rdfs:domain sphn:Patient ;
+    rdfs:range xsd:date .

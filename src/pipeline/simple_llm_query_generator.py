@@ -182,15 +182,29 @@ import re
 import time
 
 
+"""SimpleLLMQueryGenerator is a class that generates SPARQL queries from natural language questions using a language model (LLM).
+
+Raises:
+    FileNotFoundError: If the vocabulary file is not found.
+    ValueError: If the vocabulary file is empty or invalid.
+    ValueError: If the input data is invalid.
+    RuntimeError: If the LLM model fails to generate a query.
+    RuntimeError: If the query extraction fails.
+
+Returns:
+    _type_: _description_
+"""
+
+
 class SimpleLLMQueryGenerator(pipeline_stages.QueryGenerator):
-    def __init__(self, model_name: str,verbose = False):
+    def __init__(self, model_name: str, verbose=False):
         super().__init__()
         self.verbose = verbose
         self.tries = 0
         self.max_tries = 3
         self.model_name = model_name
         if self.model_name == "gpt-4o-mini":
-           self.llm_model_pipeline = gpt_pipeline(model_string = self.model_name) 
+            self.llm_model_pipeline = gpt_pipeline(model_string=self.model_name)
         else:
             self.llm_model_pipeline = llm_pipeline.ModelPipeline(self.model_name)
         self.vocabulary = ""
@@ -202,15 +216,34 @@ class SimpleLLMQueryGenerator(pipeline_stages.QueryGenerator):
         )
 
     def initialize(self, data=None, **kwargs):
+        """Initialize the SimpleLLMQueryGenerator.
+
+        Args:
+            data (_type_, optional): Data to initialize the generator. Defaults to None.
+
+        Raises:
+            FileNotFoundError: If the vocabulary file is not found.
+        """
         vocab_path = kwargs.get("vocabulary_path")
         if not vocab_path:
             return
         elif not os.path.exists(vocab_path):
             raise FileNotFoundError(f"Vocabulary file not found: {vocab_path}")
-        with open(vocab_path, 'r') as file:
+        with open(vocab_path, "r") as file:
             self.vocabulary = file.read()
 
     def extract_sparql(self, response: str) -> str:
+        """Extracts the SPARQL query from the LLM response.
+
+        Args:
+            response (str): The LLM response containing the SPARQL query.
+
+        Raises:
+            ValueError: If no valid SPARQL query is found in the response.
+
+        Returns:
+            str: The extracted SPARQL query.
+        """
         # Prefer content inside markdown blocks if present
         markdown_match = re.search(r"```(?:sparql)?(.*?)```", response, re.DOTALL)
         if markdown_match:
@@ -221,31 +254,34 @@ class SimpleLLMQueryGenerator(pipeline_stages.QueryGenerator):
             return response.strip()
 
         raise ValueError("No valid SPARQL query found in response.")
-    
 
     def run(self, data=None, **kwargs):
-        # print("examples in LLM:", data['prompt_examples'])
+        """
+        Runs the query generation process.
+
+        Args:
+            data (dict, optional): Input data for query generation. Defaults to None.
+            **kwargs: Additional keyword arguments.
+
+        Raises:
+            ValueError: If the natural language question is missing.
+        """
         natural_language_question = kwargs.get("natural_language_question")
         if not natural_language_question:
             raise ValueError("Missing 'natural_language_question' argument.")
-        # ontology_serialized = load_graph("new_ontology").serialize(format="turtle")
-        with open("/home/mathiasyap/Code/university/phkg/MAI_Project_PHKG/src/data/new_ontology.ttl", "r") as f:
+        with open(
+            "/home/mathiasyap/Code/university/phkg/MAI_Project_PHKG/src/data/new_ontology.ttl",
+            "r",
+        ) as f:
             ontology_serialized = f.read()
 
         prompt = FILL_TEMPLATES_PROMPT.format(
-            ontology = ontology_serialized,
-            query_templates = data['prompt_templates'],
-            examples = data['prompt_examples'],
-            question = data['natural_language_question']
+            ontology=ontology_serialized,
+            query_templates=data["prompt_templates"],
+            examples=data["prompt_examples"],
+            question=data["natural_language_question"],
         )
-        # print("prompt filled in: " + prompt)
-        # prompt = PROMPT_additional_context.format(
-        #     ontology=ontology_serialized,
-        #     question=natural_language_question,
-        #     context=context or ""
-        # )
-
-        while( self.tries < self.max_tries):
+        while self.tries < self.max_tries:
             if self.verbose:
                 print(f"\n🧠 Attempt {self.tries}: Prompting LLM...\n")
             raw_output = self.llm_model_pipeline.generate(prompt, self.system_prompt)
@@ -263,16 +299,20 @@ class SimpleLLMQueryGenerator(pipeline_stages.QueryGenerator):
 
         raise RuntimeError("❌ All attempts to extract a valid SPARQL query failed.")
 
-
     def handle_query_error(self, data, error: str, **kwargs):
-        error_message = f"This SPARQL query returned an error: {error}. Fix this error in the query and try again. Again, do not include any explanations or apologies in your responses." 
+        """
+        Handles errors that occur during query execution.
+        This method attempts to fix the SPARQL query based on the error message.
+        Args:
+            data (dict): The data containing the original query and other information.
+            error (str): The error message returned from the SPARQL query execution.
+            **kwargs: Additional keyword arguments.
+        """
+
+        error_message = f"This SPARQL query returned an error: {error}. Fix this error in the query and try again. Again, do not include any explanations or apologies in your responses."
         self.tries += 1
-        prompt = (
-            VALIDATION_PROMPT.format(
-            ontology=self.vocabulary,
-            query=data['query'],
-            error=error_message
-            )
+        prompt = VALIDATION_PROMPT.format(
+            ontology=self.vocabulary, query=data["query"], error=error_message
         )
         raw_output = self.llm_model_pipeline.generate(prompt, self.system_prompt)
         try:
@@ -280,7 +320,7 @@ class SimpleLLMQueryGenerator(pipeline_stages.QueryGenerator):
             if self.verbose:
                 print("Query fixing prompt: " + error_message)
                 print("\n✅ Fixed SPARQL Query:\n", fixed_query)
-            data['query'] = fixed_query
+            data["query"] = fixed_query
             data["attempts"] = self.tries
             return data
         except Exception as e:
@@ -289,31 +329,3 @@ class SimpleLLMQueryGenerator(pipeline_stages.QueryGenerator):
             if self.tries >= self.max_tries:
                 self.tries = 0
                 raise RuntimeError("All attempts to fix the SPARQL query failed.")
-
-
-def main():
-    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    data_path = os.path.join(base_dir, "data", "rdf_400_sphn.nt")
-    vocab_path = os.path.join("../results", "vocabulary_rdf_400_sphn.txt")
-
-    print(f"📂 Loading RDF data from: {data_path}")
-    g = Graph()
-    g.parse(data_path, format="nt")
-
-    generator = SimpleLLMQueryGenerator("meta-llama/Llama-3.2-1B-Instruct")
-    generator.initialize(vocabulary_path=vocab_path)
-
-    question = "Which patients have had a lab test result with the code d_labitems/50911?"
-    sparql_query = generator.run(natural_language_question=question)
-
-    try:
-        print("\n🔍 Query Results:")
-        results = g.query(sparql_query)
-        for row in results:
-            print(row)
-    except Exception as e:
-        print(f"\n❌ Failed to execute query:\n{e}")
-
-
-if __name__ == '__main__':
-    main()

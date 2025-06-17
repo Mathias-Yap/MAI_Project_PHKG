@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class PipelineStep(ABC):
     @abstractmethod
     def run(self, data, **kwargs):
@@ -12,6 +13,7 @@ class PipelineStep(ABC):
     def close(self):
         pass
 
+
 class QueryGenerator(PipelineStep, ABC):
     @abstractmethod
     def run(self, data, **kwargs):
@@ -21,6 +23,7 @@ class QueryGenerator(PipelineStep, ABC):
     def initialize(self, data, **kwargs):
         pass
 
+
 class GraphQueryExecutor(PipelineStep, ABC):
     @abstractmethod
     def run(self, query, **kwargs):
@@ -29,6 +32,7 @@ class GraphQueryExecutor(PipelineStep, ABC):
     @abstractmethod
     def initialize(self, data, **kwargs):
         pass
+
 
 class ResultAnalyzer(PipelineStep, ABC):
     @abstractmethod

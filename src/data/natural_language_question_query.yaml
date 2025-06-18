@@ -1,0 +1,4 @@
+- Query: SELECT ?patient WHERE { ?patient <https://www.biomedit.ch/rdf/sphn-schema/sphn/Diagnosis> ?diag . ?diag <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode>
+    ?code . ?code <https://www.biomedit.ch/rdf/sphn-schema/sphn/hasCode> <https://www.biomedit.ch/rdf/sphn-schema/sphn/icd#I4510>
+    . }
+  Question: 'Question: Which patients have been diagnosed with I4510?'

@@ -6,3 +6,10 @@
 !src/data/*.nt 
 .env
 venv
+
+# Ignore DS_Store
+src/.DS_Store
+
+# Ignore Python cache
+__pycache__/
+*.pyc

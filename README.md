@@ -20,3 +20,5 @@ To use the SPARQL query generation section, you need an OpenAI key, provide this
 - The results for the validation section were generated in the ```validation_tests``` notebook.
 - Creation and processing of the test set was performed in the TODO: ADD ANNAMARIA'S NOTEBOOKS HERE ```alt_nl_questions``` (paraphrasing), ```templates_to_examples``` (filling templates to instances) notebooks.
 
+## Preparing the dataset
+- To decompose and augment the dataset run ```src/utils/main_script_hybrid_decompose.py ```

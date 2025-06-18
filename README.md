@@ -18,7 +18,4 @@ To use the SPARQL query generation section, you need an OpenAI key, provide this
 - An example of how to use the query engine can be found in the ```run_queries``` notebook.
 - An example of how to run the full pipeline can be found in the ```test_full_pipeline``` notebook, here the results for this project were generated.
 - The results for the validation section were generated in the ```validation_tests``` notebook.
-- Creation and processing of the test set was performed in the TODO: ADD ANNAMARIA'S NOTEBOOKS HERE ```alt_nl_questions``` (paraphrasing), ```templates_to_examples``` (filling templates to instances) notebooks.
-
-## Preparing the dataset
-- To decompose and augment the dataset run ```src/utils/main_script_hybrid_decompose.py ```
+- Creation and processing of the dataset was performed in ```src/utils/main_script_hybrid_decompose.py ```

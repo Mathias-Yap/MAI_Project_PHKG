@@ -1,6 +1,8 @@
 from rdflib import Graph, URIRef, BNode, Literal, Namespace, RDF
 import uuid
 
+#### Script largely created with ChatGPT based on instructions how to decompose the initial file ### 
+
 # Namespaces
 SPHN = Namespace("https://www.biomedit.ch/rdf/sphn-schema/sphn/")
 KGEHR = Namespace("http://kg-representation-ehr.org/ontology/clinicalIntent#")

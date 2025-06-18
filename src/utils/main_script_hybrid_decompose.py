@@ -4,7 +4,8 @@ from augment_sphn_hybrid import augment_graph
 from pathlib import Path # add tp reqs
 
 
-#### Script largely created with ChatGPT based on instructions how to decompose the initial file
+#### Script largely created with ChatGPT based on instructions how to decompose the initial file ### 
+
 # Load RDF graph
 g_original = Graph()
 data_folder = Path(__file__).resolve().parent.parent / "data"
